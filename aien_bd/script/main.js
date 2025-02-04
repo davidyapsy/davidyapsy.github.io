@@ -18,6 +18,20 @@ window.addEventListener('load', () => {
     });
 });
 
+// Keep the .eight svg in a separate timeline
+const backgroundAnimation = gsap.timeline({paused: false});
+backgroundAnimation.staggerTo(
+    ".eight svg",
+    3, {
+        visibility: "visible",
+        opacity: -1,  // Ensure opacity remains 1
+        scale: 50,
+        repeat: 1000,
+        repeatDelay: 0.4,
+    },
+    0.6
+);
+
 
 // animation timeline
 const animationTimeline = () => {
@@ -240,30 +254,15 @@ const animationTimeline = () => {
         },
         "party"
     )
-    .staggerTo(
-        ".eight svg",
-        1.5, {
-            visibility: "visible",
-            opacity: 0,
-            scale: 80,
-            repeat: 3,
-            repeatDelay: 1.4,
-        },
-        0.3
-    )
-    .to(".six", 0.5, {
-        opacity: 0,
-        y: 30,
-        zIndex: "-1",
-    })
-    .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
     .to(
-        ".last-smile",
-        0.5, {
-            rotation: 90,
+        ".six", 0.5, {
+            opacity: 0,
+            y: 30,
+            zIndex: "-1",
         },
-        "+=1"
-    );
+        "+=4"
+    )
+    .staggerFrom(".nine p", 1, ideaTextTrans, 1.2);
 
     // Restart Animation on click
     const replyBtn = document.getElementById("replay");
