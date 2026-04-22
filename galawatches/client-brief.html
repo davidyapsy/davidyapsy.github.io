@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galawatches — Business Discovery Brief</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --cream: #faf8f5; --white: #ffffff; --ink: #1a1a1a;
+    --ink-muted: #8a8a8a; --gold: #b8860b; --gold-light: #d4a017;
+    --gold-pale: #f5edd8; --border: #e8e2d9; --progress-bg: #ede8e0;
+  }
+  body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; min-height: 100vh; line-height: 1.6; }
+
+  /* HEADER */
+  header { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 40px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+  .logo { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 600; }
+  .logo span { color: var(--gold); }
+  .header-right { display: flex; align-items: center; gap: 20px; }
+  .header-label { font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-muted); }
+
+  /* LANGUAGE TOGGLE */
+  .lang-toggle { display: flex; background: var(--cream); border: 1.5px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .lang-btn { font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 6px 14px; border: none; background: transparent; cursor: pointer; color: var(--ink-muted); transition: all 0.2s; letter-spacing: 0.5px; }
+  .lang-btn.active { background: var(--gold); color: white; }
+  .lang-btn:hover:not(.active) { background: var(--gold-pale); color: var(--ink); }
+
+  /* PROGRESS */
+  .progress-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: 14px 40px; }
+  .progress-meta { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--ink-muted); }
+  .progress-count { font-size: 12px; font-weight: 600; color: var(--gold); }
+  .progress-bar { height: 3px; background: var(--progress-bg); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-light)); border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+
+  /* LAYOUT */
+  .container { max-width: 720px; margin: 0 auto; padding: 60px 24px 120px; }
+  .step { display: none; animation: fadeSlide 0.4s ease; }
+  .step.active { display: block; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* STEP HEADER */
+  .step-header { margin-bottom: 40px; }
+  .step-category { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .step-category::before { content: ''; display: inline-block; width: 20px; height: 1px; background: var(--gold); }
+  .step-title { font-family: 'Playfair Display', serif; font-size: clamp(26px, 5vw, 38px); font-weight: 600; line-height: 1.2; margin-bottom: 12px; }
+  .step-subtitle { font-size: 15px; color: var(--ink-muted); font-weight: 300; max-width: 500px; }
+
+  /* FORM */
+  .form-group { margin-bottom: 32px; }
+  label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+  label .optional { font-weight: 300; color: var(--ink-muted); font-size: 12px; margin-left: 6px; }
+  .help-text { font-size: 12px; color: var(--ink-muted); margin-top: 6px; font-style: italic; }
+  input[type="text"], input[type="tel"], textarea {
+    width: 100%; padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 15px;
+    color: var(--ink); background: var(--white); border: 1.5px solid var(--border);
+    border-radius: 4px; transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+  }
+  input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,134,11,0.08); }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+
+  /* OPTION CARDS */
+  .option-grid { display: grid; gap: 10px; }
+  .option-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .option-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .option-card { position: relative; cursor: pointer; }
+  .option-card input { position: absolute; opacity: 0; width: 0; height: 0; }
+  .option-label { display: flex; align-items: flex-start; gap: 12px; padding: 16px 18px; background: var(--white); border: 1.5px solid var(--border); border-radius: 4px; cursor: pointer; transition: all 0.2s; user-select: none; }
+  .option-card input:checked + .option-label { border-color: var(--gold); background: var(--gold-pale); box-shadow: 0 0 0 1px var(--gold); }
+  .option-label:hover { border-color: #ccc; background: #fdfaf6; }
+  .option-indicator { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 50%; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; background: var(--white); transition: all 0.2s; }
+  .option-card.checkbox .option-indicator { border-radius: 3px; }
+  .option-card input:checked + .option-label .option-indicator { background: var(--gold); border-color: var(--gold); }
+  .option-card input:checked + .option-label .option-indicator::after { content: ''; display: block; width: 5px; height: 5px; background: white; border-radius: 50%; }
+  .option-card.checkbox input:checked + .option-label .option-indicator::after { width: 4px; height: 7px; border: 2px solid white; border-top: none; border-left: none; border-radius: 0; transform: rotate(45deg) translateY(-1px); background: transparent; }
+  .option-text { flex: 1; }
+  .option-main { font-size: 14px; font-weight: 500; line-height: 1.4; }
+  .option-sub { font-size: 12px; color: var(--ink-muted); margin-top: 2px; font-weight: 300; }
+  .form-divider { border: none; border-top: 1px solid var(--border); margin: 36px 0; }
+
+  /* BOTTOM NAV */
+  .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--white); border-top: 1px solid var(--border); padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; z-index: 50; }
+  .btn-back { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--ink-muted); background: none; border: none; cursor: pointer; padding: 10px 0; transition: color 0.2s; }
+  .btn-back:hover { color: var(--ink); }
+  .btn-back:disabled { opacity: 0; pointer-events: none; }
+  .btn-next { font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 600; color: white; background: var(--ink); border: none; padding: 14px 36px; cursor: pointer; transition: background 0.2s, transform 0.1s; border-radius: 2px; }
+  .btn-next:hover { background: #2d2d2d; transform: translateY(-1px); }
+  .btn-next.gold { background: var(--gold); }
+  .btn-next.gold:hover { background: var(--gold-light); }
+
+  /* THANK YOU */
+  .thankyou { display: none; text-align: center; padding: 80px 40px; }
+  .thankyou.active { display: block; animation: fadeSlide 0.5s ease; }
+  .thankyou-icon { width: 72px; height: 72px; background: var(--gold-pale); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; }
+  .thankyou-icon svg { width: 32px; height: 32px; stroke: var(--gold); fill: none; stroke-width: 2; }
+  .thankyou h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 600; margin-bottom: 16px; }
+  .thankyou p { font-size: 16px; color: var(--ink-muted); max-width: 420px; margin: 0 auto 32px; line-height: 1.7; }
+  .summary-card { background: var(--white); border: 1px solid var(--border); border-radius: 4px; padding: 32px; text-align: left; max-width: 540px; margin: 0 auto 32px; }
+  .summary-card h3 { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; font-weight: 600; }
+  .summary-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid var(--border); gap: 16px; }
+  .summary-row:last-child { border-bottom: none; }
+  .summary-key { font-size: 12px; color: var(--ink-muted); font-weight: 500; min-width: 130px; }
+  .summary-val { font-size: 13px; color: var(--ink); font-weight: 500; text-align: right; }
+  .copy-btn { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink); background: var(--white); border: 1.5px solid var(--border); padding: 12px 28px; cursor: pointer; border-radius: 2px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; margin: 0 8px; }
+  .copy-btn:hover { border-color: var(--ink); }
+  .copy-btn svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  @media (max-width: 600px) {
+    header { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+    .header-label { display: none; }
+    .progress-wrap { padding: 12px 16px; }
+    .container { padding: 40px 16px 100px; }
+    .option-grid.cols-2, .option-grid.cols-3 { grid-template-columns: 1fr; }
+    .nav-bar { padding: 12px 16px; }
+    .btn-next { padding: 12px 20px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Gala<span>Watches</span></div>
+  <div class="header-right">
+    <span class="header-label" id="hdrLabel"></span>
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('zh')">中文</button>
+    </div>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-meta">
+    <span class="progress-label" id="stepName"></span>
+    <span class="progress-count" id="stepCount"></span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:16.6%"></div></div>
+</div>
+
+<div class="container">
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="step-header">
+      <div class="step-category" data-t="s1cat"></div>
+      <h1 class="step-title" data-t="s1title"></h1>
+      <p class="step-subtitle" data-t="s1sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_name_label"></label>
+      <input type="text" id="q_name" data-t-ph="q_name_ph">
+    </div>
+    <div class="form-group">
+      <label data-t="q_biz_label"></label>
+      <input type="text" id="q_biz" value="Galawatches (M) Sdn Bhd">
+    </div>
+    <div class="form-group">
+      <label data-t="q_bizage_label"></label>
+      <div class="option-grid cols-2">
+        <label class="option-card"><input type="radio" name="bizage" value="less2"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="bizage_a"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="bizage" value="2to5"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="bizage_b"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="bizage" value="5to10"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="bizage_c"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="bizage" value="10plus"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="bizage_d"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_channel_label"><span class="optional" data-t="optional_tag"></span></label>
+      <div class="option-grid cols-2">
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="shop"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_a"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="online"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_b"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="wa"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_c"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="wholesale"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_d"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="website"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_e"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="channel" value="events"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="ch_f"></div></div></div></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="step-header">
+      <div class="step-category" data-t="s2cat"></div>
+      <h1 class="step-title" data-t="s2title"></h1>
+      <p class="step-subtitle" data-t="s2sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_buyer_label"><span class="optional" data-t="optional_tag"></span></label>
+      <div class="option-grid">
+        <label class="option-card checkbox"><input type="checkbox" name="buyer" value="retail"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="buyer_a"></div><div class="option-sub" data-t="buyer_a_sub"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="buyer" value="retailer"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="buyer_b"></div><div class="option-sub" data-t="buyer_b_sub"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="buyer" value="corporate"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="buyer_c"></div><div class="option-sub" data-t="buyer_c_sub"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="buyer" value="reseller"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="buyer_d"></div><div class="option-sub" data-t="buyer_d_sub"></div></div></div></label>
+      </div>
+    </div>
+    <hr class="form-divider">
+    <div class="form-group">
+      <label data-t="q_buyerage_label"></label>
+      <div class="option-grid cols-3">
+        <label class="option-card"><input type="radio" name="buyerage" value="u25"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Below 25</div><div class="option-sub" data-t="age_u25_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="buyerage" value="25to35"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">25–35</div><div class="option-sub" data-t="age_2535_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="buyerage" value="35to50"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">35–50</div><div class="option-sub" data-t="age_3550_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="buyerage" value="50plus"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">50+</div><div class="option-sub" data-t="age_50_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="buyerage" value="mixed"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="age_mixed"></div><div class="option-sub" data-t="age_mixed_sub"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_gender_label"><span class="optional" data-t="optional_est"></span></label>
+      <div class="option-grid cols-3">
+        <label class="option-card"><input type="radio" name="gender" value="men"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="gender_men"></div><div class="option-sub">70%+</div></div></div></label>
+        <label class="option-card"><input type="radio" name="gender" value="women"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="gender_women"></div><div class="option-sub">70%+</div></div></div></label>
+        <label class="option-card"><input type="radio" name="gender" value="balanced"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="gender_balanced"></div><div class="option-sub">~50/50</div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_location_label"></label>
+      <div class="option-grid cols-2">
+        <label class="option-card"><input type="radio" name="location" value="kv"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="loc_a"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="location" value="pen"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="loc_b"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="location" value="nation"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="loc_c"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="location" value="intl"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="loc_d"></div></div></div></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="step-header">
+      <div class="step-category" data-t="s3cat"></div>
+      <h1 class="step-title" data-t="s3title"></h1>
+      <p class="step-subtitle" data-t="s3sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_brand_label"><span class="optional" data-t="optional_tag"></span></label>
+      <div class="option-grid cols-3">
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="G-Shock"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">G-Shock</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Casio"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Casio</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Baby-G"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Baby-G</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Seiko"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Seiko</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Citizen"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Citizen</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Orient"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Orient</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Fossil"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Fossil</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="Edifice"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Edifice</div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="brand" value="others"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="brand_others"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_price_label"></label>
+      <div class="option-grid cols-2">
+        <label class="option-card"><input type="radio" name="price" value="u200"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Below RM200</div><div class="option-sub" data-t="price_a_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="price" value="200to500"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">RM200–500</div><div class="option-sub" data-t="price_b_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="price" value="500to1500"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">RM500–1,500</div><div class="option-sub" data-t="price_c_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="price" value="o1500"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Above RM1,500</div><div class="option-sub" data-t="price_d_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="price" value="all"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="price_e"></div><div class="option-sub" data-t="price_e_sub"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_usp_label"><span class="optional" data-t="optional_own"></span></label>
+      <textarea id="q_usp" data-t-ph="q_usp_ph"></textarea>
+      <div class="help-text" data-t="q_usp_help"></div>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="step-header">
+      <div class="step-category" data-t="s4cat"></div>
+      <h1 class="step-title" data-t="s4title"></h1>
+      <p class="step-subtitle" data-t="s4sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_goal_label"></label>
+      <div class="option-grid">
+        <label class="option-card"><input type="radio" name="goal" value="leads"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="goal_a"></div><div class="option-sub" data-t="goal_a_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="goal" value="wholesale"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="goal_b"></div><div class="option-sub" data-t="goal_b_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="goal" value="ecom"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="goal_c"></div><div class="option-sub" data-t="goal_c_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="goal" value="brand"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="goal_d"></div><div class="option-sub" data-t="goal_d_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="goal" value="all"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="goal_e"></div></div></div></label>
+      </div>
+    </div>
+    <hr class="form-divider">
+    <div class="form-group">
+      <label data-t="q_feature_label"><span class="optional" data-t="optional_tag"></span></label>
+      <div class="option-grid cols-2">
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="wa_btn"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_a"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="catalogue"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_b"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="wholesale_pg"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_c"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="testimonials"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_d"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="payment"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_e"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="social"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_f"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="blog"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_g"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="feature" value="chat"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="feat_h"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_lang_label"></label>
+      <div class="option-grid cols-3">
+        <label class="option-card"><input type="radio" name="sitelang" value="en"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="lang_en"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="sitelang" value="bm"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="lang_bm"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="sitelang" value="both"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="lang_both"></div></div></div></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="step5">
+    <div class="step-header">
+      <div class="step-category" data-t="s5cat"></div>
+      <h1 class="step-title" data-t="s5title"></h1>
+      <p class="step-subtitle" data-t="s5sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_style_label"></label>
+      <div class="option-grid">
+        <label class="option-card"><input type="radio" name="style" value="bold"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="style_a"></div><div class="option-sub" data-t="style_a_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="style" value="clean"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="style_b"></div><div class="option-sub" data-t="style_b_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="style" value="warm"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="style_c"></div><div class="option-sub" data-t="style_c_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="style" value="luxury"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="style_d"></div><div class="option-sub" data-t="style_d_sub"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_ref_label"><span class="optional" data-t="optional_any"></span></label>
+      <textarea id="q_ref" data-t-ph="q_ref_ph"></textarea>
+      <div class="help-text" data-t="q_ref_help"></div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_branding_label"><span class="optional" data-t="optional_tag"></span></label>
+      <div class="option-grid cols-2">
+        <label class="option-card checkbox"><input type="checkbox" name="branding" value="logo"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="brand_logo"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="branding" value="colors"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="brand_colors"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="branding" value="photos"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="brand_photos"></div></div></div></label>
+        <label class="option-card checkbox"><input type="checkbox" name="branding" value="scratch"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="brand_scratch"></div></div></div></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step" id="step6">
+    <div class="step-header">
+      <div class="step-category" data-t="s6cat"></div>
+      <h1 class="step-title" data-t="s6title"></h1>
+      <p class="step-subtitle" data-t="s6sub"></p>
+    </div>
+    <div class="form-group">
+      <label data-t="q_budget_label"></label>
+      <div class="option-grid">
+        <label class="option-card"><input type="radio" name="budget" value="u1k"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">Below RM1,000</div><div class="option-sub" data-t="budget_a_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="budget" value="1to3k"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">RM1,000–3,000</div><div class="option-sub" data-t="budget_b_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="budget" value="3to8k"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">RM3,000–8,000</div><div class="option-sub" data-t="budget_c_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="budget" value="o8k"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">RM8,000+</div><div class="option-sub" data-t="budget_d_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="budget" value="unsure"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="budget_e"></div><div class="option-sub" data-t="budget_e_sub"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_timeline_label"></label>
+      <div class="option-grid cols-2">
+        <label class="option-card"><input type="radio" name="timeline" value="asap"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main">ASAP</div><div class="option-sub" data-t="tl_a_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="timeline" value="1mo"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="tl_b"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="timeline" value="3mo"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="tl_c"></div><div class="option-sub" data-t="tl_c_sub"></div></div></div></label>
+        <label class="option-card"><input type="radio" name="timeline" value="flex"><div class="option-label"><div class="option-indicator"></div><div class="option-text"><div class="option-main" data-t="tl_d"></div><div class="option-sub" data-t="tl_d_sub"></div></div></div></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label data-t="q_notes_label"><span class="optional" data-t="optional_opt"></span></label>
+      <textarea id="q_notes" data-t-ph="q_notes_ph"></textarea>
+    </div>
+    <div class="form-group">
+      <label data-t="q_phone_label"><span class="optional" data-t="optional_followup"></span></label>
+      <input type="tel" id="q_phone" placeholder="012-3456789">
+    </div>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="thankyou" id="thankyou">
+    <div class="thankyou-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+    <h2 data-t="ty_title"></h2>
+    <p data-t="ty_sub"></p>
+    <div class="summary-card">
+      <h3 data-t="ty_summary_title"></h3>
+      <div id="summaryContent"></div>
+    </div>
+    <div>
+      <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">
+        <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        <span data-t="ty_copy"></span>
+      </button>
+      <button class="copy-btn" onclick="window.print()">
+        <svg viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2M6 14h12v8H6z"/></svg>
+        <span data-t="ty_print"></span>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="nav-bar" id="navBar">
+  <button class="btn-back" id="btnBack" onclick="navigate(-1)" disabled></button>
+  <button class="btn-next" id="btnNext" onclick="navigate(1)"></button>
+</div>
+
+<script>
+// ── TRANSLATIONS ──────────────────────────────────────────────
+const T = {
+  en: {
+    hdrLabel:'Business Discovery Brief',
+    s1cat:'Section 1', s1title:'About Your Business', s1sub:"Let's start with the basics so we understand where Galawatches stands today.",
+    s2cat:'Section 2', s2title:'Your Customers', s2sub:"Understanding who buys from you shapes everything about the website's look and messaging.",
+    s3cat:'Section 3', s3title:'Your Products', s3sub:'Help us understand what you sell and what makes it special.',
+    s4cat:'Section 4', s4title:'Website Goals', s4sub:'What do you want this website to do for your business?',
+    s5cat:'Section 5', s5title:'Look & Feel', s5sub:"Your website's personality — helps us design something that feels right for your customers.",
+    s6cat:'Section 6', s6title:'Budget & Timeline', s6sub:'The last section! This helps us recommend the right approach for you.',
+    stepNames:['About Your Business','Your Customers','Your Products','Website Goals','Look & Feel','Budget & Timeline'],
+    of:'of',
+    optional_tag:'(pick all that apply)', optional_est:'(estimate)', optional_own:'(in your own words)',
+    optional_any:'(any industry)', optional_opt:'(optional)', optional_followup:'(so we can follow up)',
+    q_name_label:'Your full name', q_name_ph:'e.g. Ahmad bin Razali',
+    q_biz_label:'Business name',
+    q_bizage_label:'How long have you been in the watch business?',
+    bizage_a:'Less than 2 years', bizage_b:'2–5 years', bizage_c:'5–10 years', bizage_d:'More than 10 years',
+    q_channel_label:'What does the business currently look like?',
+    ch_a:'Physical shop / kiosk', ch_b:'Online (Shopee / Lazada)', ch_c:'WhatsApp / Facebook DM',
+    ch_d:'Wholesale to retailers', ch_e:'Own website', ch_f:'Events / pasar malam',
+    q_buyer_label:'Who are your main buyers?',
+    buyer_a:'End consumers', buyer_a_sub:'People buying for themselves or as gifts',
+    buyer_b:'Retailers / kedai jam', buyer_b_sub:'Shop owners who resell your stock',
+    buyer_c:'Corporate / gift buyers', buyer_c_sub:'Companies buying for awards, door gifts, etc.',
+    buyer_d:'Online resellers / dropship', buyer_d_sub:'People selling on their own platforms',
+    q_buyerage_label:'What is the typical age range of your buyers?',
+    age_u25_sub:'Gen Z / students', age_2535_sub:'Young adults', age_3550_sub:'Professionals', age_50_sub:'Mature buyers',
+    age_mixed:'Mixed ages', age_mixed_sub:'Wide range',
+    q_gender_label:'Gender breakdown of your buyers?',
+    gender_men:'Mostly men', gender_women:'Mostly women', gender_balanced:'Balanced',
+    q_location_label:'Where are most of your customers located?',
+    loc_a:'Klang Valley / KL area', loc_b:'All of Peninsular Malaysia',
+    loc_c:'Nationwide incl. Sabah & Sarawak', loc_d:'International / overseas too',
+    q_brand_label:'Which brands do you carry?', brand_others:'Others',
+    q_price_label:'What is your typical price range per watch?',
+    price_a_sub:'Budget / entry-level', price_b_sub:'Mid-range', price_c_sub:'Premium', price_d_sub:'Luxury / limited',
+    price_e:'All price ranges', price_e_sub:'Wide selection',
+    q_usp_label:'What sets your business apart from other watch sellers?',
+    q_usp_ph:'e.g. Lowest wholesale prices in KL, 100% authentic, fast shipping, great after-sales service...',
+    q_usp_help:'Even a rough answer helps — there are no wrong answers here.',
+    q_goal_label:'What is the #1 purpose of the website?',
+    goal_a:'Generate leads', goal_a_sub:'Get people to contact me via WhatsApp or form',
+    goal_b:'Attract wholesale buyers', goal_b_sub:'Target retailers and resellers who buy in bulk',
+    goal_c:'Sell watches online', goal_c_sub:'Full e-commerce with cart and payment',
+    goal_d:'Build brand credibility', goal_d_sub:'Look professional and trustworthy online',
+    goal_e:'All of the above',
+    q_feature_label:'Which features matter most to you?',
+    feat_a:'WhatsApp enquiry button', feat_b:'Product catalogue / gallery', feat_c:'Wholesale pricing page',
+    feat_d:'Customer testimonials', feat_e:'Online order / payment', feat_f:'Facebook / Instagram feed',
+    feat_g:'Blog / new arrivals news', feat_h:'Live chat / chatbot',
+    q_lang_label:'Language preference for the website?',
+    lang_en:'English only', lang_bm:'BM only', lang_both:'Both (bilingual)',
+    q_style_label:'What style do you want your website to feel like?',
+    style_a:'Bold & edgy', style_a_sub:'Dark, tactical, high-energy — like G-Shock',
+    style_b:'Clean & professional', style_b_sub:'Light, modern, trustworthy — like a premium retailer',
+    style_c:'Warm & approachable', style_c_sub:'Friendly, community feel — easy to browse',
+    style_d:'Luxury & elegant', style_d_sub:'Refined, premium — like a jewellery brand',
+    q_ref_label:'Any websites you admire or want to reference?',
+    q_ref_ph:"e.g. gshock.casio.com, Shopee's layout, Apple.com... paste links if you have them",
+    q_ref_help:'Local or international sites both work. Even "something like Zalora" helps!',
+    q_branding_label:'Do you have existing branding?',
+    brand_logo:'Yes, I have a logo', brand_colors:'I have brand colours',
+    brand_photos:'I have product photos', brand_scratch:'Need everything from scratch',
+    q_budget_label:'Estimated budget for this website project?',
+    budget_a_sub:'Basic landing page — just to have an online presence',
+    budget_b_sub:'Professional multi-page website with features',
+    budget_c_sub:'Full e-commerce with catalogue and payment',
+    budget_d_sub:'Custom build with advanced features',
+    budget_e:'Not sure yet', budget_e_sub:'Open to a proposal or recommendation',
+    q_timeline_label:'When do you want the website to be live?',
+    tl_a_sub:'Within 2 weeks', tl_b:'Within 1 month',
+    tl_c:'1–3 months', tl_c_sub:'No rush, I want it done properly',
+    tl_d:'Flexible', tl_d_sub:"I'll follow your recommendation",
+    q_notes_label:'Any other thoughts or requests?',
+    q_notes_ph:'e.g. I want to update products myself, needs to work on mobile, connect to Shopee store...',
+    q_phone_label:'Your WhatsApp number',
+    ty_title:'Thank you!', ty_sub:"We've captured your brief. Here's a summary — share this with your web designer directly.",
+    ty_summary_title:'Your Business Brief', ty_copy:'Copy Summary', ty_print:'Print / Save PDF',
+    btn_back:'← Back', btn_next:'Continue →', btn_submit:'Submit Brief ✓',
+    done:'✓ Done', complete:'Complete!',
+    copied:'✓ Copied!',
+    sk_name:'Name', sk_biz:'Business', sk_bizage:'Years in business', sk_channel:'Sales channels',
+    sk_buyer:'Main buyers', sk_buyerage:'Buyer age range', sk_gender:'Gender split', sk_location:'Location',
+    sk_brand:'Brands carried', sk_price:'Price range', sk_usp:'Unique selling point', sk_goal:'Website goal',
+    sk_feature:'Key features', sk_sitelang:'Site language', sk_style:'Website style', sk_ref:'Reference sites',
+    sk_branding:'Existing branding', sk_budget:'Budget range', sk_timeline:'Timeline', sk_notes:'Notes', sk_phone:'WhatsApp',
+  },
+  zh: {
+    hdrLabel:'业务调查问卷',
+    s1cat:'第一节', s1title:'关于您的业务', s1sub:'让我们从基本信息开始，了解 Galawatches 目前的状况。',
+    s2cat:'第二节', s2title:'您的客户', s2sub:'了解谁在向您购买，将影响网站的设计风格和文案方向。',
+    s3cat:'第三节', s3title:'您的产品', s3sub:'帮助我们了解您销售什么，以及您的独特之处。',
+    s4cat:'第四节', s4title:'网站目标', s4sub:'您希望这个网站为您的业务做什么？',
+    s5cat:'第五节', s5title:'风格与外观', s5sub:'网站的整体感觉，有助于我们设计出适合您和您客户的风格。',
+    s6cat:'第六节', s6title:'预算与时间表', s6sub:'最后一节！这有助于我们为您推荐合适的方案。',
+    stepNames:['关于您的业务','您的客户','您的产品','网站目标','风格与外观','预算与时间表'],
+    of:'共',
+    optional_tag:'（可多选）', optional_est:'（估算）', optional_own:'（用自己的话）',
+    optional_any:'（任何行业）', optional_opt:'（选填）', optional_followup:'（方便我们跟进）',
+    q_name_label:'您的全名', q_name_ph:'例如：王大明',
+    q_biz_label:'公司名称（注册名或商业名）',
+    q_bizage_label:'您在手表行业经营多久了？',
+    bizage_a:'不足 2 年', bizage_b:'2–5 年', bizage_c:'5–10 年', bizage_d:'超过 10 年',
+    q_channel_label:'目前的业务模式是什么？',
+    ch_a:'实体店 / 摊位', ch_b:'网络平台（Shopee / Lazada）', ch_c:'WhatsApp / Facebook 私信',
+    ch_d:'批发给零售商', ch_e:'自有网站', ch_f:'展销会 / 夜市',
+    q_buyer_label:'您的主要买家是谁？',
+    buyer_a:'终端消费者', buyer_a_sub:'自用或送礼的个人买家',
+    buyer_b:'零售商 / 手表店', buyer_b_sub:'购入您货品进行转售的店主',
+    buyer_c:'企业 / 礼品采购商', buyer_c_sub:'购买奖品、纪念品等的公司',
+    buyer_d:'网络转售商 / 代理商', buyer_d_sub:'在自己平台上销售的人',
+    q_buyerage_label:'您的买家典型年龄范围？',
+    age_u25_sub:'Z世代 / 学生', age_2535_sub:'年轻成年人', age_3550_sub:'专业人士', age_50_sub:'成熟买家',
+    age_mixed:'各年龄层均有', age_mixed_sub:'范围广泛',
+    q_gender_label:'买家的性别比例？',
+    gender_men:'以男性为主', gender_women:'以女性为主', gender_balanced:'大致均衡',
+    q_location_label:'大多数客户在哪里？',
+    loc_a:'巴生谷 / 吉隆坡地区', loc_b:'整个马来西亚半岛',
+    loc_c:'全国包括沙巴和砂拉越', loc_d:'也包括海外客户',
+    q_brand_label:'您销售哪些品牌？', brand_others:'其他品牌',
+    q_price_label:'每块手表的典型售价范围？',
+    price_a_sub:'入门级 / 经济型', price_b_sub:'中档价位', price_c_sub:'高档', price_d_sub:'奢华 / 限量版',
+    price_e:'全价位段', price_e_sub:'多元选择',
+    q_usp_label:'您的业务与其他手表商有何不同？',
+    q_usp_ph:'例如：提供吉隆坡最低批发价、100% 正品、快速发货、完善的售后服务...',
+    q_usp_help:'粗略的回答也有帮助——没有错误答案。',
+    q_goal_label:'网站的首要目的是什么？',
+    goal_a:'获取潜在客户', goal_a_sub:'让人们通过 WhatsApp 或表单联系我',
+    goal_b:'吸引批发买家', goal_b_sub:'针对批量采购的零售商和转售商',
+    goal_c:'在线销售手表', goal_c_sub:'完整电商功能，含购物车和付款',
+    goal_d:'建立品牌形象', goal_d_sub:'在网上看起来专业、值得信赖',
+    goal_e:'以上全部',
+    q_feature_label:'哪些功能对您最重要？',
+    feat_a:'WhatsApp 咨询按钮', feat_b:'产品目录 / 图库', feat_c:'批发价格页面',
+    feat_d:'客户评价', feat_e:'在线下单 / 付款', feat_f:'Facebook / Instagram 动态',
+    feat_g:'博客 / 新品资讯', feat_h:'在线客服 / 聊天机器人',
+    q_lang_label:'网站的语言偏好？',
+    lang_en:'仅英文', lang_bm:'仅马来文', lang_both:'双语（英文 + 马来文）',
+    q_style_label:'您希望网站呈现什么风格？',
+    style_a:'大胆前卫', style_a_sub:'深色、硬派、高能量——类似 G-Shock 风格',
+    style_b:'简洁专业', style_b_sub:'明亮、现代、值得信赖——类似高端零售商',
+    style_c:'温馨亲切', style_c_sub:'友好、亲切的社区感——易于浏览',
+    style_d:'奢华优雅', style_d_sub:'精致、高端——类似珠宝品牌',
+    q_ref_label:'有没有您欣赏或希望参考的网站？',
+    q_ref_ph:'例如：gshock.casio.com、Shopee 的布局、Apple.com... 也可以粘贴链接',
+    q_ref_help:'可以提及本地或国际网站。即使说"类似 Zalora 那样"也很有帮助！',
+    q_branding_label:'您是否已有现成的品牌资产？',
+    brand_logo:'已有品牌标志（Logo）', brand_colors:'已有品牌配色',
+    brand_photos:'已有产品照片', brand_scratch:'需要从头设计一切',
+    q_budget_label:'这个网站项目的预计预算？',
+    budget_a_sub:'基础落地页——仅需建立线上存在',
+    budget_b_sub:'专业多页网站，含功能模块',
+    budget_c_sub:'完整电商，含产品目录和付款系统',
+    budget_d_sub:'定制开发，含高级功能',
+    budget_e:'尚未确定', budget_e_sub:'愿意接受建议和报价',
+    q_timeline_label:'您希望网站何时上线？',
+    tl_a_sub:'2 周内', tl_b:'1 个月内',
+    tl_c:'1–3 个月', tl_c_sub:'不急，希望做好',
+    tl_d:'时间弹性', tl_d_sub:'按您的建议来',
+    q_notes_label:'还有其他想法或要求吗？',
+    q_notes_ph:'例如：我希望自己能更新产品、手机端需要好用、希望与 Shopee 店铺关联...',
+    q_phone_label:'您的 WhatsApp 号码',
+    ty_title:'非常感谢！', ty_sub:'您的问卷已填写完成。以下是摘要——可直接截图或分享给您的网站设计师。',
+    ty_summary_title:'您的业务简报', ty_copy:'复制摘要', ty_print:'打印 / 保存为 PDF',
+    btn_back:'← 上一步', btn_next:'下一步 →', btn_submit:'提交问卷 ✓',
+    done:'✓ 完成', complete:'已完成！',
+    copied:'✓ 已复制！',
+    sk_name:'姓名', sk_biz:'公司名称', sk_bizage:'经营年限', sk_channel:'销售渠道',
+    sk_buyer:'主要买家', sk_buyerage:'买家年龄段', sk_gender:'性别比例', sk_location:'客户地区',
+    sk_brand:'代理品牌', sk_price:'价格范围', sk_usp:'独特卖点', sk_goal:'网站目标',
+    sk_feature:'重要功能', sk_sitelang:'网站语言', sk_style:'网站风格', sk_ref:'参考网站',
+    sk_branding:'现有品牌资产', sk_budget:'预算范围', sk_timeline:'时间表', sk_notes:'补充说明', sk_phone:'WhatsApp',
+  }
+};
+
+// ── STATE ──────────────────────────────────────────────────────
+let lang = 'en';
+let current = 1;
+const TOTAL = 6;
+
+// ── RENDER ─────────────────────────────────────────────────────
+function applyLang() {
+  const t = T[lang];
+  document.querySelectorAll('[data-t]').forEach(el => {
+    const key = el.getAttribute('data-t');
+    if (t[key] !== undefined) el.textContent = t[key];
+  });
+  document.querySelectorAll('[data-t-ph]').forEach(el => {
+    const key = el.getAttribute('data-t-ph');
+    if (t[key] !== undefined) el.placeholder = t[key];
+  });
+  document.getElementById('hdrLabel').textContent = t.hdrLabel;
+  document.getElementById('stepName').textContent = t.stepNames[current - 1];
+  const ct = document.getElementById('stepCount');
+  if (!ct.textContent.includes('✓')) {
+    ct.textContent = current + ' ' + t.of + ' ' + TOTAL;
+  }
+  // nav buttons
+  document.getElementById('btnBack').textContent = t.btn_back;
+  const btn = document.getElementById('btnNext');
+  btn.textContent = current === TOTAL ? t.btn_submit : t.btn_next;
+  // lang toggle highlight
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active',
+      (lang === 'en' && b.textContent === 'EN') ||
+      (lang === 'zh' && b.textContent === '中文')
+    );
+  });
+}
+
+function setLang(l) {
+  lang = l;
+  applyLang();
+}
+
+// ── NAV ────────────────────────────────────────────────────────
+function navigate(dir) {
+  const next = current + dir;
+  if (next < 1 || next > TOTAL) return;
+  document.getElementById('step' + current).classList.remove('active');
+  current = next;
+  document.getElementById('step' + current).classList.add('active');
+  const t = T[lang];
+  document.getElementById('progressFill').style.width = (current / TOTAL * 100) + '%';
+  document.getElementById('stepCount').textContent = current + ' ' + t.of + ' ' + TOTAL;
+  document.getElementById('stepName').textContent = t.stepNames[current - 1];
+  document.getElementById('btnBack').disabled = current === 1;
+  const btn = document.getElementById('btnNext');
+  if (current === TOTAL) {
+    btn.textContent = t.btn_submit;
+    btn.className = 'btn-next gold';
+    btn.onclick = submitForm;
+  } else {
+    btn.textContent = t.btn_next;
+    btn.className = 'btn-next';
+    btn.onclick = () => navigate(1);
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── SUBMIT ─────────────────────────────────────────────────────
+function getChecked(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(e => e.value).join(', ') || '—';
+}
+function getVal(id) {
+  const el = document.getElementById(id);
+  return el && el.value.trim() ? el.value.trim() : '—';
+}
+
+function submitForm() {
+  const t = T[lang];
+  const rows = [
+    [t.sk_name, getVal('q_name')], [t.sk_biz, getVal('q_biz')],
+    [t.sk_bizage, getChecked('bizage')], [t.sk_channel, getChecked('channel')],
+    [t.sk_buyer, getChecked('buyer')], [t.sk_buyerage, getChecked('buyerage')],
+    [t.sk_gender, getChecked('gender')], [t.sk_location, getChecked('location')],
+    [t.sk_brand, getChecked('brand')], [t.sk_price, getChecked('price')],
+    [t.sk_usp, getVal('q_usp')], [t.sk_goal, getChecked('goal')],
+    [t.sk_feature, getChecked('feature')], [t.sk_sitelang, getChecked('sitelang')],
+    [t.sk_style, getChecked('style')], [t.sk_ref, getVal('q_ref')],
+    [t.sk_branding, getChecked('branding')], [t.sk_budget, getChecked('budget')],
+    [t.sk_timeline, getChecked('timeline')], [t.sk_notes, getVal('q_notes')],
+    [t.sk_phone, getVal('q_phone')],
+  ];
+  document.getElementById('summaryContent').innerHTML = rows.map(([k,v]) =>
+    `<div class="summary-row"><span class="summary-key">${k}</span><span class="summary-val">${v}</span></div>`
+  ).join('');
+  document.getElementById('step' + current).classList.remove('active');
+  document.getElementById('thankyou').classList.add('active');
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('stepName').textContent = t.complete;
+  document.getElementById('stepCount').textContent = t.done;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function copyToClipboard() {
+  const t = T[lang];
+  const rows = document.querySelectorAll('.summary-row');
+  let text = 'GALAWATCHES — Business Discovery Brief\n' + '='.repeat(40) + '\n';
+  rows.forEach(r => {
+    text += r.querySelector('.summary-key').textContent + ': ' + r.querySelector('.summary-val').textContent + '\n';
+  });
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const span = btn.querySelector('span');
+    span.textContent = t.copied;
+    setTimeout(() => { span.textContent = t.ty_copy; }, 2000);
+  });
+}
+
+// ── INIT ───────────────────────────────────────────────────────
+applyLang();
+</script>
+</body>
+</html>
