@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galawatches — Malaysia's Finest Watch Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --ivory:    #f9f6f0;
+  --cream:    #f2ede4;
+  --warm:     #e8dfd0;
+  --gold:     #c9a84c;
+  --gold-dk:  #a8742a;
+  --gold-lt:  #e8c97a;
+  --gold-pale:#fdf6e3;
+  --ink:      #1c1812;
+  --ink-mid:  #4a4035;
+  --ink-soft: #7a6e60;
+  --ink-mute: #b0a898;
+  --white:    #ffffff;
+  --border:   #e0d8cc;
+  --red:      #c0392b;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: 'Outfit', sans-serif;
+  overflow-x: hidden;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* ── UTILITY ── */
+.serif { font-family: 'Cormorant Garamond', serif; }
+.gold  { color: var(--gold); }
+
+/* ── ANNOUNCEMENT ── */
+.topbar {
+  background: var(--ink);
+  color: var(--gold-lt);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 10px 20px;
+  overflow: hidden;
+}
+.topbar-inner { display: inline-block; animation: scroll-x 25s linear infinite; white-space: nowrap; }
+@keyframes scroll-x { 0%{transform:translateX(60vw)} 100%{transform:translateX(-100%)} }
+
+/* ── NAV ── */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(249,246,240,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 60px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.nav-logo em { color: var(--gold); font-style: normal; }
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-actions { display: flex; align-items: center; gap: 16px; }
+.nav-wa {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 10px 22px;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background 0.2s;
+}
+.nav-wa:hover { background: #1ebe5d; }
+.nav-wa svg { width: 16px; height: 16px; fill: white; flex-shrink: 0; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 92vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left {
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 70px 80px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-left::before {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: -10%;
+  width: 70%;
+  height: 70%;
+  background: radial-gradient(ellipse, rgba(201,168,76,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+.hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-lt);
+}
+.hero-desc {
+  font-size: 16px;
+  color: #a09080;
+  line-height: 1.8;
+  max-width: 380px;
+  margin-bottom: 48px;
+  font-weight: 300;
+}
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.btn-gold {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 36px;
+  background: var(--gold);
+  color: var(--ink);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.25s;
+}
+.btn-gold:hover { background: var(--gold-lt); transform: translateY(-2px); }
+.btn-outline {
+  font-family: 'Outfit', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 15px 32px;
+  background: transparent;
+  color: #a09080;
+  border: 1px solid #3a3028;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.25s;
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+.hero-badges {
+  position: absolute;
+  bottom: 48px;
+  left: 80px;
+  display: flex;
+  gap: 32px;
+}
+.badge-item { }
+.badge-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--white);
+  line-height: 1;
+}
+.badge-num sup { font-size: 18px; color: var(--gold); }
+.badge-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #60504a;
+  margin-top: 4px;
+}
+
+/* Hero Right — watch display */
+.hero-right {
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-right::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 60% 40%, rgba(201,168,76,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 70%, rgba(201,168,76,0.08) 0%, transparent 50%);
+}
+.hero-bg-text {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 200px;
+  font-weight: 300;
+  color: rgba(201,168,76,0.06);
+  letter-spacing: -10px;
+  user-select: none;
+  white-space: nowrap;
+  bottom: 20px;
+  right: -20px;
+}
+.watch-hero-wrap {
+  position: relative;
+  z-index: 2;
+  animation: float-watch 7s ease-in-out infinite;
+}
+@keyframes float-watch {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-18px) rotate(1deg); }
+}
+.watch-hero-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 20px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.15) 0%, transparent 70%);
+  animation: shadow-pulse 7s ease-in-out infinite;
+}
+@keyframes shadow-pulse {
+  0%,100% { transform: translateX(-50%) scaleX(1); opacity:0.4; }
+  50%      { transform: translateX(-50%) scaleX(0.7); opacity:0.2; }
+}
+
+/* ── MARQUEE ── */
+.marquee {
+  background: var(--gold);
+  padding: 14px 0;
+  overflow: hidden;
+  border-top: 1px solid var(--gold-dk);
+  border-bottom: 1px solid var(--gold-dk);
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 22s linear infinite;
+}
+.marquee-item {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 0 28px;
+  flex-shrink: 0;
+}
+.marquee-dot { color: rgba(28,24,18,0.4); margin-right: 28px; }
+@keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* ── SECTION SHELLS ── */
+section { padding: 100px 80px; }
+.section-eyebrow {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-eyebrow::before { content:''; display:block; width:24px; height:1px; background:var(--gold); }
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--ink);
+  margin-bottom: 16px;
+  letter-spacing: -0.3px;
+}
+.section-title em { font-style: italic; color: var(--gold-dk); }
+.section-sub {
+  font-size: 16px;
+  color: var(--ink-soft);
+  font-weight: 300;
+  max-width: 520px;
+  line-height: 1.8;
+}
+
+/* ── BRAND STRIP ── */
+.brands {
+  background: var(--white);
+  padding: 60px 80px;
+}
+.brands-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+.brands-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+.brand-pill {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink-mute);
+  padding: 12px 32px;
+  letter-spacing: 1px;
+  border-right: 1px solid var(--border);
+  transition: color 0.25s;
+  cursor: default;
+  text-align: center;
+}
+.brand-pill:last-child { border-right: none; }
+.brand-pill:hover { color: var(--gold-dk); }
+
+/* ── COLLECTIONS ── */
+.collections { background: var(--ivory); }
+.collections-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 60px;
+}
+.link-arrow {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+}
+.link-arrow:hover { color: var(--gold); border-color: var(--gold); }
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+}
+.product-card {
+  background: var(--white);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s;
+}
+.product-card:hover { transform: translateY(-6px); z-index: 2; box-shadow: 0 20px 60px rgba(28,24,18,0.1); }
+
+.product-img {
+  height: 300px;
+  background: var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.product-img::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(28,24,18,0.04) 100%);
+}
+.product-img svg { transition: transform 0.4s; }
+.product-card:hover .product-img svg { transform: scale(1.06) rotate(-3deg); }
+
+.product-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  z-index: 2;
+}
+.tag-new  { background: var(--ink); color: var(--gold-lt); }
+.tag-best { background: var(--gold); color: var(--ink); }
+.tag-ltd  { background: var(--red); color: white; }
+
+.product-body { padding: 28px 28px 32px; border-top: 1px solid var(--border); }
+.product-brand {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 6px;
+}
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.product-spec {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 300;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+.product-footer { display: flex; align-items: center; justify-content: space-between; }
+.product-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.product-price small { font-family: 'Outfit', sans-serif; font-size: 13px; color: var(--ink-soft); font-weight: 400; margin-right: 2px; }
+.enquire-btn {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.enquire-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── WHY US ── */
+.why { background: var(--ink); padding: 100px 80px; }
+.why .section-title { color: var(--white); }
+.why .section-sub { color: #7a6a5a; }
+.why .section-eyebrow { color: var(--gold); }
+.why .section-eyebrow::before { background: var(--gold); }
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  margin-top: 64px;
+  background: #2a2018;
+}
+.why-card {
+  background: var(--ink);
+  padding: 48px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+}
+.why-card:hover { background: #201c14; }
+.why-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s;
+}
+.why-card:hover::before { transform: scaleX(1); }
+.why-icon {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #3a3020;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  transition: border-color 0.3s;
+}
+.why-card:hover .why-icon { border-color: var(--gold); }
+.why-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.why-num {
+  position: absolute;
+  top: 32px;
+  right: 28px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+  font-weight: 300;
+  color: rgba(201,168,76,0.06);
+  line-height: 1;
+}
+.why-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+.why-text {
+  font-size: 14px;
+  color: #7a6a5a;
+  font-weight: 300;
+  line-height: 1.8;
+}
+
+/* ── SPLIT FEATURE ── */
+.feature-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 580px;
+}
+.feature-visual {
+  background: var(--warm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.feature-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.2) 0%, transparent 70%);
+}
+.feature-content {
+  background: var(--white);
+  padding: 80px 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.feature-list { margin-top: 40px; display: flex; flex-direction: column; gap: 24px; }
+.feature-item { display: flex; gap: 18px; align-items: flex-start; }
+.feature-check {
+  width: 28px;
+  height: 28px;
+  background: var(--gold-pale);
+  border: 1px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.feature-check svg { width: 13px; height: 13px; stroke: var(--gold-dk); fill: none; stroke-width: 2.5; }
+.feature-item-text { }
+.feature-item-title { font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.feature-item-sub { font-size: 14px; color: var(--ink-soft); font-weight: 300; line-height: 1.6; }
+
+/* ── TESTIMONIALS ── */
+.testimonials { background: var(--cream); padding: 100px 80px; }
+.testimonials-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; }
+.testi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.testi-card {
+  background: var(--white);
+  padding: 36px;
+  border: 1px solid var(--border);
+  position: relative;
+}
+.testi-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 64px;
+  color: var(--gold-pale);
+  line-height: 0.5;
+  margin-bottom: 20px;
+  display: block;
+}
+.testi-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 19px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.7;
+  margin-bottom: 28px;
+}
+.testi-stars { display: flex; gap: 4px; margin-bottom: 20px; }
+.testi-stars span { color: var(--gold); font-size: 14px; }
+.testi-author { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--border); }
+.testi-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--white);
+  flex-shrink: 0;
+}
+.testi-name { font-size: 14px; font-weight: 600; color: var(--ink); }
+.testi-loc  { font-size: 12px; color: var(--ink-soft); font-weight: 300; }
+
+/* ── CONTACT / CTA ── */
+.cta-section {
+  background: var(--ivory);
+  padding: 120px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-section::before {
+  content: 'GALA';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(120px, 20vw, 260px);
+  font-weight: 300;
+  color: rgba(201,168,76,0.05);
+  letter-spacing: 10px;
+  pointer-events: none;
+  white-space: nowrap;
+}
+.cta-section .section-eyebrow { justify-content: center; }
+.cta-section .section-sub { margin: 0 auto 52px; text-align: center; }
+.cta-actions { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; }
+.btn-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #25D366;
+  color: white;
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 18px 40px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-wa:hover { background: #1ebe5d; transform: translateY(-2px); }
+.btn-wa svg { width: 20px; height: 20px; fill: white; }
+.btn-fb {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--ink);
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 17px 36px;
+  text-decoration: none;
+  border: 1.5px solid var(--border);
+  transition: all 0.2s;
+}
+.btn-fb:hover { border-color: #1877F2; color: #1877F2; }
+.btn-fb svg { width: 18px; height: 18px; fill: currentColor; }
+
+/* contact info strip */
+.contact-strip {
+  background: var(--ink);
+  padding: 48px 80px;
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  flex-wrap: wrap;
+}
+.contact-item { text-align: center; }
+.contact-label {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #60504a;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+.contact-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--white);
+  font-weight: 400;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #130f0b;
+  padding: 64px 80px 40px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 60px;
+  padding-bottom: 48px;
+  border-bottom: 1px solid #2a2018;
+}
+.footer-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+.footer-logo em { color: var(--gold); font-style: normal; }
+.footer-desc { font-size: 14px; color: #6a5a4a; font-weight: 300; line-height: 1.8; max-width: 280px; }
+.footer-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--gold);
+  margin-top: 20px;
+}
+.footer-col-title {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #6a5a4a;
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.footer-links a {
+  font-size: 14px;
+  color: #5a4a3a;
+  text-decoration: none;
+  transition: color 0.2s;
+  font-weight: 300;
+}
+.footer-links a:hover { color: var(--gold); }
+.footer-bottom {
+  padding-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-copy { font-size: 12px; color: #3a2a1a; }
+.footer-copy span { color: var(--gold); }
+
+/* ── DEMO BADGE ── */
+.demo-badge {
+  position: fixed;
+  top: 80px;
+  right: 24px;
+  background: var(--gold);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  z-index: 200;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  transform: rotate(2deg);
+}
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  section { padding: 60px 24px; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { height: 400px; }
+  .hero-badges { position: relative; bottom: auto; left: auto; margin-top: 40px; }
+  .hero-left { padding: 60px 24px; }
+  .brands { padding: 48px 24px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr 1fr; }
+  .feature-split { grid-template-columns: 1fr; }
+  .feature-visual { height: 300px; }
+  .testi-grid { grid-template-columns: 1fr; }
+  .cta-section { padding: 80px 24px; }
+  .contact-strip { padding: 40px 24px; gap: 40px; }
+  footer { padding: 48px 24px 32px; }
+  .footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+  .collections-header, .testimonials-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .why { padding: 60px 24px; }
+  .demo-badge { top: auto; bottom: 80px; right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Demo badge -->
+<div class="demo-badge">★ Demo Site</div>
+
+<!-- Top bar -->
+<div class="topbar">
+  <span class="topbar-inner">
+    ✦ Authentic Watches Guaranteed &nbsp;&nbsp;·&nbsp;&nbsp; Wholesale & Retail Available &nbsp;&nbsp;·&nbsp;&nbsp; Fast Delivery Nationwide &nbsp;&nbsp;·&nbsp;&nbsp; G-Shock · Casio · Seiko · Orient · Fossil &nbsp;&nbsp;·&nbsp;&nbsp; ✦ Authentic Watches Guaranteed &nbsp;&nbsp;·&nbsp;&nbsp; Wholesale & Retail Available &nbsp;&nbsp;·&nbsp;&nbsp; Fast Delivery Nationwide &nbsp;&nbsp;·&nbsp;&nbsp; G-Shock · Casio · Seiko · Orient · Fossil &nbsp;&nbsp;·&nbsp;&nbsp;
+  </span>
+</div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="#">Gala<em>Watches</em></a>
+  <ul class="nav-links">
+    <li><a href="#collections">Collections</a></li>
+    <li><a href="#brands">Brands</a></li>
+    <li><a href="#wholesale">Wholesale</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <div class="nav-actions">
+    <a class="nav-wa" href="#contact">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.946 0C5.347 0 0 5.348 0 11.948c0 2.632.86 5.07 2.32 7.044L.803 23.63l4.773-1.493A11.9 11.9 0 0011.946 24c6.598 0 11.947-5.35 11.947-11.95S18.544 0 11.946 0z"/></svg>
+      Enquire Now
+    </a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Malaysia's Finest Watch Specialist</div>
+    <h1>Time Tells<br>Your <em>Story</em></h1>
+    <p class="hero-desc">Curated authentic timepieces for every wrist and every occasion. Trusted wholesale & retail distributor across Malaysia since 2010.</p>
+    <div class="hero-ctas">
+      <a href="#collections" class="btn-gold">Explore Collection</a>
+      <a href="#wholesale" class="btn-outline">Wholesale Enquiry</a>
+    </div>
+    <div class="hero-badges">
+      <div class="badge-item">
+        <div class="badge-num">500<sup>+</sup></div>
+        <div class="badge-label">Models in stock</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-num">10K<sup>+</sup></div>
+        <div class="badge-label">Happy customers</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-num">14<sup>+</sup></div>
+        <div class="badge-label">Years trusted</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-bg-text">TIME</div>
+    <div class="watch-hero-wrap">
+      <!-- Hero watch SVG -->
+      <svg width="340" height="440" viewBox="0 0 340 440" xmlns="http://www.w3.org/2000/svg">
+        <!-- strap top -->
+        <rect x="120" y="18" width="100" height="88" rx="10" fill="#1c1812" stroke="#3a3020" stroke-width="1.5"/>
+        <rect x="130" y="30" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <rect x="130" y="44" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <rect x="130" y="58" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <!-- buckle holes -->
+        <circle cx="160" cy="76" r="4" fill="#140e0a"/>
+        <circle cx="178" cy="84" r="4" fill="#140e0a"/>
+        <circle cx="200" cy="76" r="4" fill="#140e0a"/>
+        <!-- case -->
+        <rect x="52" y="102" width="236" height="236" rx="24" fill="#18140e" stroke="#c9a84c" stroke-width="2"/>
+        <!-- case inner ring -->
+        <rect x="66" y="116" width="208" height="208" rx="18" fill="#120e08" stroke="#3a3020" stroke-width="1"/>
+        <!-- dial -->
+        <circle cx="170" cy="220" r="90" fill="#0e0a06" stroke="#c9a84c" stroke-width="1.5"/>
+        <!-- subtle hour markers -->
+        <line x1="170" y1="136" x2="170" y2="150" stroke="#c9a84c" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="170" y1="290" x2="170" y2="304" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="86"  y1="220" x2="100" y2="220" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="240" y1="220" x2="254" y2="220" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- 3,6,9 markers -->
+        <line x1="254" y1="175" x2="248" y2="183" stroke="#3a3020" stroke-width="1" stroke-linecap="round"/>
+        <line x1="215" y1="141" x2="209" y2="150" stroke="#3a3020" stroke-width="1" stroke-linecap="round"/>
+        <line x1="125" y1="141" x2="131" y2="150" stroke="#3a3020" stroke-width="1" stroke-linecap="round"/>
+        <line x1="86"  y1="175" x2="92" y2="183" stroke="#3a3020" stroke-width="1" stroke-linecap="round"/>
+        <!-- Brand text on dial -->
+        <text x="170" y="186" font-family="serif" font-size="12" fill="#c9a84c" text-anchor="middle" letter-spacing="4" opacity="0.9">GALAWATCHES</text>
+        <text x="170" y="202" font-family="serif" font-size="8" fill="#5a4a3a" text-anchor="middle" letter-spacing="2">MALAYSIA</text>
+        <!-- sub-dial circle -->
+        <circle cx="170" cy="248" r="18" fill="none" stroke="#2a2018" stroke-width="1"/>
+        <line x1="170" y1="236" x2="170" y2="240" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+        <line x1="170" y1="256" x2="170" y2="260" stroke="#3a3020" stroke-width="0.8" stroke-linecap="round"/>
+        <line x1="158" y1="248" x2="162" y2="248" stroke="#3a3020" stroke-width="0.8" stroke-linecap="round"/>
+        <line x1="178" y1="248" x2="182" y2="248" stroke="#3a3020" stroke-width="0.8" stroke-linecap="round"/>
+        <line x1="170" y1="240" x2="172" y2="248" stroke="#c9a84c" stroke-width="1" stroke-linecap="round"/>
+        <!-- hour hand -->
+        <line x1="170" y1="220" x2="170" y2="165" stroke="#f0ead8" stroke-width="4" stroke-linecap="round"/>
+        <!-- minute hand -->
+        <line x1="170" y1="220" x2="205" y2="200" stroke="#f0ead8" stroke-width="3" stroke-linecap="round"/>
+        <!-- seconds hand -->
+        <line x1="170" y1="220" x2="148" y2="270" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+        <!-- center jewel -->
+        <circle cx="170" cy="220" r="5" fill="#c9a84c"/>
+        <circle cx="170" cy="220" r="2.5" fill="#f0ead8"/>
+        <!-- crown -->
+        <rect x="286" y="210" width="16" height="20" rx="4" fill="#2a2018" stroke="#3a3020" stroke-width="1"/>
+        <!-- lug screws -->
+        <circle cx="88" cy="118" r="3" fill="#2a2018" stroke="#c9a84c" stroke-width="0.5"/>
+        <circle cx="252" cy="118" r="3" fill="#2a2018" stroke="#c9a84c" stroke-width="0.5"/>
+        <circle cx="88" cy="322" r="3" fill="#2a2018" stroke="#c9a84c" stroke-width="0.5"/>
+        <circle cx="252" cy="322" r="3" fill="#2a2018" stroke="#c9a84c" stroke-width="0.5"/>
+        <!-- strap bottom -->
+        <rect x="120" y="334" width="100" height="88" rx="10" fill="#1c1812" stroke="#3a3020" stroke-width="1.5"/>
+        <rect x="130" y="348" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <rect x="130" y="362" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <rect x="130" y="376" width="80" height="5" rx="2.5" fill="#2a2018"/>
+        <!-- buckle bar -->
+        <rect x="152" y="393" width="36" height="16" rx="4" fill="#2a2018" stroke="#3a3020" stroke-width="1"/>
+        <line x1="170" y1="393" x2="170" y2="409" stroke="#3a3020" stroke-width="1.5"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- Brand marquee -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot">●</span> G-Shock</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Casio</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Seiko</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Orient</span>
+    <span class="marquee-item"><span class="marquare-dot">●</span> Citizen</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Fossil</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Baby-G</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Edifice</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Pro Trek</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> G-Shock</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Casio</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Seiko</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Orient</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Citizen</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Fossil</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Baby-G</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Edifice</span>
+    <span class="marquee-item"><span class="marquee-dot">●</span> Pro Trek</span>
+  </div>
+</div>
+
+<!-- Brands -->
+<div class="brands reveal" id="brands">
+  <div class="brands-label">Authorised Stockist For</div>
+  <div class="brands-row">
+    <div class="brand-pill">G-Shock</div>
+    <div class="brand-pill">Casio</div>
+    <div class="brand-pill">Seiko</div>
+    <div class="brand-pill">Orient</div>
+    <div class="brand-pill">Citizen</div>
+    <div class="brand-pill">Fossil</div>
+    <div class="brand-pill">Baby-G</div>
+    <div class="brand-pill">Edifice</div>
+  </div>
+</div>
+
+<!-- Collections -->
+<section class="collections" id="collections">
+  <div class="collections-header reveal">
+    <div>
+      <div class="section-eyebrow">Featured Collection</div>
+      <h2 class="section-title">Handpicked <em>Timepieces</em></h2>
+    </div>
+    <a href="#contact" class="link-arrow">View All &rarr;</a>
+  </div>
+
+  <div class="product-grid">
+    <!-- Card 1 -->
+    <div class="product-card reveal">
+      <div class="product-tag tag-best">Best Seller</div>
+      <div class="product-img" style="background: linear-gradient(135deg,#1a1410 0%,#2a1e14 100%);">
+        <svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+          <rect x="70" y="12" width="60" height="52" rx="7" fill="#111" stroke="#2a2018"/>
+          <rect x="30" y="60" width="140" height="120" rx="14" fill="#0d0a06" stroke="#c9a84c" stroke-width="1.5"/>
+          <circle cx="100" cy="120" r="48" fill="#08060400" stroke="#c9a84c" stroke-width="1"/>
+          <circle cx="100" cy="120" r="40" fill="#06040200" stroke="#2a2018"/>
+          <line x1="100" y1="84" x2="100" y2="92" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+          <line x1="100" y1="148" x2="100" y2="156" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="64" y1="120" x2="72" y2="120" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="128" y1="120" x2="136" y2="120" stroke="#3a3020" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="100" y1="120" x2="100" y2="95" stroke="#f0ead8" stroke-width="3" stroke-linecap="round"/>
+          <line x1="100" y1="120" x2="116" y2="112" stroke="#f0ead8" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="100" y1="120" x2="88" y2="148" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="100" cy="120" r="4" fill="#c9a84c"/>
+          <rect x="30" y="180" width="140" height="52" rx="7" fill="#111" stroke="#2a2018"/>
+        </svg>
+      </div>
+      <div class="product-body">
+        <div class="product-brand">Casio</div>
+        <div class="product-name">Edifice EFR-S567</div>
+        <div class="product-spec">Chronograph · Solar · Sapphire Crystal · 100m WR</div>
+        <div class="product-footer">
+          <div class="product-price"><small>RM </small>589</div>
+          <button class="enquire-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="product-card reveal">
+      <div class="product-tag tag-new">New Arrival</div>
+      <div class="product-img" style="background: linear-gradient(135deg,#0a0e12 0%,#141c24 100%);">
+        <svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+          <rect x="72" y="12" width="56" height="52" rx="6" fill="#0a0c10" stroke="#1a2030"/>
+          <rect x="28" y="60" width="144" height="120" rx="10" fill="#080c10" stroke="#4488dd" stroke-width="1.5"/>
+          <rect x="40" y="72" width="120" height="96" rx="8" fill="#050709"/>
+          <rect x="48" y="80" width="104" height="42" rx="4" fill="#000e1a"/>
+          <text x="100" y="106" font-family="monospace" font-size="24" fill="#44aaff" text-anchor="middle" letter-spacing="4" opacity="0.9">10:22</text>
+          <rect x="48" y="130" width="104" height="24" rx="3" fill="#00060e"/>
+          <text x="100" y="147" font-family="monospace" font-size="10" fill="#4488dd" text-anchor="middle" letter-spacing="3">WED 22 APR</text>
+          <rect x="28" y="78" width="12" height="18" rx="3" fill="#0a0c10"/>
+          <rect x="28" y="104" width="12" height="18" rx="3" fill="#4488dd" opacity="0.8"/>
+          <rect x="160" y="78" width="12" height="18" rx="3" fill="#0a0c10"/>
+          <rect x="160" y="104" width="12" height="18" rx="3" fill="#0a0c10"/>
+          <rect x="72" y="180" width="56" height="52" rx="6" fill="#0a0c10" stroke="#1a2030"/>
+        </svg>
+      </div>
+      <div class="product-body">
+        <div class="product-brand">G-Shock</div>
+        <div class="product-name">Rangeman GW-9400</div>
+        <div class="product-spec">Triple Sensor · Solar · Atomic Timekeeping · Master of G</div>
+        <div class="product-footer">
+          <div class="product-price"><small>RM </small>899</div>
+          <button class="enquire-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="product-card reveal">
+      <div class="product-tag tag-ltd">Limited</div>
+      <div class="product-img" style="background: linear-gradient(135deg,#100a0a 0%,#1e1008 100%);">
+        <svg width="200" height="240" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+          <rect x="72" y="12" width="56" height="52" rx="7" fill="#1a1008" stroke="#3a2010"/>
+          <rect x="30" y="60" width="140" height="120" rx="20" fill="#100a06" stroke="#d4a030" stroke-width="2"/>
+          <circle cx="100" cy="120" r="46" fill="#0a0604" stroke="#d4a030" stroke-width="1.5"/>
+          <circle cx="100" cy="120" r="38" fill="#080402" stroke="#2a1c0a"/>
+          <!-- Roman numerals suggestion -->
+          <text x="100" y="84" font-family="serif" font-size="9" fill="#d4a030" text-anchor="middle" letter-spacing="1" opacity="0.8">XII</text>
+          <text x="136" y="124" font-family="serif" font-size="9" fill="#5a3a10" text-anchor="middle" letter-spacing="1" opacity="0.7">III</text>
+          <text x="100" y="160" font-family="serif" font-size="9" fill="#5a3a10" text-anchor="middle" letter-spacing="1" opacity="0.7">VI</text>
+          <text x="64" y="124" font-family="serif" font-size="9" fill="#5a3a10" text-anchor="middle" letter-spacing="1" opacity="0.7">IX</text>
+          <!-- hands -->
+          <line x1="100" y1="120" x2="100" y2="91" stroke="#d4a030" stroke-width="3" stroke-linecap="round"/>
+          <line x1="100" y1="120" x2="120" y2="108" stroke="#f0e8d0" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="100" y1="120" x2="84" y2="148" stroke="#d4a030" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="100" cy="120" r="4" fill="#d4a030"/>
+          <rect x="72" y="180" width="56" height="52" rx="7" fill="#1a1008" stroke="#3a2010"/>
+          <!-- buckle -->
+          <rect x="88" y="198" width="24" height="14" rx="3" fill="#2a1c0a" stroke="#3a2a10"/>
+        </svg>
+      </div>
+      <div class="product-body">
+        <div class="product-brand">Seiko</div>
+        <div class="product-name">Presage SPB185</div>
+        <div class="product-spec">Automatic 24-Jewel · Sapphire Crystal · Enamel Dial</div>
+        <div class="product-footer">
+          <div class="product-price"><small>RM </small>2,490</div>
+          <button class="enquire-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enquire</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why Galawatches -->
+<section class="why reveal" id="about">
+  <div style="max-width:480px;">
+    <div class="section-eyebrow">Why Choose Us</div>
+    <h2 class="section-title" style="color:white;">The <em style="color:var(--gold-lt)">Gala</em><br>Difference</h2>
+    <p class="section-sub">We've been serving watch lovers and retailers across Malaysia for over a decade. Our promise is simple: authentic products, honest pricing, and genuine care.</p>
+  </div>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-num">01</div>
+      <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg></div>
+      <div class="why-title">100% Authentic</div>
+      <div class="why-text">Every piece sourced directly from authorised distributors. We provide warranty cards and original packaging — always.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">02</div>
+      <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg></div>
+      <div class="why-title">Wholesale Pricing</div>
+      <div class="why-text">Competitive trade rates for retailers and resellers. The more you order, the better the price. Minimum order quantities apply.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">03</div>
+      <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg></div>
+      <div class="why-title">Fast Nationwide Delivery</div>
+      <div class="why-text">Same-day dispatch for orders placed before 2PM. Fully insured delivery to all states including Sabah and Sarawak.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-num">04</div>
+      <div class="why-icon"><svg viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg></div>
+      <div class="why-title">Expert Guidance</div>
+      <div class="why-text">Our team lives and breathes watches. From model selection to servicing queries — we respond 7 days a week via WhatsApp.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Wholesale feature split -->
+<div class="feature-split" id="wholesale">
+  <div class="feature-visual">
+    <svg width="280" height="320" viewBox="0 0 280 320" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:2;">
+      <!-- stack of 3 watches -->
+      <rect x="60" y="40" width="160" height="200" rx="18" fill="#1c1812" stroke="#c9a84c" stroke-width="1.5" transform="rotate(-8 140 140)"/>
+      <rect x="60" y="40" width="160" height="200" rx="18" fill="#18140e" stroke="#a8742a" stroke-width="1.5" transform="rotate(-3 140 140)"/>
+      <rect x="60" y="40" width="160" height="200" rx="18" fill="#1c1812" stroke="#c9a84c" stroke-width="2"/>
+      <circle cx="140" cy="140" r="66" fill="#0e0a06" stroke="#c9a84c" stroke-width="1.5"/>
+      <text x="140" y="126" font-family="serif" font-size="9" fill="#c9a84c" text-anchor="middle" letter-spacing="3" opacity="0.8">GALAWATCHES</text>
+      <line x1="140" y1="82" x2="140" y2="92" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="140" y1="140" x2="140" y2="102" stroke="#f0ead8" stroke-width="3.5" stroke-linecap="round"/>
+      <line x1="140" y1="140" x2="162" y2="128" stroke="#f0ead8" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="140" y1="140" x2="124" y2="172" stroke="#c9a84c" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="140" cy="140" r="5" fill="#c9a84c"/>
+      <!-- tag -->
+      <rect x="172" y="62" width="60" height="28" rx="4" fill="#c9a84c"/>
+      <text x="202" y="80" font-family="sans-serif" font-size="9" font-weight="600" fill="#1c1812" text-anchor="middle" letter-spacing="1">WHOLESALE</text>
+      <line x1="172" y1="76" x2="186" y2="62" stroke="#c9a84c" stroke-width="2"/>
+    </svg>
+  </div>
+  <div class="feature-content reveal">
+    <div class="section-eyebrow">For Retailers & Resellers</div>
+    <h2 class="section-title">Grow Your<br>Business with <em>Us</em></h2>
+    <p class="section-sub">Whether you run a kedai jam, an online store, or a corporate gift business — we have the right wholesale package for you.</p>
+    <div class="feature-list">
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="feature-item-text">
+          <div class="feature-item-title">Competitive trade pricing</div>
+          <div class="feature-item-sub">Tiered rates based on volume — the more you order, the better the margin for your business.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="feature-item-text">
+          <div class="feature-item-title">500+ SKUs always in stock</div>
+          <div class="feature-item-sub">Wide selection across brands, styles and price points. New arrivals every week.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="feature-item-text">
+          <div class="feature-item-title">Dropship-friendly</div>
+          <div class="feature-item-sub">We ship directly to your customers on your behalf. No warehouse needed on your end.</div>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="feature-item-text">
+          <div class="feature-item-title">Dedicated account manager</div>
+          <div class="feature-item-sub">WhatsApp support, priority fulfilment and early access to new arrivals for trade partners.</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:40px;">
+      <a href="#contact" class="btn-gold" style="display:inline-block;">Apply for Trade Account</a>
+    </div>
+  </div>
+</div>
+
+<!-- Testimonials -->
+<section class="testimonials reveal">
+  <div class="testimonials-header">
+    <div>
+      <div class="section-eyebrow">Customer Reviews</div>
+      <h2 class="section-title">What They <em>Say</em></h2>
+    </div>
+    <div style="font-size:14px;color:var(--ink-soft);">★★★★★ &nbsp;4.9 / 5 from 380+ reviews</div>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <span class="testi-quote">"</span>
+      <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="testi-text">Bought a G-Shock for my son's birthday. Arrived in 2 days, original box and warranty card. Exactly as described. Will definitely buy again!</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#8B6914;">R</div>
+        <div>
+          <div class="testi-name">Razif Hashim</div>
+          <div class="testi-loc">Kuala Lumpur · Retail Customer</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-quote">"</span>
+      <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="testi-text">I order in bulk for my kedai every month. Their wholesale pricing is very competitive and never any issues with authenticity. Highly recommended for resellers!</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#1a5276;">L</div>
+        <div>
+          <div class="testi-name">Lee Chong Wei</div>
+          <div class="testi-loc">Penang · Wholesale Partner</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-quote">"</span>
+      <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <p class="testi-text">Ordered 30 watches for our company's annual dinner gifts. They arranged everything smoothly and even helped us pick suitable models within budget. Superb service!</p>
+      <div class="testi-author">
+        <div class="testi-avatar" style="background:#117a65;">S</div>
+        <div>
+          <div class="testi-name">Suraya Ahmad</div>
+          <div class="testi-loc">Shah Alam · Corporate Buyer</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section reveal" id="contact">
+  <div class="section-eyebrow">Get In Touch</div>
+  <h2 class="section-title">Ready to <em>Order?</em></h2>
+  <p class="section-sub">Whether you're a first-time buyer or a regular wholesale partner, we're here to help. Reach us directly on WhatsApp for the fastest response.</p>
+  <div class="cta-actions">
+    <a href="https://wa.me/60" class="btn-wa" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.946 0C5.347 0 0 5.348 0 11.948c0 2.632.86 5.07 2.32 7.044L.803 23.63l4.773-1.493A11.9 11.9 0 0011.946 24c6.598 0 11.947-5.35 11.947-11.95S18.544 0 11.946 0z"/></svg>
+      WhatsApp Us Now
+    </a>
+    <a href="https://www.facebook.com/p/Pemborong-Jam-Galawatches-100063506113021/" class="btn-fb" target="_blank">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      Visit Our Facebook
+    </a>
+  </div>
+</section>
+
+<!-- Contact strip -->
+<div class="contact-strip">
+  <div class="contact-item">
+    <div class="contact-label">Phone / WhatsApp</div>
+    <div class="contact-value">+60 12-XXX XXXX</div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-label">Operating Hours</div>
+    <div class="contact-value">Mon–Sat, 9AM–7PM</div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-label">Delivery</div>
+    <div class="contact-value">Nationwide Malaysia</div>
+  </div>
+  <div class="contact-item">
+    <div class="contact-label">Follow Us</div>
+    <div class="contact-value">@GalaWatches</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Gala<em>Watches</em></div>
+      <p class="footer-desc">Galawatches (M) Sdn Bhd — Malaysia's trusted wholesale and retail watch specialist. Authentic brands, honest prices, delivered with care.</p>
+      <div class="footer-tagline">"Time Tells Your Story."</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Brands</div>
+      <ul class="footer-links">
+        <li><a href="#contact">G-Shock</a></li>
+        <li><a href="#contact">Casio</a></li>
+        <li><a href="#contact">Seiko</a></li>
+        <li><a href="#contact">Orient</a></li>
+        <li><a href="#contact">Citizen</a></li>
+        <li><a href="#contact">Fossil</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Shop</div>
+      <ul class="footer-links">
+        <li><a href="#collections">New Arrivals</a></li>
+        <li><a href="#collections">Men's Watches</a></li>
+        <li><a href="#collections">Ladies' Watches</a></li>
+        <li><a href="#wholesale">Wholesale</a></li>
+        <li><a href="#contact">Corporate Gifts</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Help</div>
+      <ul class="footer-links">
+        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="#contact">Authenticity Guarantee</a></li>
+        <li><a href="#contact">Delivery Info</a></li>
+        <li><a href="#contact">Return Policy</a></li>
+        <li><a href="https://www.facebook.com/p/Pemborong-Jam-Galawatches-100063506113021/" target="_blank">Facebook Page</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 Galawatches (M) Sdn Bhd. All rights reserved. &nbsp;|&nbsp; <span>★ Demo site built for pitch purposes</span></p>
+    <p class="footer-copy">Made with care in Malaysia 🇲🇾</p>
+  </div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 100);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

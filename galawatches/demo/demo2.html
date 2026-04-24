@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GalaWatches — Official Site</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#0a0a0a;
+  --off-black:#111;
+  --dark:#1a1a1a;
+  --mid:#555;
+  --muted:#999;
+  --light:#ccc;
+  --border:#e0e0e0;
+  --bg:#fafafa;
+  --white:#fff;
+  --accent:#0a0a0a;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--white);color:var(--black);font-family:'Montserrat',sans-serif;overflow-x:hidden;line-height:1.7;}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh;animation:pageFade .4s ease;}
+.page.active{display:block;}
+@keyframes pageFade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--black);color:var(--white);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;text-align:center;padding:9px 20px;overflow:hidden;}
+.topbar-inner{display:inline-block;white-space:nowrap;animation:ticker 30s linear infinite;}
+@keyframes ticker{0%{transform:translateX(60vw);}100%{transform:translateX(-100%);}}
+
+/* ── NAV ── */
+nav{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:200;
+  height:70px;
+  display:flex;align-items:center;
+  padding:0 60px;
+  justify-content:space-between;
+}
+.nav-logo{
+  font-family:'Playfair Display',serif;
+  font-size:22px;font-weight:700;
+  color:var(--black);cursor:pointer;
+  letter-spacing:1px;text-decoration:none;
+  flex-shrink:0;
+}
+.nav-logo span{font-style:italic;font-weight:400;}
+.nav-center{display:flex;gap:0;list-style:none;}
+.nav-center li a{
+  font-size:12px;font-weight:500;letter-spacing:2px;
+  text-transform:uppercase;color:var(--mid);
+  text-decoration:none;padding:26px 20px;
+  display:block;border-bottom:2px solid transparent;
+  transition:color .2s,border-color .2s;cursor:pointer;
+}
+.nav-center li a:hover,.nav-center li a.active{color:var(--black);border-bottom-color:var(--black);}
+.nav-right{display:flex;align-items:center;gap:20px;}
+.nav-icon-btn{
+  background:none;border:none;cursor:pointer;
+  font-size:11px;font-weight:600;letter-spacing:1.5px;
+  text-transform:uppercase;color:var(--mid);
+  display:flex;align-items:center;gap:6px;
+  transition:color .2s;padding:4px 0;
+}
+.nav-icon-btn:hover{color:var(--black);}
+.nav-icon-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;}
+.nav-cta{
+  background:var(--black);color:var(--white);
+  font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:10px 22px;
+  border:none;cursor:pointer;transition:background .2s;
+  text-decoration:none;
+}
+.nav-cta:hover{background:#333;}
+
+/* ── DEMO BADGE ── */
+.demo-badge{
+  position:fixed;bottom:24px;right:24px;
+  background:var(--black);color:var(--white);
+  font-size:10px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:8px 16px;z-index:9999;
+}
+
+/* ── HERO ── */
+.hero{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:calc(100vh - 112px);
+  overflow:hidden;
+}
+.hero-media{
+  position:relative;overflow:hidden;background:#f0eeec;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform 8s ease;
+}
+.hero-media:hover img{transform:scale(1.04);}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to right,rgba(0,0,0,.02),rgba(0,0,0,.15));
+}
+.hero-content{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:80px 80px 80px 70px;background:var(--white);
+  position:relative;
+}
+.hero-tag{
+  font-size:10px;font-weight:600;letter-spacing:4px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:20px;display:flex;align-items:center;gap:12px;
+}
+.hero-tag::before{content:'';display:block;width:28px;height:1px;background:var(--muted);}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(42px,5.5vw,72px);
+  font-weight:400;line-height:1.06;
+  letter-spacing:-.5px;margin-bottom:28px;
+  color:var(--black);
+}
+.hero h1 em{font-style:italic;color:#333;}
+.hero-desc{
+  font-size:14px;font-weight:300;color:var(--mid);
+  line-height:1.9;max-width:360px;margin-bottom:44px;
+}
+.btn-black{
+  display:inline-block;background:var(--black);color:var(--white);
+  font-size:11px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;padding:16px 38px;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:background .2s;
+}
+.btn-black:hover{background:#333;}
+.btn-ghost{
+  display:inline-block;background:transparent;color:var(--black);
+  font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;padding:15px 34px;
+  border:1.5px solid var(--black);cursor:pointer;text-decoration:none;
+  transition:all .2s;
+}
+.btn-ghost:hover{background:var(--black);color:var(--white);}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap;align-items:center;}
+.hero-corner{
+  position:absolute;bottom:40px;right:40px;
+  text-align:right;
+}
+.hero-corner-num{
+  font-family:'Playfair Display',serif;
+  font-size:52px;font-weight:400;color:#f0f0f0;
+  line-height:1;
+}
+.hero-corner-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* ── CATEGORY NAV STRIP ── */
+.cat-strip{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-bottom:1px solid var(--border);
+  background:var(--white);
+}
+.cat-strip-item{
+  padding:22px 30px;
+  display:flex;align-items:center;justify-content:space-between;
+  border-right:1px solid var(--border);
+  cursor:pointer;transition:background .2s;
+  text-decoration:none;color:var(--black);
+}
+.cat-strip-item:last-child{border-right:none;}
+.cat-strip-item:hover{background:#f5f5f5;}
+.cat-strip-label{
+  font-size:11px;font-weight:600;letter-spacing:2.5px;
+  text-transform:uppercase;color:var(--black);
+}
+.cat-strip-sub{font-size:11px;color:var(--muted);font-weight:300;margin-top:2px;}
+.cat-strip-arrow{font-size:18px;color:var(--muted);}
+
+/* ── SECTION ── */
+.section{padding:90px 60px;}
+.section-sm{padding:60px 60px;}
+.section.bg-black{background:var(--black);}
+.section.bg-light{background:var(--bg);}
+.eyebrow{
+  font-size:10px;font-weight:600;letter-spacing:4px;
+  text-transform:uppercase;color:var(--muted);
+  margin-bottom:14px;display:flex;align-items:center;gap:10px;
+}
+.eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--muted);}
+.eyebrow.white{color:#555;}
+.eyebrow.white::before{background:#555;}
+.section-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(32px,4.5vw,52px);
+  font-weight:400;line-height:1.1;
+  letter-spacing:-.3px;color:var(--black);
+  margin-bottom:12px;
+}
+.section-title.white{color:var(--white);}
+.section-sub{font-size:14px;font-weight:300;color:var(--mid);max-width:500px;line-height:1.8;}
+.section-sub.white{color:#888;}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:52px;}
+.see-all{
+  font-size:11px;font-weight:600;letter-spacing:2px;
+  text-transform:uppercase;color:var(--mid);
+  text-decoration:none;border-bottom:1px solid var(--border);
+  padding-bottom:2px;transition:color .2s,border-color .2s;cursor:pointer;
+}
+.see-all:hover{color:var(--black);border-color:var(--black);}
+
+/* ── PRODUCT GRID ── */
+.prod-grid{display:grid;gap:1px;background:var(--border);}
+.prod-grid.g3{grid-template-columns:repeat(3,1fr);}
+.prod-grid.g4{grid-template-columns:repeat(4,1fr);}
+.prod-grid.g2{grid-template-columns:repeat(2,1fr);}
+.prod-card{
+  background:var(--white);cursor:pointer;
+  overflow:hidden;position:relative;
+  transition:transform .3s,box-shadow .3s;
+}
+.prod-card:hover{transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.1);z-index:2;}
+.prod-img{
+  aspect-ratio:1;overflow:hidden;
+  background:#f5f5f5;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.prod-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s ease;filter:grayscale(20%);
+}
+.prod-card:hover .prod-img img{transform:scale(1.06);filter:grayscale(0%);}
+.prod-tag{
+  position:absolute;top:16px;left:16px;
+  font-size:9px;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:5px 10px;z-index:2;
+}
+.tag-n{background:var(--black);color:var(--white);}
+.tag-b{background:var(--white);color:var(--black);border:1px solid var(--border);}
+.tag-s{background:#c0392b;color:var(--white);}
+.prod-body{padding:22px 22px 26px;border-top:1px solid var(--border);}
+.prod-brand{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.prod-name{font-family:'Playfair Display',serif;font-size:18px;font-weight:500;color:var(--black);margin-bottom:5px;line-height:1.3;}
+.prod-spec{font-size:12px;color:var(--muted);font-weight:300;margin-bottom:16px;line-height:1.5;}
+.prod-foot{display:flex;align-items:center;justify-content:space-between;}
+.prod-price{font-family:'Playfair Display',serif;font-size:22px;font-weight:500;color:var(--black);}
+.prod-price small{font-family:'Montserrat',sans-serif;font-size:11px;color:var(--muted);font-weight:400;margin-right:2px;}
+.prod-enquire{
+  font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--black);background:none;border:1px solid var(--border);
+  padding:8px 14px;cursor:pointer;transition:all .2s;
+}
+.prod-enquire:hover{background:var(--black);color:var(--white);border-color:var(--black);}
+
+/* ── EDITORIAL SPLIT ── */
+.editorial{display:grid;grid-template-columns:1fr 1fr;min-height:520px;}
+.editorial.flip{direction:rtl;}
+.editorial.flip>*{direction:ltr;}
+.editorial-img{overflow:hidden;position:relative;}
+.editorial-img img{width:100%;height:100%;object-fit:cover;transition:transform 6s ease;}
+.editorial-img:hover img{transform:scale(1.04);}
+.editorial-content{
+  display:flex;flex-direction:column;justify-content:center;
+  padding:70px 70px;background:var(--bg);
+}
+.editorial.dark .editorial-content{background:var(--black);}
+.editorial.dark .section-title{color:var(--white);}
+.editorial.dark .section-sub{color:#777;}
+.editorial.dark .eyebrow{color:#555;}
+.editorial.dark .eyebrow::before{background:#555;}
+
+/* ── FULLWIDTH HERO BANNER ── */
+.hero-banner{
+  position:relative;height:70vh;overflow:hidden;
+  display:flex;align-items:flex-end;
+}
+.hero-banner img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:grayscale(30%);
+}
+.hero-banner-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%);
+}
+.hero-banner-content{
+  position:relative;z-index:2;padding:60px 80px;
+  max-width:640px;
+}
+.hero-banner-content .eyebrow{color:#888;}
+.hero-banner-content .eyebrow::before{background:#888;}
+.hero-banner-content h2{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,5vw,62px);
+  font-weight:400;color:var(--white);
+  line-height:1.08;margin-bottom:20px;
+}
+.hero-banner-content p{font-size:14px;font-weight:300;color:#ccc;margin-bottom:32px;line-height:1.8;}
+
+/* ── FIND STORE PAGE ── */
+.store-layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 112px);}
+.store-sidebar{
+  background:var(--white);border-right:1px solid var(--border);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.store-sidebar-header{
+  padding:32px 28px 24px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--white);z-index:2;
+}
+.store-sidebar-header h2{
+  font-family:'Playfair Display',serif;font-size:26px;font-weight:500;margin-bottom:16px;
+}
+.store-search{
+  display:flex;gap:0;border:1.5px solid var(--black);overflow:hidden;
+}
+.store-search input{
+  flex:1;padding:12px 16px;font-family:'Montserrat',sans-serif;font-size:13px;
+  border:none;outline:none;background:var(--white);
+}
+.store-search button{
+  background:var(--black);color:var(--white);border:none;
+  padding:12px 16px;cursor:pointer;
+  display:flex;align-items:center;
+}
+.store-search button svg{width:16px;height:16px;stroke:var(--white);fill:none;stroke-width:2;}
+.store-list{flex:1;overflow-y:auto;}
+.store-item{
+  padding:22px 28px;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background .2s;
+}
+.store-item:hover,.store-item.active-store{background:#f7f7f7;}
+.store-item.active-store{border-left:3px solid var(--black);}
+.store-name{font-size:14px;font-weight:600;color:var(--black);margin-bottom:4px;}
+.store-addr{font-size:12px;font-weight:300;color:var(--mid);line-height:1.6;margin-bottom:8px;}
+.store-meta{display:flex;gap:16px;}
+.store-badge{
+  font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:3px 8px;background:var(--bg);border:1px solid var(--border);color:var(--mid);
+}
+.store-badge.open{background:#f0fff4;border-color:#6fcf97;color:#27ae60;}
+.store-map{position:relative;overflow:hidden;background:#f0eeec;}
+.map-placeholder{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background: linear-gradient(135deg,#f8f8f8 0%,#efefef 100%);
+  position:relative;
+}
+/* Stylised map grid */
+.map-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(0,0,0,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,0,0,.06) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+.map-roads{position:absolute;inset:0;}
+.map-pin{
+  position:absolute;
+  transform:translate(-50%,-100%);
+  display:flex;flex-direction:column;align-items:center;
+  cursor:pointer;
+}
+.map-pin-dot{
+  width:28px;height:28px;background:var(--black);border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg);border:2px solid var(--white);
+  box-shadow:0 2px 8px rgba(0,0,0,.3);
+  transition:transform .2s,background .2s;
+}
+.map-pin:hover .map-pin-dot{transform:rotate(-45deg) scale(1.2);}
+.map-pin.active .map-pin-dot{background:#c0392b;}
+.map-pin-label{
+  margin-top:8px;background:var(--white);border:1px solid var(--border);
+  padding:4px 10px;font-size:11px;font-weight:600;white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.map-info-box{
+  position:absolute;bottom:32px;right:32px;
+  background:var(--white);border:1px solid var(--border);
+  padding:24px 28px;max-width:300px;
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+}
+.map-info-name{font-family:'Playfair Display',serif;font-size:20px;font-weight:500;margin-bottom:8px;}
+.map-info-addr{font-size:13px;font-weight:300;color:var(--mid);line-height:1.6;margin-bottom:14px;}
+.map-info-hours{font-size:12px;color:var(--mid);margin-bottom:16px;}
+.map-info-hours strong{color:var(--black);}
+.map-directions{
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--white);background:var(--black);border:none;padding:10px 20px;
+  cursor:pointer;display:flex;align-items:center;gap:6px;width:100%;
+  justify-content:center;transition:background .2s;
+}
+.map-directions:hover{background:#333;}
+.map-directions svg{width:13px;height:13px;stroke:var(--white);fill:none;stroke-width:2;}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
+.testi-card{background:var(--white);padding:40px 36px;}
+.testi-q{font-family:'Playfair Display',serif;font-size:60px;color:#eee;line-height:.6;margin-bottom:16px;}
+.testi-stars{display:flex;gap:3px;margin-bottom:14px;}
+.testi-stars span{color:#333;font-size:13px;}
+.testi-text{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--black);line-height:1.7;margin-bottom:24px;}
+.testi-author{padding-top:20px;border-top:1px solid var(--border);}
+.testi-name{font-size:13px;font-weight:600;color:var(--black);}
+.testi-loc{font-size:11px;color:var(--muted);font-weight:300;}
+
+/* ── CATEGORY PAGE HERO ── */
+.cat-hero{
+  height:55vh;position:relative;overflow:hidden;
+  display:flex;align-items:center;
+}
+.cat-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(40%);}
+.cat-hero-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);}
+.cat-hero-content{position:relative;z-index:2;padding:0 80px;}
+.cat-hero-content .eyebrow{color:#888;}
+.cat-hero-content .eyebrow::before{background:#888;}
+.cat-hero-content h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(48px,7vw,88px);
+  font-weight:400;color:var(--white);
+  line-height:1;letter-spacing:-1px;
+}
+
+/* ── FILTER BAR ── */
+.filter-bar{
+  border-bottom:1px solid var(--border);padding:0 60px;
+  display:flex;align-items:center;gap:0;overflow-x:auto;
+  background:var(--white);position:sticky;top:70px;z-index:100;
+}
+.filter-btn{
+  font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);border:none;background:none;cursor:pointer;
+  padding:18px 22px;border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;
+}
+.filter-btn.active,.filter-btn:hover{color:var(--black);border-bottom-color:var(--black);}
+
+/* ── MARQUEE ── */
+.marquee-bar{
+  background:var(--black);padding:13px 0;overflow:hidden;
+}
+.marquee-track{display:flex;white-space:nowrap;animation:mq 28s linear infinite;}
+.marquee-item{
+  font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;
+  color:#555;padding:0 32px;flex-shrink:0;
+}
+.marquee-dot{color:#333;margin-right:32px;}
+@keyframes mq{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* ── FOOTER ── */
+footer{background:var(--black);padding:70px 60px 36px;}
+.footer-top{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:60px;padding-bottom:52px;border-bottom:1px solid #1e1e1e;
+}
+.footer-logo{
+  font-family:'Playfair Display',serif;font-size:28px;
+  font-weight:700;color:var(--white);margin-bottom:16px;
+  letter-spacing:1px;
+}
+.footer-logo span{font-style:italic;font-weight:400;}
+.footer-desc{font-size:13px;color:#555;font-weight:300;line-height:1.8;max-width:280px;margin-bottom:24px;}
+.footer-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:22px;font-weight:600;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.footer-links a{font-size:13px;color:#444;text-decoration:none;transition:color .2s;font-weight:300;cursor:pointer;}
+.footer-links a:hover{color:var(--white);}
+.footer-bottom{padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.footer-copy{font-size:11px;color:#333;}
+.footer-copy span{color:#666;}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  nav{padding:0 20px;}
+  .nav-center{display:none;}
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-media{height:50vw;min-height:280px;}
+  .hero-content{padding:48px 24px;}
+  .section{padding:60px 24px;}
+  .section-sm{padding:40px 24px;}
+  .cat-strip{grid-template-columns:1fr 1fr;}
+  .prod-grid.g3,.prod-grid.g4{grid-template-columns:1fr 1fr;}
+  .editorial{grid-template-columns:1fr;}
+  .editorial-img{height:50vw;}
+  .editorial-content{padding:48px 24px;}
+  .testi-grid{grid-template-columns:1fr;}
+  .store-layout{grid-template-columns:1fr;grid-template-rows:auto 50vh;}
+  .hero-banner{height:50vw;min-height:240px;}
+  .hero-banner-content{padding:32px 24px;}
+  .cat-hero{height:40vw;min-height:220px;}
+  .cat-hero-content{padding:0 24px;}
+  .filter-bar{padding:0 16px;}
+  footer{padding:48px 24px 28px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:32px;}
+}
+</style>
+</head>
+<body>
+
+<!-- Demo badge -->
+<div class="demo-badge">★ Demo</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="topbar-inner">Complimentary delivery on all orders above RM200 &nbsp;·&nbsp; 100% Authentic Guaranteed &nbsp;·&nbsp; Wholesale Enquiries Welcome &nbsp;·&nbsp; Complimentary delivery on all orders above RM200 &nbsp;·&nbsp; 100% Authentic Guaranteed &nbsp;·&nbsp; Wholesale Enquiries Welcome &nbsp;·&nbsp;</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">Gala<span>Watches</span></a>
+  <ul class="nav-center">
+    <li><a onclick="showPage('men')" id="nav-men">Men</a></li>
+    <li><a onclick="showPage('women')" id="nav-women">Women</a></li>
+    <li><a onclick="showPage('unisex')" id="nav-unisex">Unisex</a></li>
+    <li><a onclick="showPage('kids')" id="nav-kids">Kids</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-icon-btn" onclick="showPage('stores')">
+      <svg viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Find Store
+    </button>
+    <a class="nav-cta" href="#" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'});return false;">Enquire</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════ HOME PAGE -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-media">
+      <img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=1200&q=80&auto=format" alt="Watch">
+      <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-tag">Malaysia's Watch Specialist</div>
+      <h1>Time,<br><em>Perfected.</em></h1>
+      <p class="hero-desc">Authentic timepieces for every wrist. Curated collections across the world's most trusted watch brands — available wholesale and retail.</p>
+      <div class="hero-btns">
+        <button class="btn-black" onclick="showPage('men')">Shop Men</button>
+        <button class="btn-ghost" onclick="showPage('women')">Shop Women</button>
+      </div>
+      <div class="hero-corner">
+        <div class="hero-corner-num">500<sup style="font-size:24px;color:#bbb">+</sup></div>
+        <div class="hero-corner-label">Models in stock</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category strip -->
+  <div class="cat-strip">
+    <a class="cat-strip-item" onclick="showPage('men')">
+      <div><div class="cat-strip-label">Men</div><div class="cat-strip-sub">Sport · Classic · Dress</div></div>
+      <span class="cat-strip-arrow">→</span>
+    </a>
+    <a class="cat-strip-item" onclick="showPage('women')">
+      <div><div class="cat-strip-label">Women</div><div class="cat-strip-sub">Elegant · Slim · Gold</div></div>
+      <span class="cat-strip-arrow">→</span>
+    </a>
+    <a class="cat-strip-item" onclick="showPage('unisex')">
+      <div><div class="cat-strip-label">Unisex</div><div class="cat-strip-sub">For any wrist</div></div>
+      <span class="cat-strip-arrow">→</span>
+    </a>
+    <a class="cat-strip-item" onclick="showPage('kids')">
+      <div><div class="cat-strip-label">Kids</div><div class="cat-strip-sub">Fun · Durable · Bright</div></div>
+      <span class="cat-strip-arrow">→</span>
+    </a>
+  </div>
+
+  <!-- Featured -->
+  <div class="section bg-light reveal">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow">New Arrivals</div>
+        <h2 class="section-title">This Season's<br><em>Picks</em></h2>
+      </div>
+      <a class="see-all" onclick="showPage('men')">View All →</a>
+    </div>
+    <div class="prod-grid g4">
+      <div class="prod-card">
+        <div class="prod-tag tag-n">New</div>
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80&auto=format" alt="Watch">
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">G-Shock</div>
+          <div class="prod-name">Rangeman GW-9400</div>
+          <div class="prod-spec">Triple Sensor · Solar · 200m WR</div>
+          <div class="prod-foot">
+            <div class="prod-price"><small>RM </small>899</div>
+            <button class="prod-enquire">Enquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-tag tag-b">Bestseller</div>
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=600&q=80&auto=format" alt="Watch">
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">Casio Edifice</div>
+          <div class="prod-name">EFR-S567 Chrono</div>
+          <div class="prod-spec">Chronograph · Solar · Sapphire</div>
+          <div class="prod-foot">
+            <div class="prod-price"><small>RM </small>589</div>
+            <button class="prod-enquire">Enquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&q=80&auto=format" alt="Watch">
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">Seiko</div>
+          <div class="prod-name">Presage SPB185</div>
+          <div class="prod-spec">Automatic · Enamel Dial · 50m WR</div>
+          <div class="prod-foot">
+            <div class="prod-price"><small>RM </small>2,490</div>
+            <button class="prod-enquire">Enquire</button>
+          </div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-tag tag-s">Sale</div>
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1548171916-c8fd108b4e75?w=600&q=80&auto=format" alt="Watch">
+        </div>
+        <div class="prod-body">
+          <div class="prod-brand">Orient</div>
+          <div class="prod-name">Bambino V2 FAC00009</div>
+          <div class="prod-spec">Automatic · Dress · Leather Strap</div>
+          <div class="prod-foot">
+            <div class="prod-price"><small>RM </small>599</div>
+            <button class="prod-enquire">Enquire</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editorial 1 — Men -->
+  <div class="editorial reveal">
+    <div class="editorial-img">
+      <img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=900&q=80&auto=format" alt="Men's watches">
+    </div>
+    <div class="editorial-content">
+      <div class="eyebrow">For Him</div>
+      <h2 class="section-title">Precision<br><em>Engineered</em></h2>
+      <p class="section-sub">From rugged sport watches to refined dress timepieces — our men's collection spans every occasion and every lifestyle.</p>
+      <div style="margin-top:36px;display:flex;gap:14px;">
+        <button class="btn-black" onclick="showPage('men')">Shop Men's</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Editorial 2 — Women (flipped) -->
+  <div class="editorial flip reveal">
+    <div class="editorial-img">
+      <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=900&q=80&auto=format" alt="Women's watches">
+    </div>
+    <div class="editorial-content">
+      <div class="eyebrow">For Her</div>
+      <h2 class="section-title">Elegance<br><em>Defined</em></h2>
+      <p class="section-sub">Slim profiles, sparkling details and timeless craftsmanship. The women's collection is designed to complement every moment.</p>
+      <div style="margin-top:36px;">
+        <button class="btn-black" onclick="showPage('women')">Shop Women's</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full width banner -->
+  <div class="hero-banner reveal">
+    <img src="https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=1800&q=80&auto=format" alt="Wholesale">
+    <div class="hero-banner-overlay"></div>
+    <div class="hero-banner-content">
+      <div class="eyebrow">For Retailers & Resellers</div>
+      <h2>Wholesale<br>Made Simple</h2>
+      <p>Competitive trade pricing, 500+ SKUs, and dedicated account support. Build your watch business with Malaysia's most reliable distributor.</p>
+      <button class="btn-black" onclick="document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})">Apply for Trade Account</button>
+    </div>
+  </div>
+
+  <!-- Kids teaser -->
+  <div class="editorial dark reveal">
+    <div class="editorial-content" style="background:var(--black);">
+      <div class="eyebrow white">For Little Ones</div>
+      <h2 class="section-title white">Fun Starts<br><em style="color:#bbb;">on the Wrist</em></h2>
+      <p class="section-sub white">Durable, colourful and designed for active kids. Perfect as a first watch — or a birthday gift they'll treasure.</p>
+      <div style="margin-top:36px;">
+        <button class="btn-ghost" style="color:white;border-color:#444;" onclick="showPage('kids')">Shop Kids'</button>
+      </div>
+    </div>
+    <div class="editorial-img">
+      <img src="https://images.unsplash.com/photo-1613214043498-19d55b8d9f34?w=900&q=80&auto=format" alt="Kids watches">
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <div class="section reveal">
+    <div class="section-header">
+      <div>
+        <div class="eyebrow">Customer Reviews</div>
+        <h2 class="section-title">What They<br><em>Say</em></h2>
+      </div>
+      <div style="font-size:13px;color:var(--muted);">★★★★★ &nbsp;4.9 / 5 · 380+ reviews</div>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-q">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">Bought a G-Shock for my son's birthday. Arrived in 2 days, original box and warranty card. Will definitely order again.</p>
+        <div class="testi-author"><div class="testi-name">Razif H.</div><div class="testi-loc">Kuala Lumpur · Retail</div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-q">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">I order in bulk for my kedai every month. Their wholesale pricing is very competitive and delivery is always fast.</p>
+        <div class="testi-author"><div class="testi-name">Lee C.W.</div><div class="testi-loc">Penang · Wholesale Partner</div></div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-q">"</div>
+        <div class="testi-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="testi-text">Ordered 30 watches for our annual dinner. They helped us pick the right models within budget. Superb service throughout!</p>
+        <div class="testi-author"><div class="testi-name">Suraya A.</div><div class="testi-loc">Shah Alam · Corporate</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <div class="section bg-light" id="contact-section">
+    <div style="max-width:560px;margin:0 auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;">Get In Touch</div>
+      <h2 class="section-title" style="margin-bottom:16px;">Ready to <em>Order?</em></h2>
+      <p class="section-sub" style="margin:0 auto 40px;text-align:center;">Whether you're a first-time buyer or a wholesale partner, we're here. Reach us on WhatsApp for the fastest response.</p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="https://wa.me/60" style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:white;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:16px 32px;text-decoration:none;transition:background .2s;" target="_blank">
+          <svg style="width:17px;height:17px;fill:white;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM11.946 0C5.347 0 0 5.348 0 11.948c0 2.632.86 5.07 2.32 7.044L.803 23.63l4.773-1.493A11.9 11.9 0 0011.946 24c6.598 0 11.947-5.35 11.947-11.95S18.544 0 11.946 0z"/></svg>
+          WhatsApp Us
+        </a>
+        <a href="https://www.facebook.com/p/Pemborong-Jam-Galawatches-100063506113021/" style="display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--black);font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:15px 28px;text-decoration:none;border:1.5px solid var(--black);transition:all .2s;" target="_blank">Facebook</a>
+        <button class="btn-black" onclick="showPage('stores')">Find a Store →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Gala<span>Watches</span></div>
+        <p class="footer-desc">Malaysia's trusted wholesale and retail watch specialist. Authentic brands, honest prices, nationwide delivery.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Collections</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('men')">Men</a></li>
+          <li><a onclick="showPage('women')">Women</a></li>
+          <li><a onclick="showPage('unisex')">Unisex</a></li>
+          <li><a onclick="showPage('kids')">Kids</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Brands</div>
+        <ul class="footer-links">
+          <li><a>G-Shock</a></li><li><a>Casio</a></li>
+          <li><a>Seiko</a></li><li><a>Orient</a></li>
+          <li><a>Citizen</a></li><li><a>Fossil</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Help</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('stores')">Find a Store</a></li>
+          <li><a>Authenticity Policy</a></li>
+          <li><a>Delivery Info</a></li>
+          <li><a>Wholesale Enquiry</a></li>
+          <li><a href="https://www.facebook.com/p/Pemborong-Jam-Galawatches-100063506113021/" target="_blank">Facebook Page</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 Galawatches (M) Sdn Bhd &nbsp;|&nbsp; <span>Demo site for pitch purposes</span></p>
+      <p class="footer-copy">Made in Malaysia 🇲🇾</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ════════════════════════════════════════ MEN PAGE -->
+<div class="page" id="page-men">
+  <div class="cat-hero">
+    <img src="https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=1800&q=80&auto=format" alt="Men's Watches">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+      <div class="eyebrow">Collection</div>
+      <h1>Men's<br>Watches</h1>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Sport</button>
+    <button class="filter-btn">Classic</button>
+    <button class="filter-btn">Chronograph</button>
+    <button class="filter-btn">Automatic</button>
+    <button class="filter-btn">Digital</button>
+    <button class="filter-btn">G-Shock</button>
+    <button class="filter-btn">Seiko</button>
+  </div>
+  <div class="section bg-light">
+    <div class="prod-grid g3">
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">G-Shock</div><div class="prod-name">Rangeman GW-9400</div><div class="prod-spec">Triple Sensor · Solar · 200m WR · Digital</div><div class="prod-foot"><div class="prod-price"><small>RM </small>899</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-b">Bestseller</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio Edifice</div><div class="prod-name">EFR-S567 Chrono</div><div class="prod-spec">Chronograph · Solar · Sapphire · 100m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>589</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Seiko</div><div class="prod-name">Presage SPB185</div><div class="prod-spec">Automatic 24J · Enamel Dial · 50m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>2,490</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1548171916-c8fd108b4e75?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Orient</div><div class="prod-name">Bambino V2</div><div class="prod-spec">Automatic · Dress · Leather Strap · 30m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>599</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Citizen</div><div class="prod-name">Promaster BN0193</div><div class="prod-spec">Eco-Drive Solar · 200m Diver · Titanium</div><div class="prod-foot"><div class="prod-price"><small>RM </small>1,290</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">G-Shock GA-2100</div><div class="prod-spec">CasiOak · Analog-Digital · 200m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>449</div><button class="prod-enquire">Enquire</button></div></div></div>
+    </div>
+  </div>
+  <!-- Marquee -->
+  <div class="marquee-bar"><div class="marquee-track"><span class="marquee-item"><span class="marquee-dot">●</span>G-Shock</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Edifice</span><span class="marquee-item"><span class="marquee-dot">●</span>Pro Trek</span><span class="marquee-item"><span class="marquee-dot">●</span>G-Shock</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Edifice</span><span class="marquee-item"><span class="marquee-dot">●</span>Pro Trek</span></div></div>
+</div>
+
+<!-- ════════════════════════════════════════ WOMEN PAGE -->
+<div class="page" id="page-women">
+  <div class="cat-hero">
+    <img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=1800&q=80&auto=format" alt="Women's Watches">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+      <div class="eyebrow">Collection</div>
+      <h1>Women's<br>Watches</h1>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Classic</button>
+    <button class="filter-btn">Elegant</button>
+    <button class="filter-btn">Sport</button>
+    <button class="filter-btn">Gold Tone</button>
+    <button class="filter-btn">Baby-G</button>
+    <button class="filter-btn">Slim</button>
+  </div>
+  <div class="section bg-light">
+    <div class="prod-grid g3">
+      <div class="prod-card reveal"><div class="prod-tag tag-b">Popular</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio Baby-G</div><div class="prod-name">BGA-270S-1A</div><div class="prod-spec">Shock Resistant · Solar · 100m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>299</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1548690312-e3b507d8c110?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Seiko</div><div class="prod-name">SUT368P1 Solar</div><div class="prod-spec">Solar Powered · Stainless · Classic</div><div class="prod-foot"><div class="prod-price"><small>RM </small>749</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1622434641406-a158123450f9?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Citizen</div><div class="prod-name">EW2520-80A Eco</div><div class="prod-spec">Eco-Drive · Sapphire · Elegant</div><div class="prod-foot"><div class="prod-price"><small>RM </small>899</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1608037521277-154cd1b89191?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Fossil</div><div class="prod-name">ES4745 Carlie Mini</div><div class="prod-spec">Quartz · Rose Gold · Slim Case</div><div class="prod-foot"><div class="prod-price"><small>RM </small>449</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Orient</div><div class="prod-name">RA-AG0024S</div><div class="prod-spec">Automatic · Gold Tone · Dress</div><div class="prod-foot"><div class="prod-price"><small>RM </small>799</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">Sheen SHE-4539</div><div class="prod-spec">Solar · Sapphire · Slim · Bracelet</div><div class="prod-foot"><div class="prod-price"><small>RM </small>529</div><button class="prod-enquire">Enquire</button></div></div></div>
+    </div>
+  </div>
+  <div class="marquee-bar"><div class="marquee-track"><span class="marquee-item"><span class="marquee-dot">●</span>Baby-G</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio Sheen</span><span class="marquee-item"><span class="marquee-dot">●</span>Baby-G</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio Sheen</span></div></div>
+</div>
+
+<!-- ════════════════════════════════════════ UNISEX PAGE -->
+<div class="page" id="page-unisex">
+  <div class="cat-hero">
+    <img src="https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=1800&q=80&auto=format" alt="Unisex Watches">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+      <div class="eyebrow">Collection</div>
+      <h1>Unisex<br>Watches</h1>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Minimalist</button>
+    <button class="filter-btn">Sport</button>
+    <button class="filter-btn">Classic</button>
+    <button class="filter-btn">Digital</button>
+    <button class="filter-btn">Below RM300</button>
+  </div>
+  <div class="section bg-light">
+    <div class="prod-grid g3">
+      <div class="prod-card reveal"><div class="prod-tag tag-b">Popular</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio G-Shock</div><div class="prod-name">GA-2100 "CasiOak"</div><div class="prod-spec">Analog-Digital · 200m WR · Octagon Case</div><div class="prod-foot"><div class="prod-price"><small>RM </small>449</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">A168WA-1 Retro</div><div class="prod-spec">Stainless · Retro Digital · Timeless Icon</div><div class="prod-foot"><div class="prod-price"><small>RM </small>139</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Seiko 5 Sports</div><div class="prod-name">SRPD51 Automatic</div><div class="prod-spec">24-Jewel Auto · Hardlex · 100m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>699</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Fossil</div><div class="prod-name">FS5455 Minimalist</div><div class="prod-spec">Slim · Quartz · Leather · Minimalist</div><div class="prod-foot"><div class="prod-price"><small>RM </small>349</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Orient</div><div class="prod-name">RA-AA0B04L Mako</div><div class="prod-spec">Automatic Diver · 200m WR · Classic</div><div class="prod-foot"><div class="prod-price"><small>RM </small>899</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-b">Bestseller</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Citizen</div><div class="prod-name">BM7455-11H Eco-Drive</div><div class="prod-spec">Solar · Stainless · Dress · Water Resistant</div><div class="prod-foot"><div class="prod-price"><small>RM </small>749</div><button class="prod-enquire">Enquire</button></div></div></div>
+    </div>
+  </div>
+  <div class="marquee-bar"><div class="marquee-track"><span class="marquee-item"><span class="marquee-dot">●</span>G-Shock</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio Classic</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko 5</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span><span class="marquee-item"><span class="marquee-dot">●</span>G-Shock</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio Classic</span><span class="marquee-item"><span class="marquee-dot">●</span>Seiko 5</span><span class="marquee-item"><span class="marquee-dot">●</span>Fossil</span><span class="marquee-item"><span class="marquee-dot">●</span>Orient</span><span class="marquee-item"><span class="marquee-dot">●</span>Citizen</span></div></div>
+</div>
+
+<!-- ════════════════════════════════════════ KIDS PAGE -->
+<div class="page" id="page-kids">
+  <div class="cat-hero" style="background:#1a1a1a;">
+    <img src="https://images.unsplash.com/photo-1613214043498-19d55b8d9f34?w=1800&q=80&auto=format" alt="Kids Watches">
+    <div class="cat-hero-overlay"></div>
+    <div class="cat-hero-content">
+      <div class="eyebrow">Collection</div>
+      <h1>Kids'<br>Watches</h1>
+    </div>
+  </div>
+  <div class="filter-bar">
+    <button class="filter-btn active">All</button>
+    <button class="filter-btn">Digital</button>
+    <button class="filter-btn">Analog</button>
+    <button class="filter-btn">Sport</button>
+    <button class="filter-btn">Boys</button>
+    <button class="filter-btn">Girls</button>
+    <button class="filter-btn">Below RM100</button>
+  </div>
+  <div class="section bg-light">
+    <div class="prod-grid g4">
+      <div class="prod-card reveal"><div class="prod-tag tag-b">Popular</div><div class="prod-img" style="background:#f0f8ff;"><img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">W-215H Kids Digital</div><div class="prod-spec">Digital · 50m WR · Stopwatch · Alarm</div><div class="prod-foot"><div class="prod-price"><small>RM </small>79</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img" style="background:#fff8f0;"><img src="https://images.unsplash.com/photo-1551816230-ef5deaed4a26?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">LW-204 Colourpop</div><div class="prod-spec">Analog · Colourful Strap · 30m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>89</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-img" style="background:#f0fff4;"><img src="https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">MQ-24 Classic</div><div class="prod-spec">Analog · First Watch · Lightweight</div><div class="prod-foot"><div class="prod-price"><small>RM </small>49</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img" style="background:#fff0f8;"><img src="https://images.unsplash.com/photo-1559563458-527698bf5295?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Baby-G</div><div class="prod-name">BGA-310 Youth</div><div class="prod-spec">Shock Resistant · 100m WR · Tough Solar</div><div class="prod-foot"><div class="prod-price"><small>RM </small>249</div><button class="prod-enquire">Enquire</button></div></div></div>
+    </div>
+  </div>
+  <!-- Gift ideas banner -->
+  <div class="hero-banner" style="height:40vh;">
+    <img src="https://images.unsplash.com/photo-1513506003901-1e6a6a334d28?w=1800&q=80&auto=format" alt="Gift ideas">
+    <div class="hero-banner-overlay"></div>
+    <div class="hero-banner-content">
+      <div class="eyebrow">Gift Ideas</div>
+      <h2 style="font-size:clamp(28px,4vw,48px);">The Perfect<br>First Watch</h2>
+      <p>Make their milestone unforgettable. Gift-wrapped and ready to deliver.</p>
+      <button class="btn-black" onclick="document.getElementById('contact-section')&&document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})">Enquire for Gifting</button>
+    </div>
+  </div>
+  <div class="marquee-bar"><div class="marquee-track"><span class="marquee-item"><span class="marquee-dot">●</span>Casio Digital</span><span class="marquee-item"><span class="marquee-dot">●</span>Baby-G Youth</span><span class="marquee-item"><span class="marquee-dot">●</span>First Watch</span><span class="marquee-item"><span class="marquee-dot">●</span>Gift Ideas</span><span class="marquee-item"><span class="marquee-dot">●</span>Colourpop</span><span class="marquee-item"><span class="marquee-dot">●</span>Casio Digital</span><span class="marquee-item"><span class="marquee-dot">●</span>Baby-G Youth</span><span class="marquee-item"><span class="marquee-dot">●</span>First Watch</span><span class="marquee-item"><span class="marquee-dot">●</span>Gift Ideas</span><span class="marquee-item"><span class="marquee-dot">●</span>Colourpop</span></div></div>
+</div>
+
+<!-- ════════════════════════════════════════ FIND A STORE PAGE -->
+<div class="page" id="page-stores">
+  <div class="store-layout">
+    <!-- Sidebar -->
+    <div class="store-sidebar">
+      <div class="store-sidebar-header">
+        <h2>Find a Store</h2>
+        <div class="store-search">
+          <input type="text" id="storeSearch" placeholder="Search by city or postcode…">
+          <button><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+        </div>
+      </div>
+      <div class="store-list" id="storeList"></div>
+    </div>
+    <!-- Map -->
+    <div class="store-map">
+      <div class="map-placeholder">
+        <div class="map-grid"></div>
+        <!-- Stylised road lines -->
+        <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;" preserveAspectRatio="none">
+          <line x1="0" y1="35%" x2="100%" y2="35%" stroke="#e8e8e8" stroke-width="12"/>
+          <line x1="0" y1="60%" x2="100%" y2="60%" stroke="#e8e8e8" stroke-width="8"/>
+          <line x1="25%" y1="0" x2="25%" y2="100%" stroke="#e8e8e8" stroke-width="12"/>
+          <line x1="55%" y1="0" x2="55%" y2="100%" stroke="#e8e8e8" stroke-width="8"/>
+          <line x1="75%" y1="0" x2="75%" y2="100%" stroke="#e8e8e8" stroke-width="6"/>
+          <line x1="10%" y1="0" x2="40%" y2="100%" stroke="#ebebeb" stroke-width="6"/>
+        </svg>
+        <!-- Pins -->
+        <div class="map-pin active" style="left:25%;top:35%;" onclick="selectStore(0)" id="pin-0">
+          <div class="map-pin-dot"></div>
+          <div class="map-pin-label">KL Flagship</div>
+        </div>
+        <div class="map-pin" style="left:55%;top:28%;" onclick="selectStore(1)" id="pin-1">
+          <div class="map-pin-dot"></div>
+          <div class="map-pin-label">Petaling Jaya</div>
+        </div>
+        <div class="map-pin" style="left:72%;top:55%;" onclick="selectStore(2)" id="pin-2">
+          <div class="map-pin-dot"></div>
+          <div class="map-pin-label">Subang</div>
+        </div>
+        <div class="map-pin" style="left:38%;top:62%;" onclick="selectStore(3)" id="pin-3">
+          <div class="map-pin-dot"></div>
+          <div class="map-pin-label">Cheras</div>
+        </div>
+        <div class="map-pin" style="left:18%;top:65%;" onclick="selectStore(4)" id="pin-4">
+          <div class="map-pin-dot"></div>
+          <div class="map-pin-label">Klang</div>
+        </div>
+        <!-- Info box -->
+        <div class="map-info-box" id="mapInfoBox"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── PAGE ROUTING ──────────────────────────────────────────────
+const pages = ['home','men','women','unisex','kids','stores'];
+function showPage(id) {
+  pages.forEach(p => {
+    document.getElementById('page-'+p).classList.remove('active');
+    const nav = document.getElementById('nav-'+p);
+    if(nav) nav.classList.remove('active');
+  });
+  document.getElementById('page-'+id).classList.add('active');
+  const nav = document.getElementById('nav-'+id);
+  if(nav) nav.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  // trigger reveals on new page
+  setTimeout(triggerReveals, 80);
+}
+
+// ── SCROLL REVEAL ─────────────────────────────────────────────
+function triggerReveals() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e,i) => {
+      if(e.isIntersecting){
+        setTimeout(()=>e.target.classList.add('visible'), i*80);
+        obs.unobserve(e.target);
+      }
+    });
+  },{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.page.active .reveal').forEach(el => {
+    if(!el.classList.contains('visible')) obs.observe(el);
+  });
+}
+triggerReveals();
+
+// ── FILTER BUTTONS ────────────────────────────────────────────
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function(){
+    this.closest('.filter-bar').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+
+// ── STORE DATA ────────────────────────────────────────────────
+const stores = [
+  { name:'GalaWatches KL Flagship', addr:'Lot 3.45, Suria KLCC, Kuala Lumpur City Centre, 50088 Kuala Lumpur', hours:'Mon–Sun: 10AM – 10PM', phone:'+60 3-2382 2888', open:true },
+  { name:'GalaWatches Petaling Jaya', addr:'LG-24, 1 Utama Shopping Centre, 47800 Petaling Jaya, Selangor', hours:'Mon–Sun: 10AM – 10PM', phone:'+60 3-7710 5566', open:true },
+  { name:'GalaWatches Subang SS15', addr:'No. 22, Jalan SS 15/4D, 47500 Subang Jaya, Selangor', hours:'Mon–Sat: 10AM – 8PM · Sun: 11AM – 7PM', phone:'+60 3-5621 4433', open:false },
+  { name:'GalaWatches Cheras Leisure Mall', addr:'L2-11, Cheras Leisure Mall, Jalan Manis 6, 56100 Kuala Lumpur', hours:'Mon–Sun: 10AM – 9:30PM', phone:'+60 3-9100 7722', open:true },
+  { name:'GalaWatches Klang Parade', addr:'F-24, Klang Parade, 2112 Jalan Meru, 41050 Klang, Selangor', hours:'Mon–Sun: 10AM – 9PM', phone:'+60 3-3344 2211', open:true },
+];
+
+let activeStore = 0;
+
+function renderStores(filter='') {
+  const list = document.getElementById('storeList');
+  list.innerHTML = '';
+  stores.forEach((s,i) => {
+    if(filter && !s.name.toLowerCase().includes(filter.toLowerCase()) && !s.addr.toLowerCase().includes(filter.toLowerCase())) return;
+    const el = document.createElement('div');
+    el.className = 'store-item'+(i===activeStore?' active-store':'');
+    el.onclick = () => selectStore(i);
+    el.innerHTML = `
+      <div class="store-name">${s.name}</div>
+      <div class="store-addr">${s.addr}</div>
+      <div class="store-meta">
+        <span class="store-badge ${s.open?'open':''}">${s.open?'Open Now':'Closed'}</span>
+        <span class="store-badge">${s.phone}</span>
+      </div>`;
+    list.appendChild(el);
+  });
+}
+
+function selectStore(i) {
+  activeStore = i;
+  renderStores(document.getElementById('storeSearch').value);
+  // update pins
+  document.querySelectorAll('.map-pin').forEach((p,idx)=>{
+    p.classList.toggle('active', idx===i);
+  });
+  // update info box
+  const s = stores[i];
+  document.getElementById('mapInfoBox').innerHTML = `
+    <div class="map-info-name">${s.name}</div>
+    <div class="map-info-addr">${s.addr}</div>
+    <div class="map-info-hours"><strong>Hours:</strong> ${s.hours}<br><strong>Tel:</strong> ${s.phone}</div>
+    <button class="map-directions" onclick="window.open('https://maps.google.com?q='+encodeURIComponent('${s.name} ${s.addr}'))">
+      <svg viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Get Directions
+    </button>`;
+}
+
+renderStores();
+selectStore(0);
+
+document.getElementById('storeSearch').addEventListener('input', function(){
+  renderStores(this.value);
+});
+</script>
+</body>
+</html>
