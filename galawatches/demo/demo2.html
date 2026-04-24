@@ -151,10 +151,27 @@ nav{
 }
 .hero-corner-num{
   font-family:'Playfair Display',serif;
-  font-size:52px;font-weight:400;color:#f0f0f0;
+  font-size:52px;font-weight:400;color:#e8e8e8;
   line-height:1;
 }
 .hero-corner-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* Mobile hero stats strip */
+.hero-stats-mobile{
+  display:none;
+  background:var(--bg);
+  border-top:1px solid var(--border);
+  grid-template-columns:repeat(3,1fr);
+  text-align:center;
+}
+.hero-stats-mobile .stat-num{
+  font-family:'Playfair Display',serif;
+  font-size:28px;font-weight:400;color:var(--black);line-height:1;
+}
+.hero-stats-mobile .stat-num sup{font-size:13px;color:var(--muted);}
+.hero-stats-mobile .stat-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.hero-stats-mobile .stat-col{padding:18px 8px;border-right:1px solid var(--border);}
+.hero-stats-mobile .stat-col:last-child{border-right:none;}
 
 /* ── CATEGORY NAV STRIP ── */
 .cat-strip{
@@ -189,8 +206,8 @@ nav{
   margin-bottom:14px;display:flex;align-items:center;gap:10px;
 }
 .eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--muted);}
-.eyebrow.white{color:#555;}
-.eyebrow.white::before{background:#555;}
+.eyebrow.white{color:#777;}
+.eyebrow.white::before{background:#777;}
 .section-title{
   font-family:'Playfair Display',serif;
   font-size:clamp(32px,4.5vw,52px);
@@ -282,21 +299,22 @@ nav{
 }
 .hero-banner-overlay{
   position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%);
+  background:linear-gradient(to top,rgba(0,0,0,.75) 0%,rgba(0,0,0,.15) 60%);
 }
 .hero-banner-content{
-  position:relative;z-index:2;padding:60px 80px;
-  max-width:640px;
+  position:relative;z-index:2;padding:52px 80px;
+  max-width:680px;width:100%;
 }
-.hero-banner-content .eyebrow{color:#888;}
-.hero-banner-content .eyebrow::before{background:#888;}
+.hero-banner-content .eyebrow{color:#777;}
+.hero-banner-content .eyebrow::before{background:#777;}
 .hero-banner-content h2{
   font-family:'Playfair Display',serif;
-  font-size:clamp(36px,5vw,62px);
+  font-size:clamp(32px,5vw,62px);
   font-weight:400;color:var(--white);
-  line-height:1.08;margin-bottom:20px;
+  line-height:1.08;margin-bottom:16px;
 }
-.hero-banner-content p{font-size:14px;font-weight:300;color:#ccc;margin-bottom:32px;line-height:1.8;}
+.hero-banner-content p{font-size:14px;font-weight:300;color:#bbb;margin-bottom:28px;line-height:1.8;max-width:440px;}
+.hero-banner-content .btn-black{display:inline-block;}
 
 /* ── FIND STORE PAGE ── */
 .store-layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 112px);}
@@ -394,15 +412,29 @@ nav{
 .map-directions svg{width:13px;height:13px;stroke:var(--white);fill:none;stroke-width:2;}
 
 /* ── TESTIMONIALS ── */
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);}
-.testi-card{background:var(--white);padding:40px 36px;}
-.testi-q{font-family:'Playfair Display',serif;font-size:60px;color:#eee;line-height:.6;margin-bottom:16px;}
-.testi-stars{display:flex;gap:3px;margin-bottom:14px;}
-.testi-stars span{color:#333;font-size:13px;}
-.testi-text{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--black);line-height:1.7;margin-bottom:24px;}
-.testi-author{padding-top:20px;border-top:1px solid var(--border);}
-.testi-name{font-size:13px;font-weight:600;color:var(--black);}
-.testi-loc{font-size:11px;color:var(--muted);font-weight:300;}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.testi-card{
+  background:var(--black);padding:40px 36px;
+  position:relative;overflow:hidden;
+}
+.testi-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,#fff 0%,#888 100%);
+}
+.testi-q{
+  font-family:'Playfair Display',serif;font-size:72px;
+  color:#222;line-height:.5;margin-bottom:20px;display:block;
+}
+.testi-stars{display:flex;gap:3px;margin-bottom:16px;}
+.testi-stars span{color:#fff;font-size:13px;}
+.testi-text{
+  font-family:'Playfair Display',serif;font-size:18px;
+  font-style:italic;color:var(--white);
+  line-height:1.75;margin-bottom:28px;
+}
+.testi-author{padding-top:20px;border-top:1px solid #222;}
+.testi-name{font-size:13px;font-weight:600;color:var(--white);}
+.testi-loc{font-size:11px;color:#666;font-weight:300;margin-top:2px;}
 
 /* ── CATEGORY PAGE HERO ── */
 .cat-hero{
@@ -451,7 +483,7 @@ nav{
 footer{background:var(--black);padding:70px 60px 36px;}
 .footer-top{
   display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
-  gap:60px;padding-bottom:52px;border-bottom:1px solid #1e1e1e;
+  gap:60px;padding-bottom:52px;border-bottom:1px solid #2a2a2a;
 }
 .footer-logo{
   font-family:'Playfair Display',serif;font-size:28px;
@@ -459,42 +491,135 @@ footer{background:var(--black);padding:70px 60px 36px;}
   letter-spacing:1px;
 }
 .footer-logo span{font-style:italic;font-weight:400;}
-.footer-desc{font-size:13px;color:#555;font-weight:300;line-height:1.8;max-width:280px;margin-bottom:24px;}
-.footer-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#444;margin-bottom:22px;font-weight:600;}
+.footer-desc{font-size:13px;color:#aaa;font-weight:300;line-height:1.8;max-width:280px;margin-bottom:24px;}
+.footer-col-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#888;margin-bottom:22px;font-weight:600;}
 .footer-links{list-style:none;display:flex;flex-direction:column;gap:12px;}
-.footer-links a{font-size:13px;color:#444;text-decoration:none;transition:color .2s;font-weight:300;cursor:pointer;}
+.footer-links a{font-size:13px;color:#999;text-decoration:none;transition:color .2s;font-weight:300;cursor:pointer;}
 .footer-links a:hover{color:var(--white);}
 .footer-bottom{padding-top:28px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.footer-copy{font-size:11px;color:#333;}
-.footer-copy span{color:#666;}
+.footer-copy{font-size:11px;color:#666;}
+.footer-copy span{color:#999;}
 
 /* ── REVEAL ── */
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
 .reveal.visible{opacity:1;transform:translateY(0);}
 
+@media(max-width:960px){
+  /* Testimonials section header fix for dark bg */
+  .section[style*="background:var(--black)"] .section-header{flex-direction:column;align-items:flex-start;gap:8px;}
+  .section[style*="background:var(--black)"] .section-header > div:last-child{font-size:12px;}
+}
+
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
-  nav{padding:0 20px;}
+  /* NAV */
+  nav{padding:0 20px;height:60px;}
   .nav-center{display:none;}
+  .nav-icon-btn span{display:none;}
+  .nav-icon-btn svg{width:20px;height:20px;}
+  .nav-cta{padding:9px 16px;font-size:10px;}
+
+  /* HERO — stack vertically on mobile */
   .hero{grid-template-columns:1fr;min-height:auto;}
-  .hero-media{height:50vw;min-height:280px;}
-  .hero-content{padding:48px 24px;}
-  .section{padding:60px 24px;}
-  .section-sm{padding:40px 24px;}
+  .hero-media{height:56vw;min-height:240px;order:0;}
+  .hero-content{padding:36px 24px 48px;order:1;}
+  .hero-content .hero-tag{margin-bottom:14px;}
+  .hero-desc{margin-bottom:28px;max-width:100%;}
+  .hero-btns{gap:10px;}
+  .btn-black{padding:14px 24px;font-size:10px;}
+  .btn-ghost{padding:13px 20px;font-size:10px;}
+  /* Hide desktop floating corner stat; show inline strip instead */
+  .hero-corner{display:none;}
+  .hero-stats-mobile{display:grid;}
+
+  /* CATEGORY STRIP */
   .cat-strip{grid-template-columns:1fr 1fr;}
+  .cat-strip-item{padding:16px 18px;}
+  .cat-strip-label{font-size:11px;}
+  .cat-strip-sub{font-size:10px;}
+
+  /* SECTIONS */
+  .section{padding:52px 20px;}
+  .section-sm{padding:36px 20px;}
+  .section-header{flex-direction:column;align-items:flex-start;gap:12px;margin-bottom:36px;}
+
+  /* PRODUCT GRIDS */
   .prod-grid.g3,.prod-grid.g4{grid-template-columns:1fr 1fr;}
+  .prod-grid.g2{grid-template-columns:1fr;}
+  .prod-img{aspect-ratio:1;}
+  .prod-body{padding:16px 16px 20px;}
+  .prod-name{font-size:16px;}
+  .prod-price{font-size:20px;}
+
+  /* EDITORIAL SPLIT */
   .editorial{grid-template-columns:1fr;}
-  .editorial-img{height:50vw;}
-  .editorial-content{padding:48px 24px;}
-  .testi-grid{grid-template-columns:1fr;}
-  .store-layout{grid-template-columns:1fr;grid-template-rows:auto 50vh;}
-  .hero-banner{height:50vw;min-height:240px;}
-  .hero-banner-content{padding:32px 24px;}
-  .cat-hero{height:40vw;min-height:220px;}
-  .cat-hero-content{padding:0 24px;}
-  .filter-bar{padding:0 16px;}
+  .editorial.flip{direction:ltr;}
+  .editorial-img{height:55vw;min-height:220px;order:0;}
+  .editorial-content{padding:40px 24px;order:1;}
+  .editorial.dark .editorial-content{padding:40px 24px;}
+
+  /* HERO BANNER — key fix */
+  .hero-banner{height:auto;min-height:320px;align-items:flex-end;}
+  .hero-banner-content{
+    padding:32px 24px 36px;
+    max-width:100%;width:100%;
+  }
+  .hero-banner-content h2{font-size:clamp(26px,7vw,40px);margin-bottom:12px;}
+  .hero-banner-content p{font-size:13px;margin-bottom:20px;}
+
+  /* TESTIMONIALS */
+  .testi-grid{grid-template-columns:1fr;gap:16px;}
+  .testi-card{padding:32px 24px;}
+  .testi-text{font-size:17px;}
+
+  /* CONTACT SECTION */
+  #contact-section .section-sub{text-align:left;}
+  #contact-section > div{text-align:left;}
+  #contact-section .eyebrow{justify-content:flex-start;}
+  #contact-section > div > div{justify-content:flex-start;}
+
+  /* STORE LAYOUT */
+  .store-layout{grid-template-columns:1fr;grid-template-rows:auto minmax(340px,50vh);}
+  .store-sidebar{max-height:400px;}
+  .store-sidebar-header{padding:20px 20px 16px;}
+  .map-info-box{bottom:16px;right:16px;left:16px;max-width:none;}
+
+  /* CAT HERO */
+  .hero-banner[style*="40vh"]{height:52vw;min-height:200px;}
+  .cat-hero{height:46vw;min-height:200px;}
+  .cat-hero-content{padding:0 20px;}
+  .cat-hero-content h1{font-size:clamp(36px,9vw,64px);}
+
+  /* FILTER BAR */
+  .filter-bar{padding:0 12px;}
+  .filter-btn{padding:16px 14px;font-size:10px;}
+
+  /* FOOTER */
   footer{padding:48px 24px 28px;}
-  .footer-top{grid-template-columns:1fr 1fr;gap:32px;}
+  .footer-top{grid-template-columns:1fr 1fr;gap:36px;padding-bottom:36px;}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:6px;}
+
+  /* MARQUEE */
+  .marquee-bar{padding:11px 0;}
+  .marquee-item{font-size:10px;padding:0 20px;}
+}
+
+@media(max-width:480px){
+  /* Very small phones */
+  .cat-strip{grid-template-columns:1fr 1fr;}
+  .cat-strip-item{padding:14px 14px;}
+  .prod-grid.g3,.prod-grid.g4{grid-template-columns:1fr;}
+  .prod-card .prod-img{aspect-ratio:4/3;}
+  .hero-stats-mobile .stat-num{font-size:24px;}
+  .footer-top{grid-template-columns:1fr;}
+  .testi-card{padding:28px 20px;}
+  nav{padding:0 16px;}
+  .nav-logo{font-size:19px;}
+  .section{padding:40px 16px;}
+  .hero-content{padding:28px 16px 36px;}
+  .editorial-content{padding:32px 16px;}
+  .hero-banner-content{padding:24px 16px 28px;}
+  .hero-banner-content h2{font-size:26px;}
 }
 </style>
 </head>
@@ -548,6 +673,13 @@ footer{background:var(--black);padding:70px 60px 36px;}
         <div class="hero-corner-label">Models in stock</div>
       </div>
     </div>
+  </div>
+
+  <!-- Mobile-only stats strip (desktop uses absolute positioned .hero-corner) -->
+  <div class="hero-stats-mobile">
+    <div class="stat-col"><div class="stat-num">500<sup>+</sup></div><div class="stat-label">Models</div></div>
+    <div class="stat-col"><div class="stat-num">10K<sup>+</sup></div><div class="stat-label">Customers</div></div>
+    <div class="stat-col"><div class="stat-num">14<sup>+</sup></div><div class="stat-label">Years</div></div>
   </div>
 
   <!-- Category strip -->
@@ -627,7 +759,7 @@ footer{background:var(--black);padding:70px 60px 36px;}
       <div class="prod-card">
         <div class="prod-tag tag-s">Sale</div>
         <div class="prod-img">
-          <img src="https://images.unsplash.com/photo-1548171916-c8fd108b4e75?w=600&q=80&auto=format" alt="Watch">
+          <img src="https://images.unsplash.com/photo-1695345272166-4efd76dd7a21?w=600&q=80&auto=format" alt="Watch">
         </div>
         <div class="prod-body">
           <div class="prod-brand">Orient</div>
@@ -695,18 +827,18 @@ footer{background:var(--black);padding:70px 60px 36px;}
       </div>
     </div>
     <div class="editorial-img">
-      <img src="https://images.unsplash.com/photo-1613214043498-19d55b8d9f34?w=900&q=80&auto=format" alt="Kids watches">
+      <img src="https://images.unsplash.com/photo-1604242692760-2f7b0c26856d?w=900&q=80&auto=format" alt="Kids watches">
     </div>
   </div>
 
   <!-- Testimonials -->
-  <div class="section reveal">
+  <div class="section" style="background:var(--black);">
     <div class="section-header">
       <div>
-        <div class="eyebrow">Customer Reviews</div>
-        <h2 class="section-title">What They<br><em>Say</em></h2>
+        <div class="eyebrow" style="color:#666;">Customer Reviews</div>
+        <h2 class="section-title" style="color:var(--white);">What They<br><em style="color:#aaa;">Say</em></h2>
       </div>
-      <div style="font-size:13px;color:var(--muted);">★★★★★ &nbsp;4.9 / 5 · 380+ reviews</div>
+      <div style="font-size:13px;color:#666;">★★★★★ &nbsp;4.9 / 5 · 380+ reviews</div>
     </div>
     <div class="testi-grid">
       <div class="testi-card">
@@ -814,7 +946,7 @@ footer{background:var(--black);padding:70px 60px 36px;}
       <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">G-Shock</div><div class="prod-name">Rangeman GW-9400</div><div class="prod-spec">Triple Sensor · Solar · 200m WR · Digital</div><div class="prod-foot"><div class="prod-price"><small>RM </small>899</div><button class="prod-enquire">Enquire</button></div></div></div>
       <div class="prod-card reveal"><div class="prod-tag tag-b">Bestseller</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio Edifice</div><div class="prod-name">EFR-S567 Chrono</div><div class="prod-spec">Chronograph · Solar · Sapphire · 100m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>589</div><button class="prod-enquire">Enquire</button></div></div></div>
       <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Seiko</div><div class="prod-name">Presage SPB185</div><div class="prod-spec">Automatic 24J · Enamel Dial · 50m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>2,490</div><button class="prod-enquire">Enquire</button></div></div></div>
-      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1548171916-c8fd108b4e75?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Orient</div><div class="prod-name">Bambino V2</div><div class="prod-spec">Automatic · Dress · Leather Strap · 30m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>599</div><button class="prod-enquire">Enquire</button></div></div></div>
+      <div class="prod-card reveal"><div class="prod-tag tag-s">Sale</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1695345272166-4efd76dd7a21?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Orient</div><div class="prod-name">Bambino V2</div><div class="prod-spec">Automatic · Dress · Leather Strap · 30m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>599</div><button class="prod-enquire">Enquire</button></div></div></div>
       <div class="prod-card reveal"><div class="prod-img"><img src="https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Citizen</div><div class="prod-name">Promaster BN0193</div><div class="prod-spec">Eco-Drive Solar · 200m Diver · Titanium</div><div class="prod-foot"><div class="prod-price"><small>RM </small>1,290</div><button class="prod-enquire">Enquire</button></div></div></div>
       <div class="prod-card reveal"><div class="prod-tag tag-n">New</div><div class="prod-img"><img src="https://images.unsplash.com/photo-1508057198894-247b23fe5ade?w=600&q=80&auto=format" alt=""></div><div class="prod-body"><div class="prod-brand">Casio</div><div class="prod-name">G-Shock GA-2100</div><div class="prod-spec">CasiOak · Analog-Digital · 200m WR</div><div class="prod-foot"><div class="prod-price"><small>RM </small>449</div><button class="prod-enquire">Enquire</button></div></div></div>
     </div>
@@ -889,7 +1021,7 @@ footer{background:var(--black);padding:70px 60px 36px;}
 <!-- ════════════════════════════════════════ KIDS PAGE -->
 <div class="page" id="page-kids">
   <div class="cat-hero" style="background:#1a1a1a;">
-    <img src="https://images.unsplash.com/photo-1613214043498-19d55b8d9f34?w=1800&q=80&auto=format" alt="Kids Watches">
+    <img src="https://images.unsplash.com/photo-1604242692760-2f7b0c26856d?w=1800&q=80&auto=format" alt="Kids Watches">
     <div class="cat-hero-overlay"></div>
     <div class="cat-hero-content">
       <div class="eyebrow">Collection</div>
