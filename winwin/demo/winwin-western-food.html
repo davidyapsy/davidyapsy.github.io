@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Win Win Western Food</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#f40c03;--red-hover:#c90a02;--red-soft:#fff0f0;
+  --yellow:#fafb03;--yellow-soft:#fffde6;
+  --black:#1a1008;--white:#ffffff;
+  --cream:#fdf8f2;--cream2:#f7f0e6;--cream3:#efe5d6;
+  --brown:#5c3a1e;--brown-light:#8b5e3c;
+  --text:#2c1a0e;--text2:#6b4c35;--text3:#a07d60;
+  --border:#e8d9c6;--border2:#d4c0a8;
+  --shadow:0 2px 12px rgba(92,58,30,0.08);
+  --shadow-lg:0 8px 40px rgba(92,58,30,0.14);
+  --radius:14px;--radius-sm:8px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth;font-size:18px;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+body.lang-cn{font-family:'Noto Sans SC','Plus Jakarta Sans',sans-serif;}
+body.lang-cn .sec-label{font-size:14px;letter-spacing:1px;}
+body.lang-cn .hero-eyebrow{font-size:13px;letter-spacing:.5px;}
+body.lang-cn .hero-lead{font-size:19px;}
+body.lang-cn .sec-sub{font-size:18px;}
+body.lang-cn .story-left p{font-size:18px;}
+body.lang-cn .tl-text{font-size:16px;}
+body.lang-cn .svc-card p{font-size:16px;}
+body.lang-cn .br-row p{font-size:16px;}
+body.lang-cn .food-card-body p{font-size:16px;}
+body.lang-cn .food-card-body h3{font-size:18px;}
+body.lang-cn .cat-card-body h3{font-size:17px;}
+body.lang-cn .cat-card-body p{font-size:14px;}
+body.lang-cn .mosaic-label{font-size:15px;}
+body.lang-cn .ft-brand p{font-size:16px;}
+body.lang-cn .ft-col a{font-size:16px;}
+body.lang-cn .mobile-menu a{font-size:17px;}
+body.lang-cn .svc-note{font-size:13px;}
+.en{display:block;}.cn{display:none;}
+body.lang-cn .en{display:none;}body.lang-cn .cn{display:block;}
+span.en{display:inline;}span.cn{display:none;}
+body.lang-cn span.en{display:none;}body.lang-cn span.cn{display:inline;}
+
+/* PAGES */
+.page{display:none;opacity:0;transition:opacity .35s ease;}
+.page.active{display:block;animation:fadeIn .35s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:300;
+  background:rgba(253,248,242,0.96);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  height:62px;padding:0 5%;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;cursor:pointer;
+  text-decoration:none;
+}
+.nav-logo-mark{
+  width:36px;height:36px;background:var(--red);border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--white);
+  letter-spacing:-1px;flex-shrink:0;
+}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text);line-height:1.1;}
+.nav-logo-text small{display:block;font-size:12px;font-weight:400;color:var(--text3);font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.5px;}
+.nav-center{display:flex;gap:4px;list-style:none;}
+.nav-center a{
+  text-decoration:none;font-size:15px;font-weight:600;color:var(--text2);
+  padding:7px 14px;border-radius:100px;transition:all .2s;cursor:pointer;
+}
+.nav-center a:hover,.nav-center a.active{background:var(--cream3);color:var(--red);}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.lang-toggle{display:flex;background:var(--cream2);border-radius:20px;overflow:hidden;border:1px solid var(--border);}
+.lang-btn{padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--text3);transition:all .2s;}
+.lang-btn.active{background:var(--red);color:var(--white);border-radius:20px;}
+.nav-wa{
+  display:flex;align-items:center;gap:7px;
+  background:var(--red);color:var(--white);
+  padding:8px 16px;border-radius:100px;
+  font-size:13px;font-weight:700;text-decoration:none;
+  transition:background .2s;white-space:nowrap;
+}
+.nav-wa:hover{background:var(--red-hover);}
+.nav-wa svg{width:16px;height:16px;fill:currentColor;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;}
+.mobile-menu{
+  display:none;position:fixed;top:62px;left:0;right:0;z-index:299;
+  background:rgba(253,248,242,0.98);backdrop-filter:blur(16px);
+  flex-direction:column;border-bottom:1px solid var(--border);
+  padding:8px 0 16px;
+}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{
+  font-size:15px;font-weight:600;color:var(--text2);
+  padding:13px 5%;text-decoration:none;border-bottom:1px solid var(--border);
+  cursor:pointer;transition:color .15s;
+}
+.mobile-menu a:hover{color:var(--red);}
+.mobile-menu a:last-child{border-bottom:none;color:var(--red);}
+
+/* ── HOME PAGE ── */
+.hero{
+  min-height:100svh;padding-top:62px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;
+  background:var(--cream);
+}
+.hero-bg-pattern{
+  position:absolute;inset:0;
+  background-image:radial-gradient(circle at 80% 20%, rgba(244,12,3,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 10% 80%, rgba(250,251,3,0.08) 0%, transparent 50%);
+  pointer-events:none;
+}
+.hero-inner{
+  padding:48px 6% 48px 8%;
+  display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;
+}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--red-soft);color:var(--red);
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:6px 14px;border-radius:100px;border:1px solid rgba(244,12,3,0.15);
+  margin-bottom:20px;
+}
+.hero-eyebrow::before{content:'★';font-size:10px;}
+h1{
+  font-family:'Fraunces',serif;
+  font-size:clamp(40px,5.5vw,72px);line-height:1.0;font-weight:900;
+  color:var(--black);margin-bottom:20px;letter-spacing:-1.5px;
+}
+h1 .accent{color:var(--red);}
+h1 .script{font-style:italic;color:var(--brown);}
+.hero-lead{font-size:18px;line-height:1.8;color:var(--text2);max-width:460px;margin-bottom:32px;}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px;}
+.btn-red{
+  background:var(--red);color:var(--white);
+  padding:14px 28px;border-radius:100px;
+  font-size:16px;font-weight:700;text-decoration:none;
+  transition:all .2s;display:inline-flex;align-items:center;gap:7px;
+  border:none;cursor:pointer;
+}
+.btn-red:hover{background:var(--red-hover);transform:translateY(-1px);box-shadow:0 6px 20px rgba(244,12,3,0.25);}
+.btn-ghost{
+  background:transparent;color:var(--brown);
+  padding:13px 28px;border-radius:100px;
+  font-size:16px;font-weight:700;text-decoration:none;
+  border:1.5px solid var(--border2);transition:all .2s;cursor:pointer;
+}
+.btn-ghost:hover{border-color:var(--red);color:var(--red);background:var(--red-soft);}
+.hero-trust{display:flex;align-items:center;gap:24px;}
+.trust-item{text-align:center;}
+.trust-num{font-family:'Fraunces',serif;font-size:28px;font-weight:700;color:var(--red);line-height:1;}
+.trust-lbl{font-size:11px;color:var(--text3);font-weight:500;margin-top:3px;}
+.trust-div{width:1px;height:36px;background:var(--border);}
+
+/* HERO FOOD MOSAIC */
+.hero-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:12px;}
+.mosaic-card{border-radius:var(--radius);overflow:hidden;position:relative;cursor:pointer;transition:transform .25s;}
+.mosaic-card:hover{transform:scale(1.02);}
+.mosaic-card.big{grid-column:1/3;height:220px;}
+.mosaic-card.small{height:150px;}
+.food-img{width:100%;height:100%;object-fit:cover;display:block;}
+.food-emoji-fill{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:80px;
+}
+.mosaic-card.big .food-emoji-fill{font-size:120px;}
+.mosaic-overlay{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(28,16,8,0.65));
+  padding:12px 14px 12px;
+}
+.mosaic-label{font-size:13px;font-weight:500;color:var(--white);}
+.mosaic-sub{font-size:11px;color:rgba(255,255,255,0.75);}
+.mosaic-badge{
+  position:absolute;top:10px;left:10px;
+  background:var(--red);color:var(--white);
+  font-size:12px;font-weight:700;padding:3px 9px;border-radius:100px;
+}
+.mosaic-card-bg-1{background:linear-gradient(135deg,#fde8d0,#f5c4a0);}
+.mosaic-card-bg-2{background:linear-gradient(135deg,#fce8e8,#f5c0c0);}
+.mosaic-card-bg-3{background:linear-gradient(135deg,#fff8e0,#fde8b0);}
+
+/* CATEGORY SECTION */
+.sec{padding:80px 8%;}
+.sec-sm{padding:48px 8%;}
+.sec-label{font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+h2{font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,44px);font-weight:700;line-height:1.1;color:var(--text);letter-spacing:-.5px;}
+.sec-sub{font-size:17px;color:var(--text2);margin-top:10px;line-height:1.7;max-width:520px;}
+
+/* CATEGORY GRID (home) */
+.cat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:40px;}
+.cat-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1.5px solid var(--border);overflow:hidden;
+  cursor:pointer;transition:all .25s;text-align:center;
+  text-decoration:none;display:block;
+}
+.cat-card:hover{border-color:var(--red);box-shadow:var(--shadow-lg);transform:translateY(-4px);}
+.cat-card:hover .cat-card-img{transform:scale(1.05);}
+.cat-card-img-wrap{overflow:hidden;height:120px;background:var(--cream2);display:flex;align-items:center;justify-content:center;}
+.cat-card-img{font-size:56px;transition:transform .3s;}
+.cat-card-body{padding:14px 10px;}
+.cat-card-body h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.cat-card-body p{font-size:13px;color:var(--text3);}
+.cat-card.featured{border-color:var(--red);background:var(--red-soft);}
+.cat-card.featured .cat-card-body h3{color:var(--red);}
+
+/* ── MENU PAGE ── */
+.menu-page-header{
+  padding:100px 8% 48px;
+  background:var(--cream);
+  border-bottom:1px solid var(--border);
+}
+.menu-page-header h1{font-family:'Fraunces',serif;font-size:clamp(32px,4vw,52px);font-weight:900;color:var(--text);margin-bottom:8px;letter-spacing:-.5px;}
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--text3);font-size:13px;font-weight:600;
+  text-decoration:none;margin-bottom:20px;cursor:pointer;
+  transition:color .2s;border:none;background:none;padding:0;
+}
+.back-btn:hover{color:var(--red);}
+.back-btn svg{width:16px;height:16px;}
+
+/* FOOD GRID */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;padding:40px 8%;}
+.food-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  border:1px solid var(--border);overflow:hidden;
+  transition:all .25s;cursor:pointer;
+}
+.food-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:transparent;}
+.food-card-img{
+  height:200px;background:var(--cream2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:80px;position:relative;overflow:hidden;
+  transition:transform .3s;
+}
+.food-card:hover .food-card-img{transform:scale(1.04);}
+.food-card-img-wrap{overflow:hidden;height:200px;}
+.food-badge{
+  position:absolute;top:12px;left:12px;
+  font-size:10px;font-weight:700;letter-spacing:.3px;
+  padding:4px 10px;border-radius:100px;
+}
+.badge-bestseller{background:var(--red);color:var(--white);}
+.badge-popular{background:var(--yellow);color:var(--black);}
+.badge-new{background:var(--brown);color:var(--white);}
+.food-card-body{padding:18px 20px 20px;}
+.food-card-body h3{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:6px;line-height:1.2;}
+.food-card-body p{font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:14px;}
+.food-card-footer{display:flex;align-items:center;justify-content:space-between;}
+.food-price{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--red);}
+.food-price small{font-size:14px;color:var(--text3);font-family:'Plus Jakarta Sans',sans-serif;font-weight:500;}
+.food-sub-tag{font-size:13px;color:var(--text3);background:var(--cream2);padding:4px 10px;border-radius:100px;font-weight:600;}
+
+/* SUBCATEGORY TABS inside menu page */
+.menu-sub-tabs{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding:0 8% 32px;
+}
+.sub-tab{
+  padding:8px 18px;border-radius:100px;font-size:13px;font-weight:700;
+  cursor:pointer;border:1.5px solid var(--border2);
+  background:var(--white);color:var(--text2);transition:all .2s;
+}
+.sub-tab:hover{border-color:var(--red);color:var(--red);}
+.sub-tab.active{background:var(--red);color:var(--white);border-color:var(--red);}
+.food-section{display:none;}
+.food-section.active{display:block;}
+.food-section-title{
+  font-family:'Fraunces',serif;font-size:22px;font-weight:700;
+  color:var(--brown);padding:0 8% 16px;
+}
+
+/* STORY */
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.story-left{display:flex;flex-direction:column;gap:18px;}
+.story-left p{font-size:17px;line-height:1.85;color:var(--text2);}
+.story-visual{
+  background:var(--cream2);border-radius:var(--radius-lg);
+  padding:32px;display:flex;flex-direction:column;gap:0;
+  border:1px solid var(--border);
+}
+.tl-item{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--border);}
+.tl-item:last-child{border-bottom:none;}
+.tl-dot-col{display:flex;flex-direction:column;align-items:center;gap:0;}
+.tl-dot{width:10px;height:10px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:4px;}
+.tl-line{width:1px;flex:1;background:var(--border);margin:4px 0;}
+.tl-item:last-child .tl-line{display:none;}
+.tl-year{font-size:12px;font-weight:700;letter-spacing:1px;color:var(--red);text-transform:uppercase;margin-bottom:4px;}
+.tl-text{font-size:15px;color:var(--text2);line-height:1.7;}
+.tl-text strong{color:var(--text);font-weight:700;}
+
+/* SERVICES */
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px;}
+.svc-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:28px 24px;border:1px solid var(--border);
+  transition:all .25s;
+}
+.svc-card:hover{border-color:var(--red);box-shadow:var(--shadow);}
+.svc-icon{
+  width:52px;height:52px;background:var(--red-soft);border-radius:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:24px;margin-bottom:16px;
+}
+.svc-card h3{font-size:19px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.svc-card p{font-size:15px;color:var(--text2);line-height:1.7;}
+.svc-note{
+  margin-top:12px;padding:8px 12px;background:var(--yellow-soft);
+  border-radius:var(--radius-sm);border-left:3px solid var(--yellow);
+  font-size:12px;color:#7a6500;font-weight:500;
+}
+
+/* BRANCHES */
+.br-sec{background:var(--cream2);}
+.br-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:40px;}
+.br-card{
+  background:var(--white);border-radius:var(--radius-lg);
+  padding:28px;border:1px solid var(--border);
+  transition:border-color .2s;
+}
+.br-card:hover{border-color:var(--red);}
+.br-chip{
+  font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;display:inline-block;margin-bottom:16px;
+}
+.chip-hq{background:var(--red-soft);color:var(--red);}
+.chip-pop{background:var(--yellow-soft);color:#7a6500;}
+.br-card h3{font-family:'Fraunces',serif;font-size:20px;font-weight:700;color:var(--text);margin-bottom:16px;}
+.br-row{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;}
+.br-ico{color:var(--red);font-size:13px;min-width:16px;margin-top:2px;}
+.br-row p{font-size:15px;color:var(--text2);line-height:1.6;}
+.br-link{
+  display:inline-flex;align-items:center;gap:6px;margin-top:18px;
+  color:var(--red);font-size:13px;font-weight:700;text-decoration:none;
+  border:1.5px solid rgba(244,12,3,0.2);padding:9px 18px;border-radius:100px;
+  transition:all .2s;
+}
+.br-link:hover{background:var(--red);color:var(--white);}
+
+/* CTA */
+.cta-band{
+  background:var(--red);padding:72px 8%;
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-band::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 30% 50%,rgba(250,251,3,0.12) 0%,transparent 60%);
+  pointer-events:none;
+}
+.cta-band h2{font-family:'Fraunces',serif;font-size:clamp(24px,4vw,42px);color:var(--white);margin-bottom:10px;}
+.cta-band p{font-size:15px;color:rgba(255,255,255,0.8);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto;}
+.wa-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:var(--white);color:var(--text);
+  padding:15px 32px;border-radius:100px;
+  font-size:15px;font-weight:700;text-decoration:none;
+  transition:all .2s;box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.wa-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2);}
+.wa-btn svg{width:22px;height:22px;fill:#25D366;}
+
+/* FOOTER */
+footer{
+  background:var(--cream2);padding:52px 8% 36px;
+  display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;
+  border-top:1px solid var(--border);
+}
+.ft-brand .logo-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.ft-brand p{font-size:15px;color:var(--text2);line-height:1.75;}
+.ft-col h4{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.ft-col a{font-size:15px;color:var(--text2);text-decoration:none;font-weight:500;transition:color .2s;cursor:pointer;}
+.ft-col a:hover{color:var(--red);}
+.ft-bottom{
+  background:var(--cream3);padding:14px 8%;
+  display:flex;justify-content:space-between;align-items:center;
+  font-size:12px;color:var(--text3);border-top:1px solid var(--border);
+  flex-wrap:wrap;gap:8px;
+}
+.not-halal-badge{
+  background:var(--red-soft);color:var(--red);
+  font-size:11px;font-weight:700;padding:4px 12px;border-radius:100px;
+  border:1px solid rgba(244,12,3,0.2);
+}
+
+/* SCROLL TO TOP */
+.scroll-top{
+  position:fixed;bottom:24px;right:24px;z-index:200;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--red);color:var(--white);
+  border:none;cursor:pointer;font-size:18px;
+  box-shadow:0 4px 16px rgba(244,12,3,0.3);
+  transition:all .2s;opacity:0;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+}
+.scroll-top.show{opacity:1;pointer-events:all;}
+.scroll-top:hover{transform:translateY(-2px);}
+
+/* MOBILE */
+@media(max-width:900px){
+  .nav-center{display:none;}
+  .hamburger{display:flex;}
+  .nav-wa{display:none;}
+  .hero-inner{grid-template-columns:1fr;padding:32px 5%;gap:32px;min-height:calc(100svh - 62px);align-content:center;}
+  .hero-mosaic{order:-1;}
+  .mosaic-card.big{height:180px;}
+  .mosaic-card.small{height:130px;}
+  .cat-grid{grid-template-columns:repeat(3,1fr);}
+  .story-grid{grid-template-columns:1fr;gap:36px;}
+  .svc-grid{grid-template-columns:1fr;gap:14px;}
+  .br-grid{grid-template-columns:1fr;gap:14px;}
+  footer{grid-template-columns:1fr;gap:24px;}
+  .sec{padding:56px 5%;}
+  .food-grid{padding:28px 5%;}
+  .menu-page-header{padding:88px 5% 32px;}
+  .menu-sub-tabs{padding:0 5% 24px;}
+  .food-section-title{padding:0 5% 12px;}
+  .ft-bottom{flex-direction:column;text-align:center;}
+}
+@media(max-width:540px){
+  nav{padding:0 4%;}
+  .cat-grid{grid-template-columns:repeat(2,1fr);}
+  .food-grid{grid-template-columns:1fr;}
+  .hero-trust{gap:16px;}
+  .sec{padding:44px 4%;}
+  .food-grid{padding:24px 4%;}
+  .menu-page-header{padding:80px 4% 24px;}
+  .menu-sub-tabs{padding:0 4% 20px;}
+  .food-section-title{padding:0 4% 10px;}
+  footer{padding:40px 4% 28px;}
+  .ft-bottom{padding:12px 4%;}
+  .cta-band{padding:52px 4%;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" onclick="showPage('home')">
+    <div class="nav-logo-mark">WW</div>
+    <div class="nav-logo-text">
+      WinWin
+      <small><span class="en">Western Food</span><span class="cn">西餐</span></small>
+    </div>
+  </a>
+  <ul class="nav-center">
+    <li><a onclick="showPage('home')" id="nav-home"><span class="en">Home</span><span class="cn">首页</span></a></li>
+    <li><a onclick="showPage('menu-home')" id="nav-menu"><span class="en">Menu</span><span class="cn">菜单</span></a></li>
+    <li><a onclick="scrollToSection('story')" id="nav-story"><span class="en">Our Story</span><span class="cn">我们的故事</span></a></li>
+    <li><a onclick="scrollToSection('branches')" id="nav-branches"><span class="en">Find Us</span><span class="cn">分店</span></a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('cn')">中文</button>
+    </div>
+    <a href="https://wa.me/601122046004" class="nav-wa">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span class="en">Reserve</span><span class="cn">预订</span>
+    </a>
+    <button class="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mMenu">
+  <a onclick="showPage('home');closeMobile()"><span class="en">Home</span><span class="cn">首页</span></a>
+  <a onclick="showPage('menu-home');closeMobile()"><span class="en">Menu</span><span class="cn">菜单</span></a>
+  <a onclick="scrollToSection('story');closeMobile()"><span class="en">Our Story</span><span class="cn">我们的故事</span></a>
+  <a onclick="scrollToSection('branches');closeMobile()"><span class="en">Find Us</span><span class="cn">分店</span></a>
+  <a href="https://wa.me/601122046004"><span class="en">Reserve via WhatsApp ↗</span><span class="cn">WhatsApp 预订座位 ↗</span></a>
+</div>
+
+<!-- ════ PAGE: HOME ════ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow"><span class="en">Sri Gombak · Pandan Indah</span><span class="cn">Sri Gombak · Pandan Indah</span></div>
+        <h1>
+          <span class="en"><span class="script">Honest</span><br>Western<br><span class="accent">Done Right.</span></span>
+          <span class="cn"><span class="script">用心</span>烹饪<br><span class="accent">真实西餐。</span></span>
+        </h1>
+        <p class="hero-lead">
+          <span class="en">16+ years of sizzling grills and hearty plates — from a humble stall in Sri Gombak to the restaurant everyone's queuing for in Pandan Indah.</span>
+          <span class="cn">16年多的铁板烧与丰盛西餐——从Sri Gombak一个小摊位，到Pandan Indah人人排队的餐厅。</span>
+        </p>
+        <div class="hero-btns">
+          <button class="btn-red" onclick="showPage('menu-home')"><span class="en">Browse Menu →</span><span class="cn">查看菜单 →</span></button>
+          <button class="btn-ghost" onclick="scrollToSection('branches')"><span class="en">Find a Branch</span><span class="cn">找到分店</span></button>
+        </div>
+        <div class="hero-trust">
+          <div class="trust-item"><div class="trust-num">16+</div><div class="trust-lbl"><span class="en">Years</span><span class="cn">年经验</span></div></div>
+          <div class="trust-div"></div>
+          <div class="trust-item"><div class="trust-num">2</div><div class="trust-lbl"><span class="en">Branches</span><span class="cn">分店</span></div></div>
+          <div class="trust-div"></div>
+          <div class="trust-item"><div class="trust-num">⭐ 4.5</div><div class="trust-lbl"><span class="en">Rating</span><span class="cn">顾客评分</span></div></div>
+        </div>
+      </div>
+      <div class="hero-mosaic">
+        <div class="mosaic-card big mosaic-card-bg-1" onclick="showMenuCat('grilled')">
+          <div class="food-emoji-fill">🥩</div>
+          <div class="mosaic-badge">🔥 <span class="en">Signature</span><span class="cn">招牌</span></div>
+          <div class="mosaic-overlay">
+            <div class="mosaic-label"><span class="en">Sizzling Iron Plate</span><span class="cn">铁板烧</span></div>
+            <div class="mosaic-sub"><span class="en">Chicken & Pork Chops</span><span class="cn">鸡排与猪排</span></div>
+          </div>
+        </div>
+        <div class="mosaic-card small mosaic-card-bg-2" onclick="showMenuCat('pasta')">
+          <div class="food-emoji-fill" style="font-size:64px;">🍝</div>
+          <div class="mosaic-overlay">
+            <div class="mosaic-label"><span class="en">Pasta</span><span class="cn">意大利面</span></div>
+          </div>
+        </div>
+        <div class="mosaic-card small mosaic-card-bg-3" onclick="showMenuCat('breakfast')">
+          <div class="food-emoji-fill" style="font-size:64px;">🍳</div>
+          <div class="mosaic-overlay">
+            <div class="mosaic-label"><span class="en">All Day Breakfast</span><span class="cn">全天早餐</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU CATEGORIES -->
+  <section class="sec" style="background:var(--white);">
+    <div style="text-align:center;max-width:600px;margin:0 auto 0;">
+      <div class="sec-label"><span class="en">What We Serve</span><span class="cn">我们的菜式</span></div>
+      <h2><span class="en">Find Your Favourite</span><span class="cn">找到您的最爱</span></h2>
+      <p class="sec-sub" style="margin:10px auto 0;"><span class="en">Click any category to explore the full menu with photos.</span><span class="cn">点击任何类别查看完整菜单。</span></p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card featured" onclick="showMenuCat('grilled')">
+        <div class="cat-card-img-wrap"><div class="cat-card-img">🥩</div></div>
+        <div class="cat-card-body"><h3><span class="en">Grilled Chops</span><span class="cn">铁板烧</span></h3><p><span class="en">Chicken & Pork</span><span class="cn">鸡排 · 猪排</span></p></div>
+      </div>
+      <div class="cat-card" onclick="showMenuCat('fried')">
+        <div class="cat-card-img-wrap"><div class="cat-card-img">🍟</div></div>
+        <div class="cat-card-body"><h3><span class="en">Fried Chicken</span><span class="cn">炸鸡系列</span></h3><p><span class="en">Crispy & Spicy</span><span class="cn">香脆 · 香辣</span></p></div>
+      </div>
+      <div class="cat-card" onclick="showMenuCat('pasta')">
+        <div class="cat-card-img-wrap"><div class="cat-card-img">🍝</div></div>
+        <div class="cat-card-body"><h3><span class="en">Pasta</span><span class="cn">意大利面</span></h3><p><span class="en">3 varieties</span><span class="cn">3款口味</span></p></div>
+      </div>
+      <div class="cat-card" onclick="showMenuCat('breakfast')">
+        <div class="cat-card-img-wrap"><div class="cat-card-img">🍳</div></div>
+        <div class="cat-card-body"><h3><span class="en">Breakfast</span><span class="cn">全天早餐</span></h3><p><span class="en">All day long</span><span class="cn">全天供应</span></p></div>
+      </div>
+      <div class="cat-card" onclick="showMenuCat('sides')">
+        <div class="cat-card-img-wrap"><div class="cat-card-img">🍞</div></div>
+        <div class="cat-card-body"><h3><span class="en">Sides & Drinks</span><span class="cn">附餐饮料</span></h3><p><span class="en">Soups, bread & more</span><span class="cn">汤·面包·饮料</span></p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="sec" id="story">
+    <div class="story-grid">
+      <div class="story-left">
+        <div class="sec-label"><span class="en">Our Story</span><span class="cn">我们的故事</span></div>
+        <h2><span class="en">From a Humble Stall to a Beloved Restaurant</span><span class="cn">从小摊到深受喜爱的餐厅</span></h2>
+        <p><span class="en">Win Win Western Food began as a small stall tucked inside a coffee shop in Taman Sri Gombak. Mr. Wing — chef, founder, and the heart of this place — built everything from scratch with his hands and his passion.</span><span class="cn">Win Win 西餐起源于Taman Sri Gombak茶室的一个小摊位。Wing 老板——厨师、创始人，也是这里的灵魂人物——凭借双手与热忱，从零开始建立起一切。</span></p>
+        <p><span class="en">The food here is honest. Localised western fare, cooked right, with no shortcuts. That's why regulars keep coming back — week after week, year after year.</span><span class="cn">这里的食物真实无华。本地化西餐，按照应有的方式烹饪，绝不偷工减料。这就是为什么老顾客一来再来——一周又一周，一年又一年。</span></p>
+        <button class="btn-ghost" style="width:fit-content;" onclick="scrollToSection('branches')"><span class="en">Visit Us Today →</span><span class="cn">立即到访 →</span></button>
+      </div>
+      <div class="story-visual">
+        <div class="tl-item">
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div><div class="tl-year"><span class="en">The Beginning</span><span class="cn">起源</span></div><div class="tl-text"><strong><span class="en">First Stall</span><span class="cn">第一个摊位</span></strong> — <span class="en">Mr. Wing starts cooking at a small stall in Restoran Chong Wah, Sri Gombak.</span><span class="cn">Wing 老板在Chong Wah, Sri Gombak 餐厅的小摊位开始掌厨。</span></div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div><div class="tl-year"><span class="en">HQ Branch</span><span class="cn">总店</span></div><div class="tl-text"><strong><span class="en">Sri Gombak Restaurant</span><span class="cn">Sri Gombak分店</span></strong> — <span class="en">Grows into a standalone restaurant. The original home of Win Win.</span><span class="cn">发展成独立餐厅，Win Win 的根据地。</span></div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+          <div><div class="tl-year"><span class="en">Expansion</span><span class="cn">新店</span></div><div class="tl-text"><strong><span class="en">Pandan Indah Opens</span><span class="cn">Pandan Indah分店开幕</span></strong> — <span class="en">A 2-floor restaurant that became an instant hit — long queues every weekend.</span><span class="cn">两层楼餐厅一开业即成热门，周末大排长龙。</span></div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot-col"><div class="tl-dot"></div></div>
+          <div><div class="tl-year"><span class="en">Today</span><span class="cn">现在</span></div><div class="tl-text"><strong><span class="en">Two Branches, One Heart</span><span class="cn">两家分店，同一份心</span></strong> — <span class="en">Dine-in, takeaway & catering across KL. Same dedication since day one.</span><span class="cn">吉隆坡堂食、外卖及外烩服务，始终如一。</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="sec" style="background:var(--cream2);">
+    <div class="sec-label"><span class="en">How We Serve You</span><span class="cn">我们的服务</span></div>
+    <h2><span class="en">More Than Just a Restaurant</span><span class="cn">不只是一家餐厅</span></h2>
+    <div class="svc-grid">
+      <div class="svc-card">
+        <div class="svc-icon">🍽️</div>
+        <h3><span class="en">Dine In</span><span class="cn">堂食</span></h3>
+        <p><span class="en">Walk in and enjoy your meal. Come early on weekends — we fill up fast, especially at Pandan Indah.</span><span class="cn">直接到来享用餐点。周末请早到，尤其是Pandan Indah分店，座位有限。</span></p>
+        <div class="svc-note">💳 <span class="en">In-house POS system — fast ordering for both dine-in and takeaway at the counter.</span><span class="cn">堂食与外卖均在柜台点餐，设有 POS 系统，快速便捷。</span></div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🥡</div>
+        <h3><span class="en">Takeaway</span><span class="cn">外卖打包</span></h3>
+        <p><span class="en">Walk in and place your order at the counter — we'll pack it fresh for you to take away. No pre-order needed.</span><span class="cn">直接到来，在柜台下单，我们现做现包，无需预订。</span></p>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🎉</div>
+        <h3><span class="en">Catering</span><span class="cn">外烩服务</span></h3>
+        <p><span class="en">Corporate lunches, family gatherings, birthdays. Pandan Indah Level 1 fits up to 70 pax. WhatsApp for a quote.</span><span class="cn">企业午餐、家庭聚会、生日宴。Pandan Indah一楼最多容纳70人。WhatsApp 联系报价。</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- BRANCHES -->
+  <section class="sec br-sec" id="branches">
+    <div class="sec-label"><span class="en">Find Us</span><span class="cn">找到我们</span></div>
+    <h2><span class="en">Two Branches, Same Great Food</span><span class="cn">两家分店，同样美味</span></h2>
+    <div class="br-grid">
+      <div class="br-card">
+        <span class="br-chip chip-hq"><span class="en">Original HQ</span><span class="cn">总店</span></span>
+        <h3><span class="en">Taman Sri Gombak</span><span class="cn">Taman Sri Gombak</span></h3>
+        <div class="br-row"><div class="br-ico">📍</div><p>No. 89, Jalan SG 3/10, Taman Sri Gombak, 68100 Batu Caves, Selangor</p></div>
+        <div class="br-row"><div class="br-ico">🕐</div><p>Tues – Sun: 2.00 PM – 10:30 PM</p></div>
+        <div class="br-row"><div class="br-ico">📞</div><p>012-204 6004</p></div>
+        <a href="https://share.google/CoDkWlbCX4D0DG8sN" class="br-link"><span class="en">Get Directions →</span><span class="cn">获取路线 →</span></a>
+      </div>
+      <div class="br-card">
+        <span class="br-chip chip-pop">⭐ <span class="en">Most Popular</span><span class="cn">最受欢迎</span></span>
+        <h3><span class="en">Pandan Indah</span><span class="cn">Pandan Indah</span></h3>
+        <div class="br-row"><div class="br-ico">📍</div><p>45 G, Jalan Pandan Indah 4/6b, Pandan Indah, 55100 Kuala Lumpur</p></div>
+        <div class="br-row"><div class="br-ico">🕐</div><p>Mon – Sun: 10:30 AM – 10:30 PM</p></div>
+        <div class="br-row"><div class="br-ico">📞</div><p>014-365 8898</p></div>
+        <div class="br-row"><div class="br-ico">👥</div><p><span class="en">Level 1 can host up to 70 pax for events & catering.</span><span class="cn">一楼最多容纳70人，适合活动及外烩。</span></p></div>
+        <a href="https://share.google/nObGZrqqdvPnRuAkT" class="br-link"><span class="en">Get Directions →</span><span class="cn">获取路线 →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-band">
+    <h2><span class="en">Reserve a Table or Enquire About Catering</span><span class="cn">预订座位或查询外烩服务</span></h2>
+    <p><span class="en">WhatsApp us for table reservations & catering enquiries. Dine-in and takeaway orders are placed at our counter.</span><span class="cn">WhatsApp 联系预订座位及外烩查询。堂食与外卖点餐请直接向柜台下单。</span></p>
+    <a href="https://wa.me/601122046004" class="wa-btn">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <span class="en">WhatsApp Us Now</span><span class="cn">立即 WhatsApp</span>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft-brand">
+      <div class="logo-row">
+        <div class="nav-logo-mark">WW</div>
+        <div class="nav-logo-text">WinWin <span class="en">Western Food</span><span class="cn">西餐</span></div>
+      </div>
+      <p><span class="en">Serving honest, hearty western food the Malaysian way — since Mr. Wing's very first sizzling plate left the kitchen.</span><span class="cn">以马来西亚方式，用心烹饪真实丰盛的西餐——自 Wing 老板第一块铁板烧出炉以来。</span></p>
+    </div>
+    <div class="ft-col">
+      <h4><span class="en">Explore</span><span class="cn">探索</span></h4>
+      <ul>
+        <li><a onclick="showPage('home')"><span class="en">Home</span><span class="cn">首页</span></a></li>
+        <li><a onclick="showPage('menu-home')"><span class="en">Menu</span><span class="cn">菜单</span></a></li>
+        <li><a onclick="scrollToSection('story')"><span class="en">Our Story</span><span class="cn">我们的故事</span></a></li>
+        <li><a onclick="scrollToSection('branches')"><span class="en">Find Us</span><span class="cn">分店</span></a></li>
+      </ul>
+    </div>
+    <div class="ft-col">
+      <h4><span class="en">Contact</span><span class="cn">联系方式</span></h4>
+      <ul>
+        <li><a href="tel:+60122046004">012-204 6004</a></li>
+        <li><a href="https://wa.me/601122046004">WhatsApp</a></li>
+        <li><a href="https://www.facebook.com/Winwinwesternfood/">Facebook</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="ft-bottom">
+    <span>© 2025 Win Win Western Food</span>
+    <span class="not-halal-badge"><span class="en">Not Halal · 非清真</span><span class="cn">非清真</span></span>
+  </div>
+</div><!-- end page-home -->
+
+
+<!-- ════ PAGE: MENU HOME ════ -->
+<div class="page" id="page-menu-home">
+  <div class="menu-page-header">
+    <button class="back-btn" onclick="showPage('home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span class="en">Back to Home</span><span class="cn">返回首页</span>
+    </button>
+    <div class="sec-label"><span class="en">Our Menu</span><span class="cn">菜单</span></div>
+    <h1><span class="en">What's Cooking Today</span><span class="cn">今日菜单</span></h1>
+    <p style="font-size:15px;color:var(--text2);margin-top:8px;"><span class="en">Tap a category to explore — prices available upon request at the restaurant.</span><span class="cn">选择类别浏览菜单——价格详情请向餐厅查询。</span></p>
+  </div>
+  <div class="cat-grid" style="padding:32px 8%;margin:0;">
+    <div class="cat-card featured" onclick="showMenuCat('grilled')">
+      <div class="cat-card-img-wrap"><div class="cat-card-img">🥩</div></div>
+      <div class="cat-card-body"><h3><span class="en">Grilled Chops</span><span class="cn">铁板烧</span></h3><p><span class="en">Chicken & Pork</span><span class="cn">鸡排 · 猪排</span></p></div>
+    </div>
+    <div class="cat-card" onclick="showMenuCat('fried')">
+      <div class="cat-card-img-wrap"><div class="cat-card-img">🍟</div></div>
+      <div class="cat-card-body"><h3><span class="en">Fried Chicken</span><span class="cn">炸鸡系列</span></h3><p><span class="en">Crispy & Spicy</span><span class="cn">香脆 · 香辣</span></p></div>
+    </div>
+    <div class="cat-card" onclick="showMenuCat('pasta')">
+      <div class="cat-card-img-wrap"><div class="cat-card-img">🍝</div></div>
+      <div class="cat-card-body"><h3><span class="en">Pasta</span><span class="cn">意大利面</span></h3><p><span class="en">3 varieties</span><span class="cn">3款口味</span></p></div>
+    </div>
+    <div class="cat-card" onclick="showMenuCat('breakfast')">
+      <div class="cat-card-img-wrap"><div class="cat-card-img">🍳</div></div>
+      <div class="cat-card-body"><h3><span class="en">Breakfast</span><span class="cn">全天早餐</span></h3><p><span class="en">All day long</span><span class="cn">全天供应</span></p></div>
+    </div>
+    <div class="cat-card" onclick="showMenuCat('sides')">
+      <div class="cat-card-img-wrap"><div class="cat-card-img">🍞</div></div>
+      <div class="cat-card-body"><h3><span class="en">Sides & Drinks</span><span class="cn">附餐饮料</span></h3><p><span class="en">Soups, bread & more</span><span class="cn">汤·面包·饮料</span></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ PAGE: MENU CATEGORY ════ -->
+<div class="page" id="page-menu-cat">
+  <div class="menu-page-header" id="cat-header">
+    <button class="back-btn" onclick="showPage('menu-home')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      <span class="en">All Categories</span><span class="cn">所有类别</span>
+    </button>
+    <div class="sec-label" id="cat-label-text"></div>
+    <h1 id="cat-title-text"></h1>
+    <p id="cat-desc-text" style="font-size:14px;color:var(--text2);margin-top:8px;"></p>
+  </div>
+
+  <!-- SUB-TABS -->
+  <div class="menu-sub-tabs" id="sub-tabs-container"></div>
+
+  <!-- GRILLED -->
+  <div class="food-section" id="fs-grilled">
+    <div class="food-section" id="fs-grilled-chicken" style="display:block;">
+      <div class="food-section-title"><span class="en">🔥 Grilled Chicken</span><span class="cn">🔥 铁板烧鸡肉</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d0,#f5c0a0);"><span style="font-size:80px;">🍗</span><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Chop</span><span class="cn">黑椒铁板鸡排</span></h3><p><span class="en">Sizzling grilled chicken on an iron plate, drenched in a rich, bold black pepper sauce. A Win Win classic.</span><span class="cn">嫩滑鸡排置于烧热铁板，淋上浓郁黑椒酱，Win Win 经典招牌。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#e0d5c8);"><span style="font-size:80px;">🍗</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Chicken Chop</span><span class="cn">蘑菇汁铁板鸡排</span></h3><p><span class="en">Tender grilled chicken topped generously with a velvety, creamy mushroom sauce. Comfort on a plate.</span><span class="cn">嫩滑铁板鸡排，淋上浓郁奶香蘑菇酱，一份令人安心的美食。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d8,#e8b890);"><span style="font-size:80px;">🍗</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">BBQ Grilled Chicken Chop</span><span class="cn">烧烤铁板鸡排</span></h3><p><span class="en">Smoky, sweet BBQ glazed chicken chop sizzling on an iron plate. That char is everything.</span><span class="cn">香甜烧烤酱铁板鸡排，烟熏风味令人着迷。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e8,#f5b8b8);"><span style="font-size:80px;">🥩</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Combo: Chicken & Pork Grill</span><span class="cn">双拼铁板：鸡排+猪排</span></h3><p><span class="en">Half chicken chop + half pork chop on one sizzling iron plate. Best of both worlds — why choose?</span><span class="cn">半块鸡排加半块猪排，同置一块铁板。两全其美，无需抉择。</span></p><div class="food-card-footer"><div class="food-price">RM 28.80</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+      </div>
+    </div>
+    <div class="food-section" id="fs-grilled-pork" style="display:none;">
+      <div class="food-section-title"><span class="en">🥩 Grilled Pork</span><span class="cn">🥩 铁板烧猪肉</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e8,#f5c0b8);"><span style="font-size:80px;">🥩</span><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Pork Chop</span><span class="cn">黑椒铁板猪排</span></h3><p><span class="en">Tender pork chop on a searing iron plate with our signature black pepper sauce. A crowd favourite.</span><span class="cn">嫩滑猪排置于铁板，配上招牌黑椒酱，深受顾客喜爱。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#e0d5c8);"><span style="font-size:80px;">🥩</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Pork Chop</span><span class="cn">蘑菇汁铁板猪排</span></h3><p><span class="en">Juicy pork chop on a sizzling plate with a rich pour of creamy mushroom sauce.</span><span class="cn">多汁猪排置于铁板，淋上浓郁奶香蘑菇汁。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d0,#f5c890);"><span style="font-size:80px;">🥩</span></div></div><div class="food-card-body"><h3><span class="en">Honey BBQ Pork Chop</span><span class="cn">蜜汁烧烤猪排</span></h3><p><span class="en">Pork chop glazed in a sweet honey BBQ sauce, caramelised to perfection on the iron plate.</span><span class="cn">蜜汁烧烤猪排，在铁板上焦糖化，甜香诱人。</span></p><div class="food-card-footer"><div class="food-price">RM 24.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f5e8d8,#e8c8a0);"><span style="font-size:80px;">🍖</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Pork Ribs</span><span class="cn">排骨</span></h3><p><span class="en">Tender, fall-off-the-bone pork ribs with our house BBQ sauce. Worth every ringgit.</span><span class="cn">软骨排骨，配自制烧烤酱，入口即化，物超所值。</span></p><div class="food-card-footer"><div class="food-price">RM 28.90</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FRIED -->
+  <div class="food-section" id="fs-fried" style="display:none;">
+    <div class="food-section-title"><span class="en">🍟 Fried Chicken</span><span class="cn">🍟 炸鸡系列</span></div>
+    <div class="food-grid">
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d8,#f5e090);"><span style="font-size:80px;">🍗</span></div></div><div class="food-card-body"><h3><span class="en">Crispy Fried Chicken Chop</span><span class="cn">香脆炸鸡排</span></h3><p><span class="en">Golden, crispy-fried chicken chop with your choice of sauce. Light on the outside, juicy within.</span><span class="cn">外酥内嫩的炸鸡排，搭配自选酱料，口感绝佳。</span></p><div class="food-card-footer"><div class="food-price">RM 20.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e0,#f5b090);"><span style="font-size:80px;">🌶️</span><div class="food-badge badge-bestseller">🌶️ Spicy</div></div></div><div class="food-card-body"><h3><span class="en">Spicy Fried Chicken Chop</span><span class="cn">香辣炸鸡排</span></h3><p><span class="en">Crispy fried chicken coated in a bold spicy seasoning blend. A proper kick in every bite.</span><span class="cn">香辣粉炸鸡排，每一口都带劲，辣味十足。</span></p><div class="food-card-footer"><div class="food-price">RM 21.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- PASTA -->
+  <div class="food-section" id="fs-pasta" style="display:none;">
+    <div class="food-section-title"><span class="en">🍝 Pasta & Noodles</span><span class="cn">🍝 意大利面</span></div>
+    <div class="food-grid">
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8d0,#f0b888);"><span style="font-size:80px;">🍝</span></div></div><div class="food-card-body"><h3><span class="en">Bolognese Spaghetti</span><span class="cn">肉酱意大利面</span></h3><p><span class="en">Slow-cooked minced meat sauce over al dente spaghetti. Rich, hearty, and soul-satisfying.</span><span class="cn">慢炖肉末酱配弹牙意大利面，浓郁丰盛，令人满足。</span></p><div class="food-card-footer"><div class="food-price">RM 14.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f8f0e0,#edd8a8);"><span style="font-size:80px;">🍝</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Carbonara Spaghetti</span><span class="cn">卡邦尼意大利面</span></h3><p><span class="en">Creamy carbonara with egg yolk, parmesan, and crispy bacon. Indulgent and deeply satisfying.</span><span class="cn">奶香卡邦尼，蛋黄帕玛森起司与香脆培根，浓郁满足。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce0d8,#f0a898);"><span style="font-size:80px;">🍝</span></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Pasta</span><span class="cn">黑椒鸡肉意大利面</span></h3><p><span class="en">Spaghetti tossed in bold black pepper sauce with strips of grilled chicken. A spicy crowd-pleaser.</span><span class="cn">黑椒酱炒意大利面，配上嫩滑烤鸡条，香辣美味。</span></p><div class="food-card-footer"><div class="food-price">RM 16.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- BREAKFAST -->
+  <div class="food-section" id="fs-breakfast" style="display:none;">
+    <div id="fs-breakfast-eggs" class="food-section" style="display:block;">
+      <div class="food-section-title"><span class="en">🍳 Egg Sets</span><span class="cn">🍳 蛋类套餐</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e0,#f5e090);"><span style="font-size:80px;">🍳</span></div></div><div class="food-card-body"><h3><span class="en">Set A — Sunny Side Up</span><span class="cn">A套 — 太阳蛋</span></h3><p><span class="en">2 fried eggs, toast, sausage & ham. The timeless, satisfying morning plate.</span><span class="cn">2颗煎蛋、吐司、香肠与火腿，经典满足早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff0d8,#f5d090);"><span style="font-size:80px;">🥚</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Set B — Scrambled Eggs</span><span class="cn">B套 — 炒蛋</span></h3><p><span class="en">Fluffy scrambled eggs with sausage, crispy bacon, buttered toast and a drink. The full works.</span><span class="cn">软嫩炒蛋，配香肠、培根、吐司及饮料，丰盛早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 18.50</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0f8e8,#d0e8b0);"><span style="font-size:80px;">🫧</span></div></div><div class="food-card-body"><h3><span class="en">Set C — Poached Eggs</span><span class="cn">C套 — 水波蛋</span></h3><p><span class="en">Two poached eggs on toast with sautéed mushrooms and grilled tomato. A lighter, elegant choice.</span><span class="cn">水波蛋放在吐司上，配炒蘑菇与烤番茄，清新优雅之选。</span></p><div class="food-card-footer"><div class="food-price">RM 17.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+      </div>
+    </div>
+    <div id="fs-breakfast-bread" class="food-section" style="display:none;">
+      <div class="food-section-title"><span class="en">🍞 Bread & Toast</span><span class="cn">🍞 面包吐司</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d0,#f5e890);"><span style="font-size:80px;">🍞</span></div></div><div class="food-card-body"><h3><span class="en">Kaya Toast Set</span><span class="cn">咖椰吐司套餐</span></h3><p><span class="en">Kaya butter toast, 2 soft boiled eggs and a hot kopi. A Malaysian morning ritual.</span><span class="cn">咖椰牛油吐司、2颗软熟蛋及咖啡，马来西亚式早晨仪式。</span></p><div class="food-card-footer"><div class="food-price">RM 9.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8c8,#f0c880);"><span style="font-size:80px;">🥪</span></div></div><div class="food-card-body"><h3><span class="en">French Toast</span><span class="cn">法式吐司</span></h3><p><span class="en">Golden egg-battered French toast drizzled with honey and served with a knob of butter.</span><span class="cn">金黄蛋液法式吐司，淋上蜂蜜，配牛油，香甜可口。</span></p><div class="food-card-footer"><div class="food-price">RM 10.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDES -->
+  <div class="food-section" id="fs-sides" style="display:none;">
+    <div id="fs-sides-food" class="food-section" style="display:block;">
+      <div class="food-section-title"><span class="en">🍞 Sides</span><span class="cn">🍞 附餐</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d0,#f5e890);"><span style="font-size:80px;">🥖</span><div class="food-badge badge-popular">⭐ Fan Fave</div></div></div><div class="food-card-body"><h3><span class="en">Buttery Garlic Bread</span><span class="cn">蒜香牛油面包</span></h3><p><span class="en">Sesame-crusted, golden-toasted, oozing with butter. At RM 2, it's the best deal on the menu.</span><span class="cn">芝麻外脆内软，牛油满溢。RM 2，菜单上最超值的选择。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#d8ccb8);"><span style="font-size:80px;">🥣</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Cream Soup</span><span class="cn">奶香蘑菇汤</span></h3><p><span class="en">Rich, velvety mushroom cream soup. Always pairs perfectly with garlic bread.</span><span class="cn">浓郁丝滑蘑菇奶汤，与蒜香面包绝配。</span></p><div class="food-card-footer"><div class="food-price">RM 6.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e0,#f5e090);"><span style="font-size:80px;">🍟</span></div></div><div class="food-card-body"><h3><span class="en">French Fries</span><span class="cn">薯条</span></h3><p><span class="en">Crispy golden fries. Simple and satisfying.</span><span class="cn">香脆金黄薯条，简单美味。</span></p><div class="food-card-footer"><div class="food-price">RM 5.00</div></div></div></div>
+      </div>
+    </div>
+    <div id="fs-sides-drinks" class="food-section" style="display:none;">
+      <div class="food-section-title"><span class="en">🥤 Drinks</span><span class="cn">🥤 饮料</span></div>
+      <div class="food-grid">
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#e8f0f8,#b8d0e8);"><span style="font-size:80px;">🥤</span></div></div><div class="food-card-body"><h3><span class="en">Soft Drinks (Canned)</span><span class="cn">罐装汽水</span></h3><p><span class="en">Coke, 100 Plus and more.</span><span class="cn">可乐、100 Plus 等。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede0,#d8c898);"><span style="font-size:80px;">🍵</span></div></div><div class="food-card-body"><h3><span class="en">Chinese Tea (Pot)</span><span class="cn">中国茶（壶）</span></h3><p><span class="en">Fragrant Chinese tea served warm by the pot.</span><span class="cn">清香中国茶，以壶盛装，温热供应。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e8,#f0d890);"><span style="font-size:80px;">🍊</span></div></div><div class="food-card-body"><h3><span class="en">Fresh Orange Juice</span><span class="cn">鲜榨橙汁</span></h3><p><span class="en">Freshly squeezed orange juice. A refreshing pick-me-up.</span><span class="cn">鲜榨橙汁，清新提神。</span></p><div class="food-card-footer"><div class="food-price">RM 7.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#e8d8c8,#c8a888);"><span style="font-size:80px;">☕</span></div></div><div class="food-card-body"><h3><span class="en">Hot / Iced Coffee</span><span class="cn">热/冰咖啡</span></h3><p><span class="en">Freshly brewed coffee, hot or iced.</span><span class="cn">新鲜冲泡咖啡，热饮或冰饮。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
+      </div>
+    </div>
+  </div>
+</div><!-- end page-menu-cat -->
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────
+const catData = {
+  grilled:{
+    labelEN:'Sizzling Iron Plate',labelCN:'铁板烧',
+    titleEN:'Grilled Chops',titleCN:'铁板烧',
+    descEN:'All sets include fries or mashed potato, coleslaw, and a drink.',
+    descCN:'所有套餐均附薯条或薯泥、椰菜丝及饮料。',
+    tabs:[
+      {id:'grilled-chicken',labelEN:'🍗 Grilled Chicken',labelCN:'🍗 铁板烧鸡肉'},
+      {id:'grilled-pork',labelEN:'🥩 Grilled Pork',labelCN:'🥩 铁板烧猪肉'}
+    ]
+  },
+  fried:{
+    labelEN:'Fried Chicken',labelCN:'炸鸡系列',
+    titleEN:'Fried Chicken',titleCN:'炸鸡系列',
+    descEN:'Golden crispy fried chicken sets. All include fries, coleslaw, and a drink.',
+    descCN:'香脆炸鸡套餐，均附薯条、椰菜丝及饮料。',
+    tabs:[]
+  },
+  pasta:{
+    labelEN:'Pasta',labelCN:'意大利面',
+    titleEN:'Pasta & Noodles',titleCN:'意大利面',
+    descEN:'All pasta dishes served with garlic bread.',
+    descCN:'所有意大利面均附大蒜面包。',
+    tabs:[]
+  },
+  breakfast:{
+    labelEN:'All Day Breakfast',labelCN:'全天早餐',
+    titleEN:'All Day Breakfast',titleCN:'全天早餐',
+    descEN:'Available all day long. Mix and match your perfect plate.',
+    descCN:'全天供应，自由搭配您的早餐套餐。',
+    tabs:[
+      {id:'breakfast-eggs',labelEN:'🍳 Egg Sets',labelCN:'🍳 蛋类套餐'},
+      {id:'breakfast-bread',labelEN:'🍞 Bread & Toast',labelCN:'🍞 面包吐司'}
+    ]
+  },
+  sides:{
+    labelEN:'Sides & Drinks',labelCN:'附餐饮料',
+    titleEN:'Sides & Drinks',titleCN:'附餐与饮料',
+    descEN:'Add these to any main, or order on their own.',
+    descCN:'可搭配任何主餐或单独点选。',
+    tabs:[
+      {id:'sides-food',labelEN:'🍞 Sides',labelCN:'🍞 附餐'},
+      {id:'sides-drinks',labelEN:'🥤 Drinks',labelCN:'🥤 饮料'}
+    ]
+  }
+};
+
+// ─── STATE ───────────────────────────────────────────────────────
+let currentLang = 'en';
+
+// ─── HASH ROUTER ─────────────────────────────────────────────────
+// Hash format:
+//   #/            → home
+//   #/menu        → menu category list
+//   #/menu/grilled          → category page, first sub
+//   #/menu/grilled/grilled-chicken  → category + specific sub
+//   #/home/story  → home page, scroll to #story
+//   #/home/branches → home page, scroll to #branches
+
+function navigate(hash, pushState = true) {
+  if (pushState) {
+    // Only push if different from current
+    if (location.hash !== hash) {
+      history.pushState(null, '', hash);
+    }
+  }
+  route(hash);
+}
+
+function route(hash) {
+  const h = (hash || location.hash || '#/').replace(/^#\/?/, '');
+  const parts = h.split('/').filter(Boolean);
+  const section = parts[0] || 'home'; // home | menu
+  const cat     = parts[1] || null;   // grilled | fried | pasta | breakfast | sides
+  const sub     = parts[2] || null;   // grilled-chicken | breakfast-eggs | etc.
+
+  closeMobile();
+  window.scrollTo({top: 0, behavior: 'instant'});
+
+  if (section === 'menu' && cat && catData[cat]) {
+    _renderCatPage(cat, sub);
+    _showPage('menu-cat');
+    _setNavActive('menu');
+  } else if (section === 'menu') {
+    _showPage('menu-home');
+    _setNavActive('menu');
+  } else {
+    // home (default)
+    _showPage('home');
+    _setNavActive('home');
+    // optional scroll target
+    const scrollTo = parts[1];
+    if (scrollTo) {
+      setTimeout(() => {
+        const el = document.getElementById(scrollTo);
+        if (el) el.scrollIntoView({behavior: 'smooth', block: 'start'});
+      }, 60);
+    }
+  }
+}
+
+// ─── INTERNAL RENDERERS ──────────────────────────────────────────
+function _showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const el = document.getElementById('page-' + id);
+  if (el) el.classList.add('active');
+}
+
+function _setNavActive(which) {
+  document.querySelectorAll('.nav-center a').forEach(a => a.classList.remove('active'));
+  const target = which === 'menu' ? 'nav-menu' : 'nav-home';
+  document.getElementById(target)?.classList.add('active');
+}
+
+function _renderCatPage(catId, subId) {
+  const d = catData[catId];
+  if (!d) return;
+
+  // header
+  document.getElementById('cat-label-text').innerHTML =
+    `<span class="en">${d.labelEN}</span><span class="cn">${d.labelCN}</span>`;
+  document.getElementById('cat-title-text').innerHTML =
+    `<span class="en">${d.titleEN}</span><span class="cn">${d.titleCN}</span>`;
+  document.getElementById('cat-desc-text').innerHTML =
+    `<span class="en">${d.descEN}</span><span class="cn">${d.descCN}</span>`;
+
+  // sub-tabs
+  const tabsEl = document.getElementById('sub-tabs-container');
+  tabsEl.innerHTML = '';
+  const activeSub = subId || (d.tabs[0] ? d.tabs[0].id : null);
+
+  if (d.tabs.length > 0) {
+    d.tabs.forEach(t => {
+      const btn = document.createElement('button');
+      btn.className = 'sub-tab' + (t.id === activeSub ? ' active' : '');
+      btn.innerHTML = `<span class="en">${t.labelEN}</span><span class="cn">${t.labelCN}</span>`;
+      btn.onclick = () => navigate(`#/menu/${catId}/${t.id}`);
+      tabsEl.appendChild(btn);
+    });
+  }
+
+  // show/hide food sections
+  document.querySelectorAll('.food-section[id^="fs-"]').forEach(s => s.style.display = 'none');
+  const mainSection = document.getElementById('fs-' + catId);
+  if (mainSection) mainSection.style.display = 'block';
+
+  if (activeSub) {
+    const subEl = document.getElementById('fs-' + activeSub);
+    if (subEl) subEl.style.display = 'block';
+  }
+
+  // re-apply lang
+  if (currentLang === 'cn') document.body.classList.add('lang-cn');
+}
+
+// ─── PUBLIC NAV HELPERS (called from HTML onclick) ────────────────
+function showPage(id) {
+  if (id === 'home')       navigate('#/');
+  else if (id === 'menu-home') navigate('#/menu');
+  else if (id === 'menu-cat')  navigate('#/menu'); // fallback
+}
+
+function showMenuCat(catId) {
+  navigate(`#/menu/${catId}`);
+}
+
+function scrollToSection(sectionId) {
+  navigate(`#/home/${sectionId}`);
+}
+
+// ─── LANG ────────────────────────────────────────────────────────
+function setLang(l) {
+  currentLang = l;
+  document.body.classList.toggle('lang-cn', l === 'cn');
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+  document.querySelector(`.lang-btn[onclick="setLang('${l}')"]`).classList.add('active');
+}
+
+// ─── MOBILE MENU ─────────────────────────────────────────────────
+function toggleMobile() { document.getElementById('mMenu').classList.toggle('open'); }
+function closeMobile()   { document.getElementById('mMenu').classList.remove('open'); }
+
+// ─── SCROLL TOP ──────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 400);
+});
+
+// ─── BACK / FORWARD (popstate + hashchange) ───────────────────────
+window.addEventListener('popstate', () => route(location.hash));
+window.addEventListener('hashchange', () => route(location.hash));
+
+// ─── BOOT ────────────────────────────────────────────────────────
+// On first load, read hash from URL (supports direct links & refresh)
+(function init() {
+  const hash = location.hash || '#/';
+  route(hash);
+})();
+</script>
+</body>
+</html>
