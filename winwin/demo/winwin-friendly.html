@@ -61,14 +61,9 @@ nav{
   display:flex;align-items:center;gap:10px;cursor:pointer;
   text-decoration:none;
 }
-.nav-logo-mark{
-  width:36px;height:36px;background:var(--red);border-radius:10px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:var(--white);
-  letter-spacing:-1px;flex-shrink:0;
-}
-.nav-logo-text{font-family:'Fraunces',serif;font-size:17px;font-weight:700;color:var(--text);line-height:1.1;}
-.nav-logo-text small{display:block;font-size:12px;font-weight:400;color:var(--text3);font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:.5px;}
+.nav-logo-mark{display:none;}
+.nav-logo-text{font-family:'Fraunces',serif;font-size:21px;font-weight:700;color:var(--text);line-height:1;}
+.nav-logo-text small{display:none;}
 .nav-center{display:flex;gap:4px;list-style:none;}
 .nav-center a{
   text-decoration:none;font-size:15px;font-weight:600;color:var(--text2);
@@ -172,10 +167,10 @@ h1 .script{font-style:italic;color:var(--brown);}
   display:flex;align-items:center;justify-content:center;
   font-size:80px;
 }
-.mosaic-card.big .food-emoji-fill{font-size:120px;}
+
 .mosaic-overlay{
   position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(28,16,8,0.65));
+  background:linear-gradient(transparent 30%,rgba(28,16,8,0.80));
   padding:12px 14px 12px;
 }
 .mosaic-label{font-size:13px;font-weight:500;color:var(--white);}
@@ -185,9 +180,9 @@ h1 .script{font-style:italic;color:var(--brown);}
   background:var(--red);color:var(--white);
   font-size:12px;font-weight:700;padding:3px 9px;border-radius:100px;
 }
-.mosaic-card-bg-1{background:linear-gradient(135deg,#fde8d0,#f5c4a0);}
-.mosaic-card-bg-2{background:linear-gradient(135deg,#fce8e8,#f5c0c0);}
-.mosaic-card-bg-3{background:linear-gradient(135deg,#fff8e0,#fde8b0);}
+.mosaic-card-bg-1{}
+.mosaic-card-bg-2{}
+.mosaic-card-bg-3{}
 
 /* CATEGORY SECTION */
 .sec{padding:80px 8%;}
@@ -512,22 +507,22 @@ footer{
         </div>
       </div>
       <div class="hero-mosaic">
-        <div class="mosaic-card big mosaic-card-bg-1" onclick="showMenuCat('grilled')">
-          <div class="food-emoji-fill">🥩</div>
+        <div class="mosaic-card big" style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80');background-size:cover;background-position:center;" onclick="showMenuCat('grilled')">
+          
           <div class="mosaic-badge">🔥 <span class="en">Signature</span><span class="cn">招牌</span></div>
           <div class="mosaic-overlay">
             <div class="mosaic-label"><span class="en">Sizzling Iron Plate</span><span class="cn">铁板烧</span></div>
             <div class="mosaic-sub"><span class="en">Chicken & Pork Chops</span><span class="cn">鸡排与猪排</span></div>
           </div>
         </div>
-        <div class="mosaic-card small mosaic-card-bg-2" onclick="showMenuCat('pasta')">
-          <div class="food-emoji-fill" style="font-size:64px;">🍝</div>
+        <div class="mosaic-card small" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80');background-size:cover;background-position:center;" onclick="showMenuCat('pasta')">
+          
           <div class="mosaic-overlay">
             <div class="mosaic-label"><span class="en">Pasta</span><span class="cn">意大利面</span></div>
           </div>
         </div>
-        <div class="mosaic-card small mosaic-card-bg-3" onclick="showMenuCat('breakfast')">
-          <div class="food-emoji-fill" style="font-size:64px;">🍳</div>
+        <div class="mosaic-card small" style="background-image:url('https://images.unsplash.com/photo-1533920379810-6bedac961555?w=600&q=80');background-size:cover;background-position:center;" onclick="showMenuCat('breakfast')">
+          
           <div class="mosaic-overlay">
             <div class="mosaic-label"><span class="en">All Day Breakfast</span><span class="cn">全天早餐</span></div>
           </div>
@@ -545,23 +540,23 @@ footer{
     </div>
     <div class="cat-grid">
       <div class="cat-card featured" onclick="showMenuCat('grilled')">
-        <div class="cat-card-img-wrap"><div class="cat-card-img">🥩</div></div>
+        <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
         <div class="cat-card-body"><h3><span class="en">Grilled Chops</span><span class="cn">铁板烧</span></h3><p><span class="en">Chicken & Pork</span><span class="cn">鸡排 · 猪排</span></p></div>
       </div>
       <div class="cat-card" onclick="showMenuCat('fried')">
-        <div class="cat-card-img-wrap"><div class="cat-card-img">🍟</div></div>
+        <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
         <div class="cat-card-body"><h3><span class="en">Fried Chicken</span><span class="cn">炸鸡系列</span></h3><p><span class="en">Crispy & Spicy</span><span class="cn">香脆 · 香辣</span></p></div>
       </div>
       <div class="cat-card" onclick="showMenuCat('pasta')">
-        <div class="cat-card-img-wrap"><div class="cat-card-img">🍝</div></div>
+        <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
         <div class="cat-card-body"><h3><span class="en">Pasta</span><span class="cn">意大利面</span></h3><p><span class="en">3 varieties</span><span class="cn">3款口味</span></p></div>
       </div>
       <div class="cat-card" onclick="showMenuCat('breakfast')">
-        <div class="cat-card-img-wrap"><div class="cat-card-img">🍳</div></div>
+        <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1533920379810-6bedac961555?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
         <div class="cat-card-body"><h3><span class="en">Breakfast</span><span class="cn">全天早餐</span></h3><p><span class="en">All day long</span><span class="cn">全天供应</span></p></div>
       </div>
       <div class="cat-card" onclick="showMenuCat('sides')">
-        <div class="cat-card-img-wrap"><div class="cat-card-img">🍞</div></div>
+        <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
         <div class="cat-card-body"><h3><span class="en">Sides & Drinks</span><span class="cn">附餐饮料</span></h3><p><span class="en">Soups, bread & more</span><span class="cn">汤·面包·饮料</span></p></div>
       </div>
     </div>
@@ -661,8 +656,7 @@ footer{
   <footer>
     <div class="ft-brand">
       <div class="logo-row">
-        <div class="nav-logo-mark">WW</div>
-        <div class="nav-logo-text">WinWin <span class="en">Western Food</span><span class="cn">西餐</span></div>
+        <div class="nav-logo-text">WinWin</div>
       </div>
       <p><span class="en">Serving honest, hearty western food the Malaysian way — since Mr. Wing's very first sizzling plate left the kitchen.</span><span class="cn">以马来西亚方式，用心烹饪真实丰盛的西餐——自 Wing 老板第一块铁板烧出炉以来。</span></p>
     </div>
@@ -704,23 +698,23 @@ footer{
   </div>
   <div class="cat-grid" style="padding:32px 8%;margin:0;">
     <div class="cat-card featured" onclick="showMenuCat('grilled')">
-      <div class="cat-card-img-wrap"><div class="cat-card-img">🥩</div></div>
+      <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1558030006-450675393462?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
       <div class="cat-card-body"><h3><span class="en">Grilled Chops</span><span class="cn">铁板烧</span></h3><p><span class="en">Chicken & Pork</span><span class="cn">鸡排 · 猪排</span></p></div>
     </div>
     <div class="cat-card" onclick="showMenuCat('fried')">
-      <div class="cat-card-img-wrap"><div class="cat-card-img">🍟</div></div>
+      <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
       <div class="cat-card-body"><h3><span class="en">Fried Chicken</span><span class="cn">炸鸡系列</span></h3><p><span class="en">Crispy & Spicy</span><span class="cn">香脆 · 香辣</span></p></div>
     </div>
     <div class="cat-card" onclick="showMenuCat('pasta')">
-      <div class="cat-card-img-wrap"><div class="cat-card-img">🍝</div></div>
+      <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
       <div class="cat-card-body"><h3><span class="en">Pasta</span><span class="cn">意大利面</span></h3><p><span class="en">3 varieties</span><span class="cn">3款口味</span></p></div>
     </div>
     <div class="cat-card" onclick="showMenuCat('breakfast')">
-      <div class="cat-card-img-wrap"><div class="cat-card-img">🍳</div></div>
+      <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1533920379810-6bedac961555?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
       <div class="cat-card-body"><h3><span class="en">Breakfast</span><span class="cn">全天早餐</span></h3><p><span class="en">All day long</span><span class="cn">全天供应</span></p></div>
     </div>
     <div class="cat-card" onclick="showMenuCat('sides')">
-      <div class="cat-card-img-wrap"><div class="cat-card-img">🍞</div></div>
+      <div class="cat-card-img-wrap"><div class="cat-card-img" style="background-image:url('https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=400&q=75');background-size:cover;background-position:center;font-size:0;width:100%;height:100%;"></div></div>
       <div class="cat-card-body"><h3><span class="en">Sides & Drinks</span><span class="cn">附餐饮料</span></h3><p><span class="en">Soups, bread & more</span><span class="cn">汤·面包·饮料</span></p></div>
     </div>
   </div>
@@ -746,19 +740,19 @@ footer{
     <div class="food-section" id="fs-grilled-chicken" style="display:block;">
       <div class="food-section-title"><span class="en">🔥 Grilled Chicken</span><span class="cn">🔥 铁板烧鸡肉</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d0,#f5c0a0);"><span style="font-size:80px;">🍗</span><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Chop</span><span class="cn">黑椒铁板鸡排</span></h3><p><span class="en">Sizzling grilled chicken on an iron plate, drenched in a rich, bold black pepper sauce. A Win Win classic.</span><span class="cn">嫩滑鸡排置于烧热铁板，淋上浓郁黑椒酱，Win Win 经典招牌。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#e0d5c8);"><span style="font-size:80px;">🍗</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Chicken Chop</span><span class="cn">蘑菇汁铁板鸡排</span></h3><p><span class="en">Tender grilled chicken topped generously with a velvety, creamy mushroom sauce. Comfort on a plate.</span><span class="cn">嫩滑铁板鸡排，淋上浓郁奶香蘑菇酱，一份令人安心的美食。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d8,#e8b890);"><span style="font-size:80px;">🍗</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">BBQ Grilled Chicken Chop</span><span class="cn">烧烤铁板鸡排</span></h3><p><span class="en">Smoky, sweet BBQ glazed chicken chop sizzling on an iron plate. That char is everything.</span><span class="cn">香甜烧烤酱铁板鸡排，烟熏风味令人着迷。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e8,#f5b8b8);"><span style="font-size:80px;">🥩</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Combo: Chicken & Pork Grill</span><span class="cn">双拼铁板：鸡排+猪排</span></h3><p><span class="en">Half chicken chop + half pork chop on one sizzling iron plate. Best of both worlds — why choose?</span><span class="cn">半块鸡排加半块猪排，同置一块铁板。两全其美，无需抉择。</span></p><div class="food-card-footer"><div class="food-price">RM 28.80</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Chop</span><span class="cn">黑椒铁板鸡排</span></h3><p><span class="en">Sizzling grilled chicken on an iron plate, drenched in a rich, bold black pepper sauce. A Win Win classic.</span><span class="cn">嫩滑鸡排置于烧热铁板，淋上浓郁黑椒酱，Win Win 经典招牌。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1607532941433-304659e8198a?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Chicken Chop</span><span class="cn">蘑菇汁铁板鸡排</span></h3><p><span class="en">Tender grilled chicken topped generously with a velvety, creamy mushroom sauce. Comfort on a plate.</span><span class="cn">嫩滑铁板鸡排，淋上浓郁奶香蘑菇酱，一份令人安心的美食。</span></p><div class="food-card-footer"><div class="food-price">RM 22.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">BBQ Grilled Chicken Chop</span><span class="cn">烧烤铁板鸡排</span></h3><p><span class="en">Smoky, sweet BBQ glazed chicken chop sizzling on an iron plate. That char is everything.</span><span class="cn">香甜烧烤酱铁板鸡排，烟熏风味令人着迷。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Combo: Chicken & Pork Grill</span><span class="cn">双拼铁板：鸡排+猪排</span></h3><p><span class="en">Half chicken chop + half pork chop on one sizzling iron plate. Best of both worlds — why choose?</span><span class="cn">半块鸡排加半块猪排，同置一块铁板。两全其美，无需抉择。</span></p><div class="food-card-footer"><div class="food-price">RM 28.80</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
       </div>
     </div>
     <div class="food-section" id="fs-grilled-pork" style="display:none;">
       <div class="food-section-title"><span class="en">🥩 Grilled Pork</span><span class="cn">🥩 铁板烧猪肉</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e8,#f5c0b8);"><span style="font-size:80px;">🥩</span><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Pork Chop</span><span class="cn">黑椒铁板猪排</span></h3><p><span class="en">Tender pork chop on a searing iron plate with our signature black pepper sauce. A crowd favourite.</span><span class="cn">嫩滑猪排置于铁板，配上招牌黑椒酱，深受顾客喜爱。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#e0d5c8);"><span style="font-size:80px;">🥩</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Pork Chop</span><span class="cn">蘑菇汁铁板猪排</span></h3><p><span class="en">Juicy pork chop on a sizzling plate with a rich pour of creamy mushroom sauce.</span><span class="cn">多汁猪排置于铁板，淋上浓郁奶香蘑菇汁。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fde8d0,#f5c890);"><span style="font-size:80px;">🥩</span></div></div><div class="food-card-body"><h3><span class="en">Honey BBQ Pork Chop</span><span class="cn">蜜汁烧烤猪排</span></h3><p><span class="en">Pork chop glazed in a sweet honey BBQ sauce, caramelised to perfection on the iron plate.</span><span class="cn">蜜汁烧烤猪排，在铁板上焦糖化，甜香诱人。</span></p><div class="food-card-footer"><div class="food-price">RM 24.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f5e8d8,#e8c8a0);"><span style="font-size:80px;">🍖</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Pork Ribs</span><span class="cn">排骨</span></h3><p><span class="en">Tender, fall-off-the-bone pork ribs with our house BBQ sauce. Worth every ringgit.</span><span class="cn">软骨排骨，配自制烧烤酱，入口即化，物超所值。</span></p><div class="food-card-footer"><div class="food-price">RM 28.90</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1432139509613-5c4255815697?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-bestseller">🔥 Best Seller</div></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Pork Chop</span><span class="cn">黑椒铁板猪排</span></h3><p><span class="en">Tender pork chop on a searing iron plate with our signature black pepper sauce. A crowd favourite.</span><span class="cn">嫩滑猪排置于铁板，配上招牌黑椒酱，深受顾客喜爱。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Mushroom Sauce Pork Chop</span><span class="cn">蘑菇汁铁板猪排</span></h3><p><span class="en">Juicy pork chop on a sizzling plate with a rich pour of creamy mushroom sauce.</span><span class="cn">多汁猪排置于铁板，淋上浓郁奶香蘑菇汁。</span></p><div class="food-card-footer"><div class="food-price">RM 23.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Honey BBQ Pork Chop</span><span class="cn">蜜汁烧烤猪排</span></h3><p><span class="en">Pork chop glazed in a sweet honey BBQ sauce, caramelised to perfection on the iron plate.</span><span class="cn">蜜汁烧烤猪排，在铁板上焦糖化，甜香诱人。</span></p><div class="food-card-footer"><div class="food-price">RM 24.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Pork Ribs</span><span class="cn">排骨</span></h3><p><span class="en">Tender, fall-off-the-bone pork ribs with our house BBQ sauce. Worth every ringgit.</span><span class="cn">软骨排骨，配自制烧烤酱，入口即化，物超所值。</span></p><div class="food-card-footer"><div class="food-price">RM 28.90</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
       </div>
     </div>
   </div>
@@ -767,8 +761,8 @@ footer{
   <div class="food-section" id="fs-fried" style="display:none;">
     <div class="food-section-title"><span class="en">🍟 Fried Chicken</span><span class="cn">🍟 炸鸡系列</span></div>
     <div class="food-grid">
-      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d8,#f5e090);"><span style="font-size:80px;">🍗</span></div></div><div class="food-card-body"><h3><span class="en">Crispy Fried Chicken Chop</span><span class="cn">香脆炸鸡排</span></h3><p><span class="en">Golden, crispy-fried chicken chop with your choice of sauce. Light on the outside, juicy within.</span><span class="cn">外酥内嫩的炸鸡排，搭配自选酱料，口感绝佳。</span></p><div class="food-card-footer"><div class="food-price">RM 20.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
-      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8e0,#f5b090);"><span style="font-size:80px;">🌶️</span><div class="food-badge badge-bestseller">🌶️ Spicy</div></div></div><div class="food-card-body"><h3><span class="en">Spicy Fried Chicken Chop</span><span class="cn">香辣炸鸡排</span></h3><p><span class="en">Crispy fried chicken coated in a bold spicy seasoning blend. A proper kick in every bite.</span><span class="cn">香辣粉炸鸡排，每一口都带劲，辣味十足。</span></p><div class="food-card-footer"><div class="food-price">RM 21.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1562967914-608f82629710?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Crispy Fried Chicken Chop</span><span class="cn">香脆炸鸡排</span></h3><p><span class="en">Golden, crispy-fried chicken chop with your choice of sauce. Light on the outside, juicy within.</span><span class="cn">外酥内嫩的炸鸡排，搭配自选酱料，口感绝佳。</span></p><div class="food-card-footer"><div class="food-price">RM 20.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-bestseller">🌶️ Spicy</div></div></div><div class="food-card-body"><h3><span class="en">Spicy Fried Chicken Chop</span><span class="cn">香辣炸鸡排</span></h3><p><span class="en">Crispy fried chicken coated in a bold spicy seasoning blend. A proper kick in every bite.</span><span class="cn">香辣粉炸鸡排，每一口都带劲，辣味十足。</span></p><div class="food-card-footer"><div class="food-price">RM 21.90+</div><div class="food-sub-tag"><span class="en">Set incl. drink</span><span class="cn">含饮料套餐</span></div></div></div></div>
     </div>
   </div>
 
@@ -776,9 +770,9 @@ footer{
   <div class="food-section" id="fs-pasta" style="display:none;">
     <div class="food-section-title"><span class="en">🍝 Pasta & Noodles</span><span class="cn">🍝 意大利面</span></div>
     <div class="food-grid">
-      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8d0,#f0b888);"><span style="font-size:80px;">🍝</span></div></div><div class="food-card-body"><h3><span class="en">Bolognese Spaghetti</span><span class="cn">肉酱意大利面</span></h3><p><span class="en">Slow-cooked minced meat sauce over al dente spaghetti. Rich, hearty, and soul-satisfying.</span><span class="cn">慢炖肉末酱配弹牙意大利面，浓郁丰盛，令人满足。</span></p><div class="food-card-footer"><div class="food-price">RM 14.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
-      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f8f0e0,#edd8a8);"><span style="font-size:80px;">🍝</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Carbonara Spaghetti</span><span class="cn">卡邦尼意大利面</span></h3><p><span class="en">Creamy carbonara with egg yolk, parmesan, and crispy bacon. Indulgent and deeply satisfying.</span><span class="cn">奶香卡邦尼，蛋黄帕玛森起司与香脆培根，浓郁满足。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
-      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce0d8,#f0a898);"><span style="font-size:80px;">🍝</span></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Pasta</span><span class="cn">黑椒鸡肉意大利面</span></h3><p><span class="en">Spaghetti tossed in bold black pepper sauce with strips of grilled chicken. A spicy crowd-pleaser.</span><span class="cn">黑椒酱炒意大利面，配上嫩滑烤鸡条，香辣美味。</span></p><div class="food-card-footer"><div class="food-price">RM 16.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1555949258-eb67b1ef0ceb?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Bolognese Spaghetti</span><span class="cn">肉酱意大利面</span></h3><p><span class="en">Slow-cooked minced meat sauce over al dente spaghetti. Rich, hearty, and soul-satisfying.</span><span class="cn">慢炖肉末酱配弹牙意大利面，浓郁丰盛，令人满足。</span></p><div class="food-card-footer"><div class="food-price">RM 14.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Carbonara Spaghetti</span><span class="cn">卡邦尼意大利面</span></h3><p><span class="en">Creamy carbonara with egg yolk, parmesan, and crispy bacon. Indulgent and deeply satisfying.</span><span class="cn">奶香卡邦尼，蛋黄帕玛森起司与香脆培根，浓郁满足。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
+      <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1598866594230-a7c12756260f?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Black Pepper Chicken Pasta</span><span class="cn">黑椒鸡肉意大利面</span></h3><p><span class="en">Spaghetti tossed in bold black pepper sauce with strips of grilled chicken. A spicy crowd-pleaser.</span><span class="cn">黑椒酱炒意大利面，配上嫩滑烤鸡条，香辣美味。</span></p><div class="food-card-footer"><div class="food-price">RM 16.90+</div><div class="food-sub-tag"><span class="en">+ Garlic bread</span><span class="cn">附大蒜面包</span></div></div></div></div>
     </div>
   </div>
 
@@ -787,16 +781,16 @@ footer{
     <div id="fs-breakfast-eggs" class="food-section" style="display:block;">
       <div class="food-section-title"><span class="en">🍳 Egg Sets</span><span class="cn">🍳 蛋类套餐</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e0,#f5e090);"><span style="font-size:80px;">🍳</span></div></div><div class="food-card-body"><h3><span class="en">Set A — Sunny Side Up</span><span class="cn">A套 — 太阳蛋</span></h3><p><span class="en">2 fried eggs, toast, sausage & ham. The timeless, satisfying morning plate.</span><span class="cn">2颗煎蛋、吐司、香肠与火腿，经典满足早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff0d8,#f5d090);"><span style="font-size:80px;">🥚</span><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Set B — Scrambled Eggs</span><span class="cn">B套 — 炒蛋</span></h3><p><span class="en">Fluffy scrambled eggs with sausage, crispy bacon, buttered toast and a drink. The full works.</span><span class="cn">软嫩炒蛋，配香肠、培根、吐司及饮料，丰盛早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 18.50</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0f8e8,#d0e8b0);"><span style="font-size:80px;">🫧</span></div></div><div class="food-card-body"><h3><span class="en">Set C — Poached Eggs</span><span class="cn">C套 — 水波蛋</span></h3><p><span class="en">Two poached eggs on toast with sautéed mushrooms and grilled tomato. A lighter, elegant choice.</span><span class="cn">水波蛋放在吐司上，配炒蘑菇与烤番茄，清新优雅之选。</span></p><div class="food-card-footer"><div class="food-price">RM 17.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1533920379810-6bedac961555?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Set A — Sunny Side Up</span><span class="cn">A套 — 太阳蛋</span></h3><p><span class="en">2 fried eggs, toast, sausage & ham. The timeless, satisfying morning plate.</span><span class="cn">2颗煎蛋、吐司、香肠与火腿，经典满足早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 15.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1525351484163-7529414344d8?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Popular</div></div></div><div class="food-card-body"><h3><span class="en">Set B — Scrambled Eggs</span><span class="cn">B套 — 炒蛋</span></h3><p><span class="en">Fluffy scrambled eggs with sausage, crispy bacon, buttered toast and a drink. The full works.</span><span class="cn">软嫩炒蛋，配香肠、培根、吐司及饮料，丰盛早餐。</span></p><div class="food-card-footer"><div class="food-price">RM 18.50</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Set C — Poached Eggs</span><span class="cn">C套 — 水波蛋</span></h3><p><span class="en">Two poached eggs on toast with sautéed mushrooms and grilled tomato. A lighter, elegant choice.</span><span class="cn">水波蛋放在吐司上，配炒蘑菇与烤番茄，清新优雅之选。</span></p><div class="food-card-footer"><div class="food-price">RM 17.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
       </div>
     </div>
     <div id="fs-breakfast-bread" class="food-section" style="display:none;">
       <div class="food-section-title"><span class="en">🍞 Bread & Toast</span><span class="cn">🍞 面包吐司</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d0,#f5e890);"><span style="font-size:80px;">🍞</span></div></div><div class="food-card-body"><h3><span class="en">Kaya Toast Set</span><span class="cn">咖椰吐司套餐</span></h3><p><span class="en">Kaya butter toast, 2 soft boiled eggs and a hot kopi. A Malaysian morning ritual.</span><span class="cn">咖椰牛油吐司、2颗软熟蛋及咖啡，马来西亚式早晨仪式。</span></p><div class="food-card-footer"><div class="food-price">RM 9.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fce8c8,#f0c880);"><span style="font-size:80px;">🥪</span></div></div><div class="food-card-body"><h3><span class="en">French Toast</span><span class="cn">法式吐司</span></h3><p><span class="en">Golden egg-battered French toast drizzled with honey and served with a knob of butter.</span><span class="cn">金黄蛋液法式吐司，淋上蜂蜜，配牛油，香甜可口。</span></p><div class="food-card-footer"><div class="food-price">RM 10.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Kaya Toast Set</span><span class="cn">咖椰吐司套餐</span></h3><p><span class="en">Kaya butter toast, 2 soft boiled eggs and a hot kopi. A Malaysian morning ritual.</span><span class="cn">咖椰牛油吐司、2颗软熟蛋及咖啡，马来西亚式早晨仪式。</span></p><div class="food-card-footer"><div class="food-price">RM 9.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1604152135912-04a022e23696?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">French Toast</span><span class="cn">法式吐司</span></h3><p><span class="en">Golden egg-battered French toast drizzled with honey and served with a knob of butter.</span><span class="cn">金黄蛋液法式吐司，淋上蜂蜜，配牛油，香甜可口。</span></p><div class="food-card-footer"><div class="food-price">RM 10.90</div><div class="food-sub-tag"><span class="en">All day</span><span class="cn">全天供应</span></div></div></div></div>
       </div>
     </div>
   </div>
@@ -806,18 +800,18 @@ footer{
     <div id="fs-sides-food" class="food-section" style="display:block;">
       <div class="food-section-title"><span class="en">🍞 Sides</span><span class="cn">🍞 附餐</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8d0,#f5e890);"><span style="font-size:80px;">🥖</span><div class="food-badge badge-popular">⭐ Fan Fave</div></div></div><div class="food-card-body"><h3><span class="en">Buttery Garlic Bread</span><span class="cn">蒜香牛油面包</span></h3><p><span class="en">Sesame-crusted, golden-toasted, oozing with butter. At RM 2, it's the best deal on the menu.</span><span class="cn">芝麻外脆内软，牛油满溢。RM 2，菜单上最超值的选择。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede8,#d8ccb8);"><span style="font-size:80px;">🥣</span></div></div><div class="food-card-body"><h3><span class="en">Mushroom Cream Soup</span><span class="cn">奶香蘑菇汤</span></h3><p><span class="en">Rich, velvety mushroom cream soup. Always pairs perfectly with garlic bread.</span><span class="cn">浓郁丝滑蘑菇奶汤，与蒜香面包绝配。</span></p><div class="food-card-footer"><div class="food-price">RM 6.00</div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e0,#f5e090);"><span style="font-size:80px;">🍟</span></div></div><div class="food-card-body"><h3><span class="en">French Fries</span><span class="cn">薯条</span></h3><p><span class="en">Crispy golden fries. Simple and satisfying.</span><span class="cn">香脆金黄薯条，简单美味。</span></p><div class="food-card-footer"><div class="food-price">RM 5.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80');background-size:cover;background-position:center;"><div class="food-badge badge-popular">⭐ Fan Fave</div></div></div><div class="food-card-body"><h3><span class="en">Buttery Garlic Bread</span><span class="cn">蒜香牛油面包</span></h3><p><span class="en">Sesame-crusted, golden-toasted, oozing with butter. At RM 2, it's the best deal on the menu.</span><span class="cn">芝麻外脆内软，牛油满溢。RM 2，菜单上最超值的选择。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Mushroom Cream Soup</span><span class="cn">奶香蘑菇汤</span></h3><p><span class="en">Rich, velvety mushroom cream soup. Always pairs perfectly with garlic bread.</span><span class="cn">浓郁丝滑蘑菇奶汤，与蒜香面包绝配。</span></p><div class="food-card-footer"><div class="food-price">RM 6.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1603105037880-880cd4edfb0d?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">French Fries</span><span class="cn">薯条</span></h3><p><span class="en">Crispy golden fries. Simple and satisfying.</span><span class="cn">香脆金黄薯条，简单美味。</span></p><div class="food-card-footer"><div class="food-price">RM 5.00</div></div></div></div>
       </div>
     </div>
     <div id="fs-sides-drinks" class="food-section" style="display:none;">
       <div class="food-section-title"><span class="en">🥤 Drinks</span><span class="cn">🥤 饮料</span></div>
       <div class="food-grid">
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#e8f0f8,#b8d0e8);"><span style="font-size:80px;">🥤</span></div></div><div class="food-card-body"><h3><span class="en">Soft Drinks (Canned)</span><span class="cn">罐装汽水</span></h3><p><span class="en">Coke, 100 Plus and more.</span><span class="cn">可乐、100 Plus 等。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#f0ede0,#d8c898);"><span style="font-size:80px;">🍵</span></div></div><div class="food-card-body"><h3><span class="en">Chinese Tea (Pot)</span><span class="cn">中国茶（壶）</span></h3><p><span class="en">Fragrant Chinese tea served warm by the pot.</span><span class="cn">清香中国茶，以壶盛装，温热供应。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#fff8e8,#f0d890);"><span style="font-size:80px;">🍊</span></div></div><div class="food-card-body"><h3><span class="en">Fresh Orange Juice</span><span class="cn">鲜榨橙汁</span></h3><p><span class="en">Freshly squeezed orange juice. A refreshing pick-me-up.</span><span class="cn">鲜榨橙汁，清新提神。</span></p><div class="food-card-footer"><div class="food-price">RM 7.00</div></div></div></div>
-        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background:linear-gradient(135deg,#e8d8c8,#c8a888);"><span style="font-size:80px;">☕</span></div></div><div class="food-card-body"><h3><span class="en">Hot / Iced Coffee</span><span class="cn">热/冰咖啡</span></h3><p><span class="en">Freshly brewed coffee, hot or iced.</span><span class="cn">新鲜冲泡咖啡，热饮或冰饮。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1544145945-f90425340c7e?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Soft Drinks (Canned)</span><span class="cn">罐装汽水</span></h3><p><span class="en">Coke, 100 Plus and more.</span><span class="cn">可乐、100 Plus 等。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Chinese Tea (Pot)</span><span class="cn">中国茶（壶）</span></h3><p><span class="en">Fragrant Chinese tea served warm by the pot.</span><span class="cn">清香中国茶，以壶盛装，温热供应。</span></p><div class="food-card-footer"><div class="food-price">RM 2.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Fresh Orange Juice</span><span class="cn">鲜榨橙汁</span></h3><p><span class="en">Freshly squeezed orange juice. A refreshing pick-me-up.</span><span class="cn">鲜榨橙汁，清新提神。</span></p><div class="food-card-footer"><div class="food-price">RM 7.00</div></div></div></div>
+        <div class="food-card"><div class="food-card-img-wrap"><div class="food-card-img" style="background-image:url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80');background-size:cover;background-position:center;"></div></div><div class="food-card-body"><h3><span class="en">Hot / Iced Coffee</span><span class="cn">热/冰咖啡</span></h3><p><span class="en">Freshly brewed coffee, hot or iced.</span><span class="cn">新鲜冲泡咖啡，热饮或冰饮。</span></p><div class="food-card-footer"><div class="food-price">RM 3.50</div></div></div></div>
       </div>
     </div>
   </div>
