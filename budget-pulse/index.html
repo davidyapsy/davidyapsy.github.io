@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Budget Pulse — Budget vs. Actual Dashboard</title>
+<meta name="description" content="A live budget-vs-actual dashboard that reads your transactions and budget straight from Google Sheets." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="viz-root">
+
+<header class="app-header">
+  <div class="header-left">
+    <span class="app-logo" aria-hidden="true">📊</span>
+    <div class="header-titles">
+      <h1>Budget Pulse</h1>
+      <p class="app-subtitle">Budget vs. actual, straight from your Google Sheet</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <button id="theme-toggle" class="btn btn-ghost" type="button" aria-label="Toggle dark mode">🌓</button>
+    <button id="settings-btn" class="btn btn-ghost" type="button">⚙ Settings</button>
+    <button id="signin-btn" class="btn btn-primary" type="button">Sign in with Google</button>
+    <span id="signed-in-badge" class="signed-in-badge" hidden></span>
+  </div>
+</header>
+
+<main class="app-main">
+
+  <section id="empty-state" class="panel empty-state">
+    <h2>Connect your Google Sheet, or just try it</h2>
+    <p>Budget Pulse reads a <strong>Budget</strong> tab and your monthly transaction tabs (Jan, Feb, ...) straight from
+       a Google Sheet you own — nothing is uploaded and no data is stored anywhere but your browser.</p>
+    <div class="empty-actions">
+      <button id="empty-signin-btn" class="btn btn-primary" type="button">Sign in with Google</button>
+      <button id="demo-btn" class="btn btn-secondary" type="button">Try it with sample data</button>
+    </div>
+    <p class="empty-hint">First time? Open <strong>Settings</strong> to enter your OAuth Client ID and Spreadsheet ID —
+       the README walks through getting both in a few minutes.</p>
+  </section>
+
+  <div id="dashboard" class="dashboard" hidden>
+
+    <section class="panel controls-row">
+      <label class="field">
+        <span>Month</span>
+        <select id="month-select"></select>
+      </label>
+      <div class="controls-spacer"></div>
+      <span id="data-source-badge" class="data-source-badge"></span>
+      <button id="refresh-btn" class="btn btn-ghost" type="button">↻ Refresh</button>
+      <button id="table-view-btn" class="btn btn-ghost" type="button">Table view</button>
+    </section>
+
+    <section class="stat-row">
+      <div class="stat-tile">
+        <span class="stat-label">Budgeted this month</span>
+        <span id="stat-budget" class="stat-value">—</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-label">Spent this month</span>
+        <span id="stat-spent" class="stat-value">—</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-label">Remaining</span>
+        <span id="stat-remaining" class="stat-value">—</span>
+      </div>
+      <div class="stat-tile">
+        <span class="stat-label">Categories over budget</span>
+        <span id="stat-over" class="stat-value">—</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Spending by category</h2>
+        <div class="legend" aria-hidden="true">
+          <span class="legend-item"><i class="swatch status-good"></i>Under 80%</span>
+          <span class="legend-item"><i class="swatch status-warning"></i>80–100%</span>
+          <span class="legend-item"><i class="swatch status-critical"></i>Over budget</span>
+        </div>
+      </div>
+      <div id="meters" class="meters" role="list"></div>
+      <div id="meters-empty" class="muted-note" hidden>No expenses recorded for this month yet.</div>
+    </section>
+
+    <section class="panel">
+      <h2>Spend vs. budget over time</h2>
+      <div id="trend-chart" class="trend-chart"></div>
+    </section>
+
+    <section id="table-panel" class="panel" hidden>
+      <div class="panel-head">
+        <h2>All categories — table view</h2>
+      </div>
+      <div class="table-wrap">
+        <table id="data-table">
+          <thead>
+            <tr><th>Category</th><th>Budgeted</th><th>Spent</th><th>Remaining</th><th>% used</th><th>Status</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="error-banner" class="error-banner" hidden></div>
+
+</main>
+
+<footer class="app-footer">
+  <p>Your data never leaves your browser except to talk directly to Google's Sheets API. Built with plain HTML/CSS/JS — no backend, hosted on GitHub Pages.</p>
+</footer>
+
+<!-- Settings modal -->
+<dialog id="settings-modal" class="modal">
+  <form id="settings-form" method="dialog">
+    <h2>Settings</h2>
+    <label class="field">
+      <span>Google OAuth Client ID</span>
+      <input id="input-client-id" type="text" placeholder="xxxxxxxx.apps.googleusercontent.com" autocomplete="off" />
+    </label>
+    <label class="field">
+      <span>Spreadsheet ID</span>
+      <input id="input-spreadsheet-id" type="text" placeholder="the long ID from the sheet's URL" autocomplete="off" />
+    </label>
+    <label class="field">
+      <span>Budget tab name</span>
+      <input id="input-budget-tab" type="text" value="Budget" autocomplete="off" />
+    </label>
+    <label class="field">
+      <span>Year</span>
+      <input id="input-year" type="number" step="1" autocomplete="off" />
+    </label>
+    <p class="modal-hint">Expenses are read from whichever month tabs exist (Jan, Feb, ...) — no need to list them. Use one spreadsheet per year and update Year when you start a new one. See the README for the OAuth Client ID and Spreadsheet ID. Stored only in this browser's local storage.</p>
+    <div class="modal-actions">
+      <button type="button" id="settings-cancel" class="btn btn-ghost">Cancel</button>
+      <button type="submit" id="settings-save" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="js/config.js"></script>
+<script src="js/demoData.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/sheetsApi.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
