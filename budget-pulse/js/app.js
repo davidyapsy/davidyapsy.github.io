@@ -156,10 +156,21 @@
     els["theme-toggle"].addEventListener("click", cycleTheme);
   }
 
+  // ---------- PWA install ----------
+  function registerServiceWorker() {
+    if (!("serviceWorker" in navigator)) return;
+    // Relative path + relative scope, so this works whether the app is
+    // hosted at a domain root or a subpath like /budget-pulse/.
+    navigator.serviceWorker.register("./service-worker.js").catch((err) => {
+      console.warn("Budget Pulse: service worker registration failed", err);
+    });
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     cacheEls();
     wire();
     applyTheme(Config.getTheme());
+    registerServiceWorker();
     if (Config.isConfigured()) {
       // Try a silent, non-interactive sign-in so a returning user with an
       // active Google session doesn't have to click through every time.

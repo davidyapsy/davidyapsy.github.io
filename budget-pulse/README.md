@@ -153,6 +153,33 @@ python3 -m http.server 8000
 For local testing, add `http://localhost:8000` as an additional Authorized
 JavaScript origin on the OAuth Client ID.
 
+## Installing it on your phone
+
+Budget Pulse is a Progressive Web App (PWA) — once it's deployed to GitHub
+Pages (HTTPS is required for this part; `localhost` also works for testing),
+your phone can install it as a home-screen app with its own icon, no app
+store involved:
+
+- **Android (Chrome)**: open the deployed page, tap the **⋮** menu → **Add to
+  Home screen** / **Install app** (Chrome sometimes offers this as a banner
+  automatically). It'll open full-screen, without browser chrome, like any
+  other app.
+- **iPhone/iPad (Safari)**: open the page, tap the **Share** icon → **Add to
+  Home Screen**. Chrome on iOS can't do this — it has to be Safari.
+
+What "installed" gets you: instant opening (the app shell loads from cache,
+even offline), a real icon and app-switcher entry, and no address bar. It
+does **not** mean your budget data is available offline — that still has to
+come live from Google Sheets, so you need a connection to see current
+numbers. Signing in still briefly hands off to the browser/a Google system
+sheet for the consent screen, even from the installed app — that's Google's
+own security requirement (it won't authenticate inside an embedded app
+view), and you're dropped right back into Budget Pulse afterwards.
+
+If you change any HTML/CSS/JS file later, bump `CACHE_VERSION` at the top of
+`service-worker.js` (e.g. `"v1"` → `"v2"`) — otherwise anyone who's already
+installed the app keeps seeing the old cached version until that changes.
+
 ## Limitations / possible next steps
 
 - Budgets are a single flat amount per category (not per-month) — a month
