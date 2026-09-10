@@ -110,7 +110,10 @@ https://docs.google.com/spreadsheets/d/  1AbCdEfGhIjKlMnOpQrStUvWxYz...  /edit
 3. **APIs & Services → OAuth consent screen** — choose **External**, fill in
    an app name and your email, and add yourself as a **test user** (this
    keeps the app in "testing" mode, which is fine for personal/demo use — no
-   Google review needed).
+   Google review needed). Under **Data Access → Add or remove scopes**, add
+   both `.../auth/spreadsheets.readonly` and `.../auth/userinfo.email` — the
+   second one is just so Budget Pulse can remember *which* Google account
+   signed in last (see "Staying signed in" below), never anything sensitive.
 4. **APIs & Services → Credentials → Create Credentials → OAuth client ID** —
    application type **Web application**. Under **Authorized JavaScript
    origins**, add the URL you'll host this on, e.g.
@@ -141,9 +144,32 @@ January when you start a new spreadsheet). Click **Save**, then **Sign in
 with Google**. You'll see the standard Google consent screen asking for
 read-only Sheets access — approve it, and the dashboard loads. These settings
 are remembered in your browser (`localStorage`) so you won't need to re-enter
-them, though you will need to sign in again each time you return (the app
-only ever holds a short-lived token in memory, never a refresh token, by
-design).
+them.
+
+### Staying signed in
+
+The app only ever holds a short-lived (~1 hour) access token in memory, never
+a refresh token — that's a deliberate choice, since a static site with no
+backend has nowhere safe to keep a permanent credential. In practice that
+still adds up to something close to "stay signed in":
+
+- Every time you open the app, and every time you switch back to it, it
+  quietly tries to re-authenticate in the background — no click needed — and
+  while the tab/app stays open it renews the token before it expires, so an
+  in-progress session doesn't get interrupted.
+- If a prompt does have to show, it remembers which Google account you used
+  last and skips straight to that account instead of showing the chooser.
+
+Whether the *silent* part above succeeds depends on your browser still
+letting Google's background sign-in check see your Google session cookie.
+If your browser blocks third-party cookies (increasingly the default in
+Chrome, and always the case in Safari/iOS and in Incognito), that silent
+check can't complete, and you'll land on a real "Sign in with Google" click
+each time instead — that's Google's own security boundary for apps with no
+backend, not something this app can override. If you want to test whether
+that's what's happening: `chrome://settings/cookies` → check whether
+third-party cookies are blocked, and whether `accounts.google.com` has an
+exception.
 
 ## Running locally
 

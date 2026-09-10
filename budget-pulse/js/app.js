@@ -160,6 +160,17 @@
     });
   }
 
+  // If a returning user's token has quietly lapsed (e.g. the phone locked,
+  // or the tab/app was in the background for a while) while they're already
+  // signed in, catch it the moment they come back — without waiting for
+  // them to click Refresh — rather than only trying once on first load.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState !== "visible") return;
+    if (dataSource === "live" && !Auth.isSignedIn() && Config.isConfigured()) {
+      loadLive({ interactive: false });
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
     cacheEls();
     wire();

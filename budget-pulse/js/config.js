@@ -12,6 +12,11 @@ const Config = (() => {
     // Each spreadsheet covers one calendar year (a fresh sheet per year),
     // so the year lives here rather than being guessed from anywhere else.
     year: new Date().getFullYear(),
+    // The email of whoever last signed in — NOT a credential, just a hint
+    // string. Passing it back to Google as `login_hint` next time lets the
+    // sign-in flow skip the "choose an account" screen instead of asking
+    // again from scratch. Safe to clear; worst case is one extra click.
+    lastEmail: "",
   };
 
   function load() {
