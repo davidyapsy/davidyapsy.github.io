@@ -110,6 +110,15 @@ p { margin: 0; }
 
 /* Main layout */
 .app-main { max-width: 980px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.controls-row { order: 1; }
+.stat-row { order: 2; }
+.category-panel { order: 3; }
+.trend-panel { order: 4; }
 .panel {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -134,7 +143,6 @@ p { margin: 0; }
   font: inherit; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border);
   background: var(--surface-page); color: var(--text-primary);
 }
-.data-source-badge { font-size: 0.8rem; color: var(--text-muted); }
 
 /* Stat tiles */
 .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
@@ -196,14 +204,6 @@ p { margin: 0; }
 .trend-tooltip strong { font-variant-numeric: tabular-nums; }
 .trend-wrap { position: relative; }
 
-/* Table view */
-.table-wrap { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
-th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--gridline); font-size: 0.9rem; }
-th { color: var(--text-secondary); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.02em; }
-td.num, th.num {}
-.status-pill { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; }
-
 /* Error banner */
 .error-banner {
   background: var(--status-critical-track); border: 1px solid var(--status-critical);
@@ -221,6 +221,44 @@ td.num, th.num {}
 .modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
 
 @media (max-width: 720px) {
-  .stat-row { grid-template-columns: repeat(2, 1fr); }
-  .meter-row { grid-template-columns: 120px 1fr 70px; }
+  /* Header: icon-only actions, no subtitle, tighter padding */
+  .app-header { padding: 10px 14px; gap: 10px; }
+  .app-subtitle { display: none; }
+  .app-logo { font-size: 1.3rem; }
+  .header-titles h1 { font-size: 1.05rem; }
+  .header-right { gap: 6px; }
+  .btn-label { display: none; }
+  .signed-in-badge { font-size: 0.7rem; padding: 5px 8px; }
+
+  .app-main { padding: 14px; gap: 14px; }
+  .dashboard { gap: 14px; }
+  .panel { padding: 14px; }
+
+  /* Controls row: icon-only refresh, tighter padding */
+  .controls-row { padding: 10px 14px; gap: 10px; }
+
+  /* De-emphasize the stat tiles so Spending by category reads as the
+     focal section — it also moves above the stats in source order below. */
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; order: 3; }
+  .stat-tile { padding: 10px 12px; gap: 3px; }
+  .stat-label { font-size: 0.72rem; }
+  .stat-value { font-size: 1.15rem; }
+  .category-panel { order: 2; }
+  .trend-panel { order: 4; }
+
+  .meter-row { grid-template-columns: 120px 1fr 70px; gap: 8px; }
+}
+
+@media (max-width: 480px) {
+  /* Three squeezed columns stop working at true phone widths — restack as
+     name+percent on one line, full-width bar below. */
+  .meter-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "label pct" "track track";
+    row-gap: 6px;
+    column-gap: 8px;
+  }
+  .meter-label { grid-area: label; }
+  .meter-pct { grid-area: pct; }
+  .meter-track { grid-area: track; }
 }

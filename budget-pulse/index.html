@@ -29,10 +29,10 @@
     </div>
   </div>
   <div class="header-right">
-    <button id="theme-toggle" class="btn btn-ghost" type="button" aria-label="Toggle dark mode">🌓</button>
-    <button id="settings-btn" class="btn btn-ghost" type="button">⚙ Settings</button>
-    <button id="signin-btn" class="btn btn-primary" type="button">Sign in with Google</button>
     <span id="signed-in-badge" class="signed-in-badge" hidden></span>
+    <button id="theme-toggle" class="btn btn-ghost" type="button" aria-label="Toggle dark mode">🌓</button>
+    <button id="settings-btn" class="btn btn-ghost" type="button" aria-label="Settings">⚙<span class="btn-label"> Settings</span></button>
+    <button id="signin-btn" class="btn btn-primary" type="button">Sign in<span class="btn-label"> with Google</span></button>
   </div>
 </header>
 
@@ -58,9 +58,7 @@
         <select id="month-select"></select>
       </label>
       <div class="controls-spacer"></div>
-      <span id="data-source-badge" class="data-source-badge"></span>
-      <button id="refresh-btn" class="btn btn-ghost" type="button">↻ Refresh</button>
-      <button id="table-view-btn" class="btn btn-ghost" type="button">Table view</button>
+      <button id="refresh-btn" class="btn btn-ghost" type="button" aria-label="Refresh">↻<span class="btn-label"> Refresh</span></button>
     </section>
 
     <section class="stat-row">
@@ -82,7 +80,7 @@
       </div>
     </section>
 
-    <section class="panel">
+    <section class="panel category-panel">
       <div class="panel-head">
         <h2>Spending by category</h2>
         <div class="legend" aria-hidden="true">
@@ -95,23 +93,9 @@
       <div id="meters-empty" class="muted-note" hidden>No expenses recorded for this month yet.</div>
     </section>
 
-    <section class="panel">
+    <section class="panel trend-panel">
       <h2>Spend vs. budget over time</h2>
       <div id="trend-chart" class="trend-chart"></div>
-    </section>
-
-    <section id="table-panel" class="panel" hidden>
-      <div class="panel-head">
-        <h2>All categories — table view</h2>
-      </div>
-      <div class="table-wrap">
-        <table id="data-table">
-          <thead>
-            <tr><th>Category</th><th>Budgeted</th><th>Spent</th><th>Remaining</th><th>% used</th><th>Status</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
     </section>
 
   </div>

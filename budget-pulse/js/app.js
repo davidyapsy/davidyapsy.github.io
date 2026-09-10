@@ -13,8 +13,8 @@
       "settings-modal", "input-client-id", "input-spreadsheet-id", "input-budget-tab", "input-year",
       "settings-btn", "settings-cancel", "settings-form",
       "signin-btn", "empty-signin-btn", "demo-btn", "signed-in-badge",
-      "month-select", "refresh-btn", "table-view-btn", "table-panel",
-      "theme-toggle", "data-source-badge",
+      "month-select", "refresh-btn",
+      "theme-toggle",
     ].forEach((id) => { els[id] = document.getElementById(id); });
   }
 
@@ -69,7 +69,7 @@
       model = Dashboard.parse(budgetRows, monthTabs, settings.year);
       dataSource = "live";
       els["signed-in-badge"].hidden = false;
-      els["signed-in-badge"].textContent = "🟢 Connected to Google Sheets";
+      els["signed-in-badge"].textContent = "🟢 Connected";
       els["signin-btn"].hidden = true;
       renderModel();
     } catch (err) {
@@ -83,7 +83,7 @@
     model = Dashboard.parse(DemoData.budgetRows(), DemoData.monthTabs(), DemoData.year);
     dataSource = "demo";
     els["signed-in-badge"].hidden = false;
-    els["signed-in-badge"].textContent = "🧪 Sample data — not connected";
+    els["signed-in-badge"].textContent = "🧪 Sample data";
     renderModel();
   }
 
@@ -91,7 +91,6 @@
   function renderModel() {
     els["empty-state"].hidden = true;
     els["dashboard"].hidden = false;
-    els["data-source-badge"].textContent = dataSource === "live" ? "Live from Google Sheets" : "Sample data";
 
     const select = els["month-select"];
     select.innerHTML = "";
@@ -112,7 +111,6 @@
     const computed = Dashboard.computeMonth(monthKey, model);
     Dashboard.renderStats(computed.totals);
     Dashboard.renderMeters(computed.categories);
-    Dashboard.renderTable(computed.categories);
   }
 
   // ---------- Theme ----------
@@ -149,10 +147,6 @@
     });
 
     els["month-select"].addEventListener("change", renderSelectedMonth);
-    els["table-view-btn"].addEventListener("click", () => {
-      els["table-panel"].hidden = !els["table-panel"].hidden;
-      els["table-view-btn"].textContent = els["table-panel"].hidden ? "Table view" : "Hide table";
-    });
     els["theme-toggle"].addEventListener("click", cycleTheme);
   }
 

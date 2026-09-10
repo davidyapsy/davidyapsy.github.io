@@ -190,41 +190,6 @@ const Dashboard = (() => {
     });
   }
 
-  function renderTable(categories) {
-    const tbody = document.querySelector("#data-table tbody");
-    tbody.innerHTML = "";
-    categories.forEach((c) => {
-      const tr = document.createElement("tr");
-
-      const tdName = document.createElement("td");
-      tdName.textContent = c.name;
-
-      const tdBudget = document.createElement("td");
-      tdBudget.textContent = c.budgeted ? currency(c.budgeted) : "—";
-
-      const tdSpent = document.createElement("td");
-      tdSpent.textContent = currency(c.spent);
-
-      const tdRemaining = document.createElement("td");
-      tdRemaining.textContent = c.budgeted ? currency(c.remaining) : "—";
-
-      const tdPct = document.createElement("td");
-      tdPct.textContent = c.budgeted ? `${Math.round(Math.min(c.pct, 999))}%` : "—";
-
-      const tdStatus = document.createElement("td");
-      const pill = document.createElement("span");
-      pill.className = "status-pill";
-      const swatch = document.createElement("i");
-      swatch.className = `swatch status-${c.status === "unbudgeted" ? "critical" : c.status}`;
-      pill.appendChild(swatch);
-      pill.appendChild(document.createTextNode(`${STATUS_ICON[c.status]} ${STATUS_TEXT[c.status]}`));
-      tdStatus.appendChild(pill);
-
-      tr.append(tdName, tdBudget, tdSpent, tdRemaining, tdPct, tdStatus);
-      tbody.appendChild(tr);
-    });
-  }
-
   function niceMax(value) {
     if (value <= 0) return 100;
     const magnitude = Math.pow(10, Math.floor(Math.log10(value)));
@@ -366,5 +331,5 @@ const Dashboard = (() => {
     wrap.appendChild(chartWrap);
   }
 
-  return { parse, computeMonth, computeTrend, renderStats, renderMeters, renderTable, renderTrend, monthLabel, currency };
+  return { parse, computeMonth, computeTrend, renderStats, renderMeters, renderTrend, monthLabel, currency };
 })();

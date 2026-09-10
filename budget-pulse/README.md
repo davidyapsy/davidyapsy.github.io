@@ -25,10 +25,10 @@ sheet either — this is read-only.
   categories are over budget, for the selected month.
 - **Trend chart** — total spend by month against your overall monthly budget,
   so you can see whether a bad month was a blip or a pattern.
-- **Table view** — the same numbers as a plain table, for copy-pasting or a
-  denser read.
 - **Sample data mode** — click "Try it with sample data" to see the whole
   thing without connecting a real sheet.
+- Mobile-friendly, and installable on your phone's home screen (see
+  "Installing it on your phone" below).
 
 ## Your Google Sheet
 
@@ -116,6 +116,10 @@ https://docs.google.com/spreadsheets/d/  1AbCdEfGhIjKlMnOpQrStUvWxYz...  /edit
    origins**, add the URL you'll host this on, e.g.
    `https://<your-username>.github.io`. Save, then copy the **Client ID**
    (looks like `123456-abc.apps.googleusercontent.com`).
+
+   > Paste only that ID into Budget Pulse's Settings — no `https://` in
+   > front of it. That field is a client ID, not a URL; a stray `https://`
+   > (or trailing space) gets rejected as `Error 401: invalid_client`.
 
 ### 3. Deploy to GitHub Pages
 
