@@ -263,8 +263,13 @@ p { margin: 0; }
 .data-table td.amount-income { color: var(--status-good); }
 
 /* Transactions grid — every cell is a real input/select, styled to read as
-   a compact spreadsheet rather than a form: minimal chrome, borders only
-   between cells, no per-field labels (the header row is the label). */
+   a compact spreadsheet rather than a form: minimal chrome, no per-field
+   labels (the header row is the label). Full cell borders (rather than
+   just row separators, like the Categories table above) so it reads as an
+   actual bordered grid. */
+.grid-table { border: 1px solid var(--border); }
+.grid-table th, .grid-table td { border: 1px solid var(--border); }
+.grid-table tbody tr:last-child td { border-bottom: 1px solid var(--border); }
 .grid-table td { padding: 3px; white-space: nowrap; }
 .grid-table .grid-cell {
   font: inherit; font-size: 0.85rem; width: 100%; box-sizing: border-box;
