@@ -71,13 +71,15 @@ const DemoData = (() => {
     return rows;
   }
 
+  const MONTH_TITLES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
   function monthTabs() {
     const today = new Date();
     const currentMonthIndex = today.getMonth();
     const tabs = [];
     for (let m = 0; m <= currentMonthIndex; m++) {
       const lastDay = m === currentMonthIndex ? today.getDate() : daysInMonth(YEAR, m);
-      tabs.push({ monthIndex: m, rows: buildMonthRows(YEAR, m, lastDay) });
+      tabs.push({ monthIndex: m, title: MONTH_TITLES[m], rows: buildMonthRows(YEAR, m, lastDay) });
     }
     return tabs;
   }
@@ -94,5 +96,19 @@ const DemoData = (() => {
     ];
   }
 
-  return { budgetRows, monthTabs, year: YEAR };
+  // A fresh, mutable in-memory "workbook" shaped exactly like what
+  // SheetsApi.loadWorkbook returns (minus sheetMeta, which only matters for
+  // real Sheets row deletion) — used as the demo mode data source so the
+  // exact same CRUD code paths (add/edit/delete transaction, add/edit/delete
+  // category) can run against it, with every write happening purely in
+  // memory instead of hitting any network.
+  function createWorkbook() {
+    return {
+      budgetTitle: "Budget",
+      budgetRows: budgetRows(),
+      monthTabs: monthTabs(),
+    };
+  }
+
+  return { budgetRows, monthTabs, createWorkbook, year: YEAR, MONTH_TITLES };
 })();

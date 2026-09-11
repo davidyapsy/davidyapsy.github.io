@@ -50,7 +50,7 @@
        the README walks through getting both in a few minutes.</p>
   </section>
 
-  <div id="dashboard" class="dashboard" hidden>
+  <div id="dashboard" class="dashboard-wrap" hidden>
 
     <section class="panel controls-row">
       <label class="field">
@@ -61,43 +61,106 @@
       <button id="refresh-btn" class="btn btn-ghost" type="button" aria-label="Refresh">↻<span class="btn-label"> Refresh</span></button>
     </section>
 
-    <section class="stat-row">
-      <div class="stat-tile">
-        <span class="stat-label">Budgeted this month</span>
-        <span id="stat-budget" class="stat-value">—</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-label">Spent this month</span>
-        <span id="stat-spent" class="stat-value">—</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-label">Remaining</span>
-        <span id="stat-remaining" class="stat-value">—</span>
-      </div>
-      <div class="stat-tile">
-        <span class="stat-label">Categories over budget</span>
-        <span id="stat-over" class="stat-value">—</span>
-      </div>
-    </section>
+    <div class="app-shell">
+      <nav id="side-nav" class="side-nav" aria-label="Sections">
+        <button class="nav-item" type="button" data-section="dashboard" aria-current="page">
+          <span class="nav-icon" aria-hidden="true">📊</span><span class="nav-label">Dashboard</span>
+        </button>
+        <button class="nav-item" type="button" data-section="transactions">
+          <span class="nav-icon" aria-hidden="true">🧾</span><span class="nav-label">Transactions</span>
+        </button>
+        <button class="nav-item" type="button" data-section="categories">
+          <span class="nav-icon" aria-hidden="true">🗂</span><span class="nav-label nav-label-full">Categories &amp; budgets</span><span class="nav-label nav-label-short">Categories</span>
+        </button>
+      </nav>
 
-    <section class="panel category-panel">
-      <div class="panel-head">
-        <h2>Spending by category</h2>
-        <div class="legend" aria-hidden="true">
-          <span class="legend-item"><i class="swatch status-good"></i>Under 80%</span>
-          <span class="legend-item"><i class="swatch status-warning"></i>80–100%</span>
-          <span class="legend-item"><i class="swatch status-critical"></i>Over budget</span>
-        </div>
+      <div class="app-content">
+
+        <section id="section-dashboard" class="app-section">
+          <section class="stat-row">
+            <div class="stat-tile">
+              <span class="stat-label">Budgeted this month</span>
+              <span id="stat-budget" class="stat-value">—</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-label">Spent this month</span>
+              <span id="stat-spent" class="stat-value">—</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-label">Remaining</span>
+              <span id="stat-remaining" class="stat-value">—</span>
+            </div>
+            <div class="stat-tile">
+              <span class="stat-label">Categories over budget</span>
+              <span id="stat-over" class="stat-value">—</span>
+            </div>
+          </section>
+
+          <section class="panel category-panel">
+            <div class="panel-head">
+              <h2>Spending by category</h2>
+              <div class="legend" aria-hidden="true">
+                <span class="legend-item"><i class="swatch status-good"></i>Under 80%</span>
+                <span class="legend-item"><i class="swatch status-warning"></i>80–100%</span>
+                <span class="legend-item"><i class="swatch status-critical"></i>Over budget</span>
+              </div>
+            </div>
+            <div id="meters" class="meters" role="list"></div>
+            <div id="meters-empty" class="muted-note" hidden>No expenses recorded for this month yet.</div>
+          </section>
+
+          <section class="panel trend-panel">
+            <h2>Spend vs. budget over time</h2>
+            <div id="trend-chart" class="trend-chart"></div>
+          </section>
+        </section>
+
+        <section id="section-transactions" class="app-section" hidden>
+          <section class="panel transactions-panel">
+            <div class="panel-head">
+              <h2>Transactions — <span id="txn-section-month"></span></h2>
+            </div>
+            <p class="modal-hint">One row per transaction, just like the sheet — enter the day of the month (1–31) and
+               the amount spent. Add more rows as you need them, then Save changes.</p>
+            <p id="txn-grid-error" class="modal-hint modal-error" hidden></p>
+            <div class="table-scroll">
+              <table id="transactions-grid" class="data-table grid-table">
+                <thead>
+                  <tr>
+                    <th>Day</th><th>Category</th><th>Notes</th><th>Food sub-cat.</th>
+                    <th class="num">Expense (-)</th><th class="actions-col"></th>
+                  </tr>
+                </thead>
+                <tbody id="txn-grid-tbody"></tbody>
+              </table>
+            </div>
+            <div class="grid-toolbar">
+              <button id="add-grid-rows-btn" class="btn btn-ghost" type="button">+ Add 5 rows</button>
+              <div class="controls-spacer"></div>
+              <button id="save-transactions-btn" class="btn btn-primary" type="button">Save changes</button>
+            </div>
+          </section>
+        </section>
+
+        <section id="section-categories" class="app-section" hidden>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Categories &amp; budgets</h2>
+              <button id="add-category-btn" class="btn btn-secondary" type="button">+ Add category</button>
+            </div>
+            <p class="modal-hint">Renaming or deleting a category never touches past transactions already recorded under
+               its old name — they'll just show as "no budget set" until you relabel them yourself.</p>
+            <div class="table-scroll">
+              <table id="categories-table" class="data-table">
+                <thead><tr><th>Category</th><th class="num">Monthly budget</th><th class="actions-col"></th></tr></thead>
+                <tbody id="categories-tbody"></tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
       </div>
-      <div id="meters" class="meters" role="list"></div>
-      <div id="meters-empty" class="muted-note" hidden>No expenses recorded for this month yet.</div>
-    </section>
-
-    <section class="panel trend-panel">
-      <h2>Spend vs. budget over time</h2>
-      <div id="trend-chart" class="trend-chart"></div>
-    </section>
-
+    </div>
   </div>
 
   <div id="error-banner" class="error-banner" hidden></div>
@@ -136,12 +199,39 @@
   </form>
 </dialog>
 
+<!-- Add/Edit single category modal -->
+<dialog id="category-edit-modal" class="modal">
+  <form id="category-edit-form" method="dialog">
+    <h2 id="category-edit-title">Add category</h2>
+    <label class="field checkbox-field">
+      <input id="cat-is-food-sub" type="checkbox" />
+      <span>This is a Food sub-category budget (e.g. Breakfast, Lunch)</span>
+    </label>
+    <label class="field">
+      <span id="cat-name-label">Category name</span>
+      <input id="cat-name" type="text" autocomplete="off" required />
+    </label>
+    <label class="field">
+      <span>Monthly budget (RM)</span>
+      <input id="cat-amount" type="number" step="0.01" min="0" required />
+    </label>
+    <p id="cat-error" class="modal-hint modal-error" hidden></p>
+    <div class="modal-actions">
+      <button type="button" id="cat-delete" class="btn btn-danger" hidden>Delete</button>
+      <div class="modal-actions-spacer"></div>
+      <button type="button" id="cat-cancel" class="btn btn-ghost">Cancel</button>
+      <button type="submit" id="cat-save" class="btn btn-primary">Save</button>
+    </div>
+  </form>
+</dialog>
+
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="js/config.js"></script>
 <script src="js/demoData.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/sheetsApi.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/dataSource.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

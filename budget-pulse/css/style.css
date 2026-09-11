@@ -57,6 +57,11 @@
 }
 
 * { box-sizing: border-box; }
+/* The `hidden` attribute must always win over a `display: flex/grid` rule
+   set on the same element elsewhere in this file — same-specificity CSS
+   class rules can otherwise silently out-cascade the UA's [hidden]
+   default, leaving a "hidden" section rendered anyway. */
+[hidden] { display: none !important; }
 body.viz-root {
   margin: 0;
   min-height: 100vh;
@@ -103,22 +108,19 @@ p { margin: 0; }
   cursor: pointer;
 }
 .btn:hover { filter: brightness(1.04); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; filter: none; }
 .btn:focus-visible { outline: 2px solid var(--series-1); outline-offset: 2px; }
 .btn-primary { background: var(--series-1); border-color: var(--series-1); color: #fff; }
 .btn-secondary { background: transparent; border-color: var(--series-1); color: var(--series-1); }
 .btn-ghost { background: transparent; }
 
 /* Main layout */
-.app-main { max-width: 980px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-.dashboard {
+.app-main { max-width: 1180px; margin: 0 auto; padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+.dashboard-wrap {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-.controls-row { order: 1; }
-.stat-row { order: 2; }
-.category-panel { order: 3; }
-.trend-panel { order: 4; }
 .panel {
   background: var(--surface-1);
   border: 1px solid var(--border);
@@ -134,6 +136,40 @@ p { margin: 0; }
 .empty-state p { color: var(--text-secondary); max-width: 560px; margin: 0 auto 6px; }
 .empty-actions { display: flex; justify-content: center; gap: 10px; margin: 20px 0 10px; flex-wrap: wrap; }
 .empty-hint { font-size: 0.85rem; color: var(--text-muted); margin-top: 14px !important; }
+
+/* App shell: side nav + content panes, one section visible at a time */
+.app-shell { display: flex; align-items: flex-start; gap: 20px; }
+.side-nav {
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: sticky;
+  top: 20px;
+}
+.nav-item {
+  font: inherit;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.nav-item:hover { background: var(--surface-page); color: var(--text-primary); }
+.nav-item[aria-current="page"] {
+  background: var(--surface-page);
+  border-color: var(--border);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.nav-label-short { display: none; }
+.app-content { flex: 1; min-width: 0; }
+.app-section { display: flex; flex-direction: column; gap: 20px; }
 
 /* Controls row */
 .controls-row { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; padding: 14px 20px; }
@@ -200,6 +236,60 @@ p { margin: 0; }
 .meter-subrows-caption { font-size: 0.78rem; color: var(--text-muted); }
 .meter-subrow .meter-cat { font-weight: 400; color: var(--text-secondary); }
 
+/* Data tables (Transactions, Categories & budgets) */
+.table-scroll { overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.data-table th, .data-table td {
+  text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.data-table th { color: var(--text-secondary); font-weight: 500; font-size: 0.8rem; }
+.data-table td.num, .data-table th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table .actions-col { width: 1%; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+.row-actions button {
+  font: inherit; font-size: 0.8rem; border: 1px solid var(--border); background: transparent;
+  color: var(--text-secondary); border-radius: 6px; padding: 4px 8px; cursor: pointer;
+}
+.row-actions button:hover { filter: brightness(1.1); border-color: var(--series-1); color: var(--series-1); }
+.txn-type-badge {
+  font-size: 0.72rem; font-weight: 600; border-radius: 999px; padding: 2px 8px;
+  display: inline-block; margin-right: 6px; vertical-align: middle;
+}
+.txn-type-badge.expense { background: var(--status-critical-track); color: var(--status-critical); }
+.txn-type-badge.income { background: var(--status-good-track); color: var(--status-good); }
+.data-table td.amount-expense { color: var(--status-critical); }
+.data-table td.amount-income { color: var(--status-good); }
+
+/* Transactions grid — every cell is a real input/select, styled to read as
+   a compact spreadsheet rather than a form: minimal chrome, borders only
+   between cells, no per-field labels (the header row is the label). */
+.grid-table td { padding: 3px; white-space: nowrap; }
+.grid-table .grid-cell {
+  font: inherit; font-size: 0.85rem; width: 100%; box-sizing: border-box;
+  padding: 6px 8px; border: 1px solid transparent; border-radius: 6px;
+  background: transparent; color: var(--text-primary);
+}
+.grid-table .grid-cell:hover { border-color: var(--border); }
+.grid-table .grid-cell:focus {
+  outline: none; border-color: var(--series-1); background: var(--surface-page);
+}
+.grid-table .grid-cell:disabled { opacity: 0.4; }
+.grid-table .grid-day { min-width: 56px; text-align: right; }
+.grid-table .grid-category, .grid-table .grid-subcategory { min-width: 120px; }
+.grid-table .grid-notes { min-width: 140px; }
+.grid-table .grid-expense { min-width: 90px; text-align: right; }
+.grid-row-new .grid-cell { background: var(--surface-page); }
+.grid-row-new:hover .grid-cell { background: var(--surface-page); }
+.grid-row-error { outline: 2px solid var(--status-critical); outline-offset: -2px; border-radius: 6px; }
+.grid-row-delete {
+  font: inherit; border: 1px solid var(--border); background: transparent;
+  color: var(--text-muted); border-radius: 6px; width: 28px; height: 28px; cursor: pointer;
+}
+.grid-row-delete:hover { border-color: var(--status-critical); color: var(--status-critical); }
+.grid-toolbar { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
+
 /* Trend chart (SVG line + baseline) */
 .trend-chart { width: 100%; overflow-x: auto; }
 .trend-chart svg { width: 100%; height: 220px; overflow: visible; }
@@ -230,10 +320,18 @@ p { margin: 0; }
 
 /* Modal */
 .modal { border: 1px solid var(--border); border-radius: 14px; padding: 0; background: var(--surface-1); color: var(--text-primary); max-width: 420px; width: 90vw; }
+.modal.modal-wide { max-width: 640px; }
 .modal::backdrop { background: rgba(0,0,0,0.4); }
-#settings-form { padding: 22px; display: flex; flex-direction: column; gap: 14px; }
+#settings-form, #category-edit-form {
+  padding: 22px; display: flex; flex-direction: column; gap: 14px;
+}
 .modal-hint { font-size: 0.8rem; color: var(--text-muted); }
-.modal-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 6px; }
+.modal-hint.modal-error { color: var(--status-critical); }
+.modal-actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 6px; }
+.modal-actions-spacer { flex: 1; }
+.btn-danger { background: transparent; border-color: var(--status-critical); color: var(--status-critical); }
+.checkbox-field { flex-direction: row; align-items: center; gap: 8px; }
+.checkbox-field input { width: auto; }
 
 @media (max-width: 720px) {
   /* Header: icon-only actions, no subtitle, tighter padding */
@@ -246,20 +344,50 @@ p { margin: 0; }
   .signed-in-badge { font-size: 0.7rem; padding: 5px 8px; }
 
   .app-main { padding: 14px; gap: 14px; }
-  .dashboard { gap: 14px; }
+  .dashboard-wrap { gap: 14px; }
+  .app-section { gap: 14px; }
   .panel { padding: 14px; }
+
+  /* Side nav becomes a compact horizontal tab bar above the content — all
+     three items share the width evenly (rather than a bare horizontal
+     scroll strip, which gave no hint there was more to scroll to) and the
+     "Categories & budgets" label swaps to a shorter one so nothing wraps
+     or gets cut off at phone widths. overflow-x stays on as a safety net
+     for the very narrowest screens rather than the primary mechanism. */
+  .app-shell { flex-direction: column; align-items: stretch; gap: 14px; }
+  .side-nav {
+    flex: 0 0 auto;
+    width: 100%;
+    flex-direction: row;
+    position: static;
+    overflow-x: auto;
+    gap: 4px;
+    padding-bottom: 2px;
+  }
+  .nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    padding: 8px 6px;
+    font-size: 0.72rem;
+    gap: 4px;
+  }
+  .nav-item .nav-icon { font-size: 1rem; }
+  .nav-item .nav-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .nav-label-full { display: none; }
+  .nav-label-short { display: inline; }
 
   /* Controls row: icon-only refresh, tighter padding */
   .controls-row { padding: 10px 14px; gap: 10px; }
 
   /* De-emphasize the stat tiles so Spending by category reads as the
      focal section — it also moves above the stats in source order below. */
-  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; order: 3; }
+  .stat-row { grid-template-columns: repeat(2, 1fr); gap: 8px; order: 2; }
   .stat-tile { padding: 10px 12px; gap: 3px; }
   .stat-label { font-size: 0.72rem; }
   .stat-value { font-size: 1.15rem; }
-  .category-panel { order: 2; }
-  .trend-panel { order: 4; }
+  .category-panel { order: 1; }
+  .trend-panel { order: 3; }
 
   .meter-row { grid-template-columns: 120px 1fr 70px; gap: 8px; }
   .meter-subrows { padding-left: 10px; gap: 10px; }

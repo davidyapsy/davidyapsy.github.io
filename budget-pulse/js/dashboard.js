@@ -23,34 +23,46 @@ const Dashboard = (() => {
    * Turns raw Sheets rows into a structured model.
    *
    * `monthTabs` is one entry per month tab that actually exists in the
-   * spreadsheet: [{ monthIndex (0-11), rows }]. Each row is
+   * spreadsheet: [{ monthIndex (0-11), title, rows }]. Each row is
    * [Date, Category, Notes, Food Sub-Category, Income(+), Expense(-)] — the
    * Date column only carries a day number and is blank on a continuation row
    * (a second transaction the same day), so a blank day forward-fills from
    * the last seen day in that tab, same as reading the sheet by eye.
+   *
+   * Every expense and budget/food-sub-budget entry also carries a `ref`:
+   * `{ tab, index }` where `index` is that row's 0-based position within its
+   * tab's own A2:F (or A2:B) range — i.e. sheet row = index + 2. This is
+   * purely for CRUD (editing/deleting that exact row later); nothing about
+   * the read-side computations below depends on it.
    */
-  function parse(budgetRows, monthTabs, year) {
+  function parse(budgetRows, monthTabs, year, budgetTabTitle) {
     const budgets = new Map();
+    const budgetRefs = new Map();
     const foodSubBudgets = new Map();
-    (budgetRows || []).forEach((row) => {
+    const foodSubBudgetRefs = new Map();
+    (budgetRows || []).forEach((row, index) => {
       const [category, amount] = row;
       if (!category) return;
       const value = parseFloat(String(amount).replace(/[^0-9.-]/g, ""));
       const amt = isNaN(value) ? 0 : value;
       const label = String(category).trim();
+      const ref = { tab: budgetTabTitle || "Budget", index };
       const subMatch = label.match(FOOD_SUB_BUDGET_RE);
       if (subMatch) {
         foodSubBudgets.set(subMatch[1].trim(), amt);
+        foodSubBudgetRefs.set(subMatch[1].trim(), ref);
       } else {
         budgets.set(label, amt);
+        budgetRefs.set(label, ref);
       }
     });
 
     const expenses = [];
-    (monthTabs || []).forEach(({ monthIndex, rows }) => {
+    const incomes = [];
+    (monthTabs || []).forEach(({ monthIndex, title, rows }) => {
       let lastDay = null;
-      (rows || []).forEach((row) => {
-        const [dayRaw, category, notes, foodSubCat, , expenseRaw] = row;
+      (rows || []).forEach((row, index) => {
+        const [dayRaw, category, notes, foodSubCat, incomeRaw, expenseRaw] = row;
         const dayStr = dayRaw === undefined || dayRaw === null ? "" : String(dayRaw).trim();
         if (dayStr !== "") {
           const dayNum = parseInt(dayStr, 10);
@@ -58,18 +70,26 @@ const Dashboard = (() => {
         }
         if (!category) return; // blank / separator row
         const expenseValue = parseFloat(String(expenseRaw ?? "").replace(/[^0-9.-]/g, ""));
-        if (isNaN(expenseValue) || expenseValue === 0) return; // only the "-" column counts as spend
+        const incomeValue = parseFloat(String(incomeRaw ?? "").replace(/[^0-9.-]/g, ""));
+        const hasExpense = !isNaN(expenseValue) && expenseValue !== 0;
+        const hasIncome = !isNaN(incomeValue) && incomeValue !== 0;
+        if (!hasExpense && !hasIncome) return; // blank / separator row
 
         const day = lastDay || 1;
         const monthKey = `${year}-${String(monthIndex + 1).padStart(2, "0")}`;
-        expenses.push({
+        const base = {
           date: `${monthKey}-${String(day).padStart(2, "0")}`,
           monthKey,
           category: String(category).trim(),
           subcategory: foodSubCat || "",
           notes: notes || "",
-          amount: expenseValue,
-        });
+          ref: { tab: title, index },
+        };
+        // A row can in principle carry both an income and an expense value
+        // (someone typed both columns by hand) — read that faithfully, even
+        // though the app's own CRUD forms only ever write one or the other.
+        if (hasExpense) expenses.push({ ...base, amount: expenseValue });
+        if (hasIncome) incomes.push({ ...base, amount: incomeValue });
       });
     });
 
@@ -77,7 +97,7 @@ const Dashboard = (() => {
       .map((m) => `${year}-${String(m.monthIndex + 1).padStart(2, "0")}`)
       .sort();
 
-    return { budgets, foodSubBudgets, expenses, months };
+    return { budgets, budgetRefs, foodSubBudgets, foodSubBudgetRefs, expenses, incomes, months };
   }
 
   function statusFor(spent, budgeted) {

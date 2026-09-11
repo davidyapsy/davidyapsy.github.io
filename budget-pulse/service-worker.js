@@ -9,7 +9,7 @@
 // Bump CACHE_VERSION whenever you change any cached file (css/js/html) so
 // returning visitors — including anyone who's installed this on their phone
 // — pick up the update instead of an old cached copy.
-const CACHE_VERSION = "v8";
+const CACHE_VERSION = "v10";
 const CACHE_NAME = `budget-pulse-${CACHE_VERSION}`;
 
 // Everything the app shell needs to render, relative to this file's own
@@ -25,6 +25,7 @@ const SHELL_FILES = [
   "./js/auth.js",
   "./js/sheetsApi.js",
   "./js/dashboard.js",
+  "./js/dataSource.js",
   "./js/app.js",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

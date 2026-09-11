@@ -5,33 +5,54 @@ already keep — no uploading a spreadsheet every month end, no backend, no
 database. It's a static site (HTML/CSS/JS, no build step) meant to be hosted
 for free on GitHub Pages.
 
-You keep recording your transactions the way you already do — one row per
-transaction, one tab per month, weekly entries summarized at month end.
-Budget Pulse reads that sheet directly in your browser via the Google Sheets
-API and shows you, per category, whether you're under, near, or over budget —
-plus a spend trend across months.
+You can keep recording transactions the way you always have — directly in
+the sheet — or add/edit/delete them right from Budget Pulse itself, whichever
+is faster in the moment. Either way, the sheet stays the single source of
+truth: one row per transaction, one tab per month.
 
 **Your data never leaves your browser except to talk directly to Google.**
 There's no server component at all: the page calls `sheets.googleapis.com`
 with a token from your own Google sign-in, computes everything client-side,
-and throws it away when you close the tab. Nothing is written back to the
-sheet either — this is read-only.
+and throws it away when you close the tab. Reads and writes both go straight
+there — nothing passes through any server Budget Pulse controls.
 
 ## What it looks like
 
-- **Per-category meters** — a progress bar per category for the selected
-  month, colored green/amber/red by how much of the budget is used. Food's
-  row also carries a nested breakdown by sub-category (Breakfast, Lunch,
-  Dinner, ...), each against its own budget — scoped to whichever month is
-  selected, same as every other row. Only when you're looking at the
-  current real month does each sub-category also get a running "RM X / day"
-  left until payday.
-- **Stat tiles** — total budgeted, total spent, remaining, and how many
-  categories are over budget, for the selected month.
-- **Trend chart** — total spend by month against your overall monthly budget,
-  so you can see whether a bad month was a blip or a pattern.
-- **Sample data mode** — click "Try it with sample data" to see the whole
-  thing without connecting a real sheet.
+The app is organized into three sections, reachable from a side menu (a
+horizontal tab strip on mobile): **Dashboard**, **Transactions**, and
+**Categories & budgets**. The month picker and Refresh button at the top
+apply across all three.
+
+- **Dashboard**
+  - **Per-category meters** — a progress bar per category for the selected
+    month, colored green/amber/red by how much of the budget is used. Food's
+    row also carries a nested breakdown by sub-category (Breakfast, Lunch,
+    Dinner, ...), each against its own budget — scoped to whichever month is
+    selected, same as every other row. Only when you're looking at the
+    current real month does each sub-category also get a running "RM X / day
+    left" figure, based on the days remaining in that calendar month.
+  - **Stat tiles** — total budgeted, total spent, remaining, and how many
+    categories are over budget, for the selected month.
+  - **Trend chart** — total spend by month against your overall monthly
+    budget, so you can see whether a bad month was a blip or a pattern.
+- **Transactions** — an Excel-like grid of the selected month's rows, one
+  row per transaction, with the same columns as the sheet itself (Date,
+  Category, Notes, Food sub-category, Income, Expense). Every cell is
+  editable in place, dates are shown and typed as **dd/mm/yyyy**, and a
+  batch of blank rows is always ready at the bottom (use "+ Add 5 rows" for
+  more) so you can paste in or type a whole week's worth of transactions at
+  once — fill in as many rows as you like, then hit **Save changes** once.
+  New rows are appended, edited rows are updated, and deleted rows (✕) are
+  removed, all in a single batch of writes to that month's tab — creating
+  the tab first if you're logging the first transaction of a new month.
+- **Categories & budgets** — every row in your `Budget` tab, listed with
+  Edit/Delete and an "+ Add category" button: add, rename, or delete a
+  category or a Food sub-category budget, and change its monthly amount.
+  Renaming or deleting a category never touches transactions you've already
+  recorded under its old name (see "Limitations" below).
+- **Sample data mode** — click "Try it with sample data" to try the whole
+  app, CRUD included, without connecting a real sheet — every add/edit/delete
+  happens purely in memory and never touches Google.
 - Mobile-friendly, and installable on your phone's home screen (see
   "Installing it on your phone" below).
 
@@ -67,10 +88,10 @@ The last three rows are optional, and only Food supports them: any row named
 that *sub-category* — matching whatever you type into the Food Sub-Category
 column in a month tab (Breakfast/Lunch/Dinner, or your own names) — instead
 of adding another top-level category. It's what drives the "left to spend
-per day until payday" breakdown nested under Food's row in the category
-list, kept independent of Food's own overall row above: the two aren't
-cross-checked against each other, so it's on you to keep them sensible
-together if that matters to you.
+per day" breakdown nested under Food's row in the category list, kept
+independent of Food's own overall row above: the two aren't cross-checked
+against each other, so it's on you to keep them sensible together if that
+matters to you.
 
 **One tab per month** — `Jan`, `Feb`, `Mar`, ... `Dec` (also accepts full
 names and a couple of common spellings like `Sept`/`July`). Only create the
@@ -129,9 +150,12 @@ https://docs.google.com/spreadsheets/d/  1AbCdEfGhIjKlMnOpQrStUvWxYz...  /edit
    an app name and your email, and add yourself as a **test user** (this
    keeps the app in "testing" mode, which is fine for personal/demo use — no
    Google review needed). Under **Data Access → Add or remove scopes**, add
-   both `.../auth/spreadsheets.readonly` and `.../auth/userinfo.email` — the
-   second one is just so Budget Pulse can remember *which* Google account
-   signed in last (see "Staying signed in" below), never anything sensitive.
+   both `.../auth/spreadsheets` and `.../auth/userinfo.email` — the
+   first is full read/write access to Sheets (Budget Pulse needs this now
+   for adding/editing/deleting transactions and categories, not just reading
+   them), and the second is just so Budget Pulse can remember *which* Google
+   account signed in last (see "Staying signed in" below), never anything
+   sensitive.
 4. **APIs & Services → Credentials → Create Credentials → OAuth client ID** —
    application type **Web application**. Under **Authorized JavaScript
    origins**, add the URL you'll host this on, e.g.
@@ -156,12 +180,9 @@ https://docs.google.com/spreadsheets/d/  1AbCdEfGhIjKlMnOpQrStUvWxYz...  /edit
 ### 4. Connect the app
 
 Open your deployed page, click **Settings**, and paste in the Client ID and
-Spreadsheet ID, confirm the **Year** (defaults to the current year — this
-is what turns a month tab's day number into a real date, so update it each
-January when you start a new spreadsheet), and set **Salary day of month**
-(defaults to 28 — this drives the Food "left to spend per day" breakdown
-nested under Food in "Spending by category"; capped at 28 so it's always a
-real date, even in February). Click **Save**, then **Sign in with Google**. You'll see the
+Spreadsheet ID, and confirm the **Year** (defaults to the current year —
+this is what turns a month tab's day number into a real date, so update it
+each January when you start a new spreadsheet). Click **Save**, then **Sign in with Google**. You'll see the
 standard Google consent screen asking for read-only Sheets access — approve
 it, and the dashboard loads. These settings are remembered in your browser
 (`localStorage`) so you won't need to re-enter them.
@@ -239,16 +260,32 @@ installed the app keeps seeing the old cached version until that changes.
   "no budget set" rather than silently merging).
 - One-off big items (a birthday, a trip) that don't fit the monthly rhythm —
   what an `Extra` tab is for in the original Excel version — aren't read yet.
-- The Food "RM X/day left until payday" figure only appears for the current
-  real month, and only up to payday itself — for the few trailing days of a
-  month after payday has already passed (e.g. the 29th–31st, if payday is
-  the 28th), the sub-category rows just show spent/budgeted with no
-  per-day figure, since that stretch really belongs to next month's budget
-  rather than this one.
+- The Food "RM X/day left" figure only appears for the current real
+  month — a past or future month's sub-category rows just show
+  spent/budgeted, no per-day figure. The days-remaining count it uses is
+  simply "today through the end of this calendar month," matching how
+  transactions are recorded (per calendar-month tab, with no pay-cycle
+  concept).
 - Only Food gets sub-category budgets — the `Food: <name>` convention isn't
   read for any other category.
-- Read-only by design — it won't ever write back to your sheet.
-- No offline caching yet — every load re-fetches from the Sheets API.
+- Renaming or deleting a category (in the Categories manager) never rewrites
+  any transaction rows already recorded under its old name — that's
+  deliberate, matching the "exact text match" behavior above, but it does
+  mean a renamed category's older spend shows up as "no budget set" until
+  you also relabel those specific rows yourself, if that matters to you.
+- A transaction you add or edit through the app is always either an expense
+  or an income, never both on the same row — if you'd hand-entered a row
+  with both columns filled, editing it through the app will collapse it to
+  whichever one you pick.
+- Adding/editing a transaction only accepts a date within the Year set in
+  Settings — one spreadsheet still covers one calendar year.
+- **Upgraded from an earlier read-only version?** The OAuth scope changed
+  from read-only to read/write, so you'll need to sign in again once (Google
+  will show a consent screen for the wider permission) before adding, editing,
+  or deleting anything sticks.
+- No offline caching yet — every load re-fetches from the Sheets API, and
+  every write goes straight to it too (no offline queueing if you're
+  disconnected mid-edit).
 
 ## Why this instead of a file-upload tool
 

@@ -1,5 +1,7 @@
 // Budget Pulse — Google sign-in via Google Identity Services (GIS).
-// Uses the OAuth2 implicit token flow, scoped to read-only Sheets access.
+// Uses the OAuth2 implicit token flow, scoped to read/write Sheets access
+// (needed for adding, editing, and deleting transactions/categories —
+// earlier versions of this app only ever requested read-only access).
 // The access token lives only in memory (a JS variable) for this tab — it is
 // never written to localStorage or sent anywhere but Google's own API.
 //
@@ -121,7 +123,7 @@ const Auth = (() => {
         // `email` (a non-sensitive, standard scope) is only used to remember
         // *which* account this is, for the login_hint trick above — never
         // shown or stored anywhere but this browser's localStorage.
-        scope: "https://www.googleapis.com/auth/spreadsheets.readonly https://www.googleapis.com/auth/userinfo.email",
+        scope: "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.email",
         prompt: promptValue,
         login_hint: settings.lastEmail || undefined,
         callback: (response) => {
