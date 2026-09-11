@@ -49,6 +49,7 @@
       budgetTab: els["input-budget-tab"].value.trim() || "Budget",
       year: isNaN(yearValue) ? new Date().getFullYear() : yearValue,
     });
+    if (model) renderSelectedMonth();
   }
 
   // ---------- Data loading ----------
@@ -106,11 +107,18 @@
     renderSelectedMonth();
   }
 
+  // Food's sub-category breakdown (Breakfast/Lunch/Dinner budgets) is
+  // nested directly under Food's own row in the category meters — scoped
+  // to whichever month is selected, same as everything else on this panel.
+  // Only the current real month also gets a "RM X/day left" figure on each
+  // row, based on days left in that calendar month (see
+  // Dashboard.computeFoodBreakdown for why).
   function renderSelectedMonth() {
     const monthKey = els["month-select"].value;
     const computed = Dashboard.computeMonth(monthKey, model);
     Dashboard.renderStats(computed.totals);
-    Dashboard.renderMeters(computed.categories);
+    const foodBreakdown = Dashboard.computeFoodBreakdown(monthKey, model);
+    Dashboard.renderMeters(computed.categories, foodBreakdown);
   }
 
   // ---------- Theme ----------

@@ -13,6 +13,12 @@ const Dashboard = (() => {
     return `${MONTH_LABELS[m - 1]} ${String(y).slice(2)}`;
   }
 
+  const FOOD_CATEGORY = "Food";
+  // Matches Budget-tab rows like "Food: Breakfast" or "Food - Lunch" — a
+  // per-sub-category allowance, kept separate from the top-level "Food" row
+  // (which still sets Food's own overall monthly ceiling, unchanged).
+  const FOOD_SUB_BUDGET_RE = /^food\s*[:\-]\s*(.+)$/i;
+
   /**
    * Turns raw Sheets rows into a structured model.
    *
@@ -25,11 +31,19 @@ const Dashboard = (() => {
    */
   function parse(budgetRows, monthTabs, year) {
     const budgets = new Map();
+    const foodSubBudgets = new Map();
     (budgetRows || []).forEach((row) => {
       const [category, amount] = row;
       if (!category) return;
       const value = parseFloat(String(amount).replace(/[^0-9.-]/g, ""));
-      budgets.set(String(category).trim(), isNaN(value) ? 0 : value);
+      const amt = isNaN(value) ? 0 : value;
+      const label = String(category).trim();
+      const subMatch = label.match(FOOD_SUB_BUDGET_RE);
+      if (subMatch) {
+        foodSubBudgets.set(subMatch[1].trim(), amt);
+      } else {
+        budgets.set(label, amt);
+      }
     });
 
     const expenses = [];
@@ -63,7 +77,7 @@ const Dashboard = (() => {
       .map((m) => `${year}-${String(m.monthIndex + 1).padStart(2, "0")}`)
       .sort();
 
-    return { budgets, expenses, months };
+    return { budgets, foodSubBudgets, expenses, months };
   }
 
   function statusFor(spent, budgeted) {
@@ -118,6 +132,66 @@ const Dashboard = (() => {
     return { categories, totals };
   }
 
+  /**
+   * Food, broken down by sub-category (Breakfast/Lunch/Dinner/...), each
+   * against its own budget — set as "Food: Breakfast" etc. rows in the
+   * Budget tab, separate from Food's own overall row. Spend is scoped to
+   * `monthKey` exactly like every other category (so it always agrees with
+   * whichever month is on screen).
+   *
+   * A sub-category with spend but no budget row still shows up (flagged
+   * "unbudgeted"), same as the main category view never hiding unbudgeted
+   * spend.
+   *
+   * When `monthKey` is the real current month, each row also gets a
+   * "RM X/day left" figure — remaining budget divided by the days left in
+   * *that calendar month itself* (today through the month's last day,
+   * inclusive). That only makes sense for the month you're actually
+   * living through, so a past or future month never gets it (daysRemaining
+   * is null) — there's no separate pay-cycle concept here, since spend is
+   * recorded and budgeted strictly per calendar-month tab.
+   */
+  function computeFoodBreakdown(monthKey, model, { today = new Date() } = {}) {
+    const spentBySub = new Map();
+    model.expenses
+      .filter((e) => e.monthKey === monthKey && e.category === FOOD_CATEGORY)
+      .forEach((e) => {
+        const key = (e.subcategory || "").trim() || "Uncategorized";
+        spentBySub.set(key, (spentBySub.get(key) || 0) + e.amount);
+      });
+
+    const currentMonthKey = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`;
+    const isCurrentMonth = monthKey === currentMonthKey;
+    let daysRemaining = null;
+    if (isCurrentMonth) {
+      const [y, m] = monthKey.split("-").map(Number);
+      const daysInMonth = new Date(y, m, 0).getDate(); // day 0 of next month = last day of this one
+      daysRemaining = daysInMonth - today.getDate() + 1;
+    }
+
+    const order = Array.from(model.foodSubBudgets.keys());
+    const allNames = new Set([...order, ...spentBySub.keys()]);
+    const rows = Array.from(allNames).map((name) => {
+      const budgeted = model.foodSubBudgets.get(name) || 0;
+      const spent = spentBySub.get(name) || 0;
+      const remaining = budgeted - spent;
+      const perDay = daysRemaining && budgeted > 0 ? remaining / daysRemaining : null;
+      return { subcategory: name, budgeted, spent, remaining, perDay, status: statusFor(spent, budgeted) };
+    });
+
+    // Budgeted sub-categories in Budget-tab order; anything spent with no
+    // budget row trails at the end, biggest spend first.
+    rows.sort((a, b) => {
+      const ai = order.indexOf(a.subcategory), bi = order.indexOf(b.subcategory);
+      if (ai === -1 && bi === -1) return b.spent - a.spent;
+      if (ai === -1) return 1;
+      if (bi === -1) return -1;
+      return ai - bi;
+    });
+
+    return { daysRemaining, rows };
+  }
+
   /** Total spend per month, across all months present, for the trend line. */
   function computeTrend(model) {
     const budgetTotal = Array.from(model.budgets.values()).reduce((a, b) => a + b, 0);
@@ -143,7 +217,81 @@ const Dashboard = (() => {
   const STATUS_ICON = { good: "✓", warning: "⚠", critical: "✕", unbudgeted: "–" };
   const STATUS_TEXT = { good: "On track", warning: "Near limit", critical: "Over budget", unbudgeted: "No budget set" };
 
-  function renderMeters(categories) {
+  /** One meter-row element — shared by the main category meters and the
+   *  Food sub-category runway below, so both stay visually identical. */
+  function buildMeterRow({ name, status, amountsText, pct }) {
+    const row = document.createElement("div");
+    row.className = "meter-row";
+    row.setAttribute("role", "listitem");
+    row.dataset.status = status;
+
+    const label = document.createElement("div");
+    label.className = "meter-label";
+    const nameEl = document.createElement("span");
+    nameEl.className = "meter-cat";
+    nameEl.textContent = name;
+    const amountsEl = document.createElement("span");
+    amountsEl.className = "meter-amounts";
+    amountsEl.textContent = amountsText;
+    label.append(nameEl, amountsEl);
+
+    const track = document.createElement("div");
+    track.className = `meter-track status-${status}`;
+    const fill = document.createElement("div");
+    fill.className = `meter-fill status-${status === "unbudgeted" ? "critical" : status}`;
+    const widthPct = status === "unbudgeted" ? 100 : Math.max(0, Math.min(100, pct || 0));
+    fill.style.width = `${widthPct}%`;
+    track.appendChild(fill);
+
+    const pctEl = document.createElement("div");
+    pctEl.className = `meter-pct${status === "critical" ? " status-critical-text" : ""}`;
+    pctEl.textContent = status === "unbudgeted" || pct === null ? "—" : `${Math.round(Math.min(pct, 999))}%`;
+
+    row.title = `${STATUS_ICON[status]} ${STATUS_TEXT[status]}`;
+    row.append(label, track, pctEl);
+    return row;
+  }
+
+  /** Food's sub-category breakdown, nested directly under Food's own row —
+   *  a small indented cluster of meter-rows (Breakfast/Lunch/Dinner/...),
+   *  reusing the same green/amber/red status color as everything else. Rows
+   *  for the current month also get a "RM X/day left" figure (based on days
+   *  left in that calendar month); other months just show spent/budgeted
+   *  like any other meter, no per-day figure. */
+  function buildFoodSubrows(breakdown) {
+    const wrap = document.createElement("div");
+    wrap.className = "meter-subrows";
+
+    if (breakdown.daysRemaining !== null) {
+      const caption = document.createElement("div");
+      caption.className = "meter-subrows-caption";
+      const days = breakdown.daysRemaining;
+      caption.textContent = `${days} day${days === 1 ? "" : "s"} left this month`;
+      wrap.appendChild(caption);
+    }
+
+    breakdown.rows.forEach((r) => {
+      const pct = r.budgeted > 0 ? (r.spent / r.budgeted) * 100 : null;
+      const amountsText = r.status === "unbudgeted"
+        ? `${currency(r.spent)} · no budget`
+        : r.perDay !== null
+          ? `${currency(r.spent)} / ${currency(r.budgeted)} · ${currency(r.perDay)}/day left`
+          : `${currency(r.spent)} / ${currency(r.budgeted)}`;
+      const row = buildMeterRow({ name: r.subcategory, status: r.status, amountsText, pct });
+      row.classList.add("meter-subrow");
+      wrap.appendChild(row);
+    });
+
+    return wrap;
+  }
+
+  /**
+   * `foodBreakdown` (from computeFoodBreakdown, already scoped to whichever
+   * month `categories` is showing) is optional — when given, and once
+   * Food's own row has been placed, its sub-category breakdown is nested
+   * directly beneath it rather than living in a separate section.
+   */
+  function renderMeters(categories, foodBreakdown) {
     const container = document.getElementById("meters");
     const emptyNote = document.getElementById("meters-empty");
     container.innerHTML = "";
@@ -155,38 +303,14 @@ const Dashboard = (() => {
     emptyNote.hidden = true;
 
     categories.forEach((c) => {
-      const row = document.createElement("div");
-      row.className = "meter-row";
-      row.setAttribute("role", "listitem");
-      row.dataset.status = c.status;
-
-      const label = document.createElement("div");
-      label.className = "meter-label";
-      const nameEl = document.createElement("span");
-      nameEl.className = "meter-cat";
-      nameEl.textContent = c.name;
-      const amountsEl = document.createElement("span");
-      amountsEl.className = "meter-amounts";
-      amountsEl.textContent = c.status === "unbudgeted"
+      const amountsText = c.status === "unbudgeted"
         ? `${currency(c.spent)} · no budget`
         : `${currency(c.spent)} / ${currency(c.budgeted)}`;
-      label.append(nameEl, amountsEl);
+      container.appendChild(buildMeterRow({ name: c.name, status: c.status, amountsText, pct: c.pct }));
 
-      const track = document.createElement("div");
-      track.className = `meter-track status-${c.status}`;
-      const fill = document.createElement("div");
-      fill.className = `meter-fill status-${c.status === "unbudgeted" ? "critical" : c.status}`;
-      const widthPct = c.status === "unbudgeted" ? 100 : Math.max(0, Math.min(100, c.pct));
-      fill.style.width = `${widthPct}%`;
-      track.appendChild(fill);
-
-      const pctEl = document.createElement("div");
-      pctEl.className = `meter-pct${c.status === "critical" ? " status-critical-text" : ""}`;
-      pctEl.textContent = c.status === "unbudgeted" ? "—" : `${Math.round(Math.min(c.pct, 999))}%`;
-
-      row.title = `${STATUS_ICON[c.status]} ${STATUS_TEXT[c.status]}`;
-      row.append(label, track, pctEl);
-      container.appendChild(row);
+      if (c.name === FOOD_CATEGORY && foodBreakdown && foodBreakdown.rows.length > 0) {
+        container.appendChild(buildFoodSubrows(foodBreakdown));
+      }
     });
   }
 
@@ -331,5 +455,9 @@ const Dashboard = (() => {
     wrap.appendChild(chartWrap);
   }
 
-  return { parse, computeMonth, computeTrend, renderStats, renderMeters, renderTrend, monthLabel, currency };
+  return {
+    parse, computeMonth, computeTrend, computeFoodBreakdown,
+    renderStats, renderMeters, renderTrend,
+    monthLabel, currency,
+  };
 })();

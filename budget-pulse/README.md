@@ -20,7 +20,12 @@ sheet either — this is read-only.
 ## What it looks like
 
 - **Per-category meters** — a progress bar per category for the selected
-  month, colored green/amber/red by how much of the budget is used.
+  month, colored green/amber/red by how much of the budget is used. Food's
+  row also carries a nested breakdown by sub-category (Breakfast, Lunch,
+  Dinner, ...), each against its own budget — scoped to whichever month is
+  selected, same as every other row. Only when you're looking at the
+  current real month does each sub-category also get a running "RM X / day"
+  left until payday.
 - **Stat tiles** — total budgeted, total spent, remaining, and how many
   categories are over budget, for the selected month.
 - **Trend chart** — total spend by month against your overall monthly budget,
@@ -53,6 +58,19 @@ there's nothing for this dashboard to compare it against:
 | Other | 100 |
 | Telco | 30 |
 | Education | 50 |
+| Food: Breakfast | 200 |
+| Food: Lunch | 350 |
+| Food: Dinner | 244 |
+
+The last three rows are optional, and only Food supports them: any row named
+`Food: <something>` (also accepts `Food - <something>`) sets a budget for
+that *sub-category* — matching whatever you type into the Food Sub-Category
+column in a month tab (Breakfast/Lunch/Dinner, or your own names) — instead
+of adding another top-level category. It's what drives the "left to spend
+per day until payday" breakdown nested under Food's row in the category
+list, kept independent of Food's own overall row above: the two aren't
+cross-checked against each other, so it's on you to keep them sensible
+together if that matters to you.
 
 **One tab per month** — `Jan`, `Feb`, `Mar`, ... `Dec` (also accepts full
 names and a couple of common spellings like `Sept`/`July`). Only create the
@@ -138,13 +156,15 @@ https://docs.google.com/spreadsheets/d/  1AbCdEfGhIjKlMnOpQrStUvWxYz...  /edit
 ### 4. Connect the app
 
 Open your deployed page, click **Settings**, and paste in the Client ID and
-Spreadsheet ID, and confirm the **Year** (defaults to the current year — this
+Spreadsheet ID, confirm the **Year** (defaults to the current year — this
 is what turns a month tab's day number into a real date, so update it each
-January when you start a new spreadsheet). Click **Save**, then **Sign in
-with Google**. You'll see the standard Google consent screen asking for
-read-only Sheets access — approve it, and the dashboard loads. These settings
-are remembered in your browser (`localStorage`) so you won't need to re-enter
-them.
+January when you start a new spreadsheet), and set **Salary day of month**
+(defaults to 28 — this drives the Food "left to spend per day" breakdown
+nested under Food in "Spending by category"; capped at 28 so it's always a
+real date, even in February). Click **Save**, then **Sign in with Google**. You'll see the
+standard Google consent screen asking for read-only Sheets access — approve
+it, and the dashboard loads. These settings are remembered in your browser
+(`localStorage`) so you won't need to re-enter them.
 
 ### Staying signed in
 
@@ -219,8 +239,14 @@ installed the app keeps seeing the old cached version until that changes.
   "no budget set" rather than silently merging).
 - One-off big items (a birthday, a trip) that don't fit the monthly rhythm —
   what an `Extra` tab is for in the original Excel version — aren't read yet.
-- No `Food Sub-Category` breakdown in the dashboard yet (Breakfast / Lunch /
-  Dinner / ...) — it's read but only rolled into the `Food` total for now.
+- The Food "RM X/day left until payday" figure only appears for the current
+  real month, and only up to payday itself — for the few trailing days of a
+  month after payday has already passed (e.g. the 29th–31st, if payday is
+  the 28th), the sub-category rows just show spent/budgeted with no
+  per-day figure, since that stretch really belongs to next month's budget
+  rather than this one.
+- Only Food gets sub-category budgets — the `Food: <name>` convention isn't
+  read for any other category.
 - Read-only by design — it won't ever write back to your sheet.
 - No offline caching yet — every load re-fetches from the Sheets API.
 

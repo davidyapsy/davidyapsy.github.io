@@ -83,7 +83,15 @@ const DemoData = (() => {
   }
 
   function budgetRows() {
-    return CATEGORIES.map((c) => [c.name, String(c.budget)]);
+    return [
+      ...CATEGORIES.map((c) => [c.name, String(c.budget)]),
+      // Food's own sub-category budgets — demo data's Food subCats list also
+      // has "Bread" and "Snacks" with no budget row here on purpose, so the
+      // runway panel's "unbudgeted sub-category" path gets exercised too.
+      ["Food: Breakfast", "200"],
+      ["Food: Lunch", "350"],
+      ["Food: Dinner", "244"],
+    ];
   }
 
   return { budgetRows, monthTabs, year: YEAR };

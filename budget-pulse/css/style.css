@@ -185,6 +185,21 @@ p { margin: 0; }
 .meter-row[data-status="unbudgeted"] .meter-pct { color: var(--text-muted); }
 .meter-row:hover .meter-track { outline: 2px solid var(--border); outline-offset: 2px; }
 
+/* Food's sub-category runway, nested under Food's own meter row — an
+   indented cluster with a left rule, so it reads as "part of Food" rather
+   than another top-level category. Rows reuse .meter-row as-is; the accent
+   is still just the existing status colors (good/warning/critical/
+   unbudgeted), never a second color axis. */
+.meter-subrows {
+  padding-left: 14px;
+  border-left: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.meter-subrows-caption { font-size: 0.78rem; color: var(--text-muted); }
+.meter-subrow .meter-cat { font-weight: 400; color: var(--text-secondary); }
+
 /* Trend chart (SVG line + baseline) */
 .trend-chart { width: 100%; overflow-x: auto; }
 .trend-chart svg { width: 100%; height: 220px; overflow: visible; }
@@ -247,6 +262,7 @@ p { margin: 0; }
   .trend-panel { order: 4; }
 
   .meter-row { grid-template-columns: 120px 1fr 70px; gap: 8px; }
+  .meter-subrows { padding-left: 10px; gap: 10px; }
 }
 
 @media (max-width: 480px) {
