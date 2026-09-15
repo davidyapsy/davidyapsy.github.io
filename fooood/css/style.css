@@ -319,7 +319,7 @@ a{ color: inherit; text-decoration: none; }
 }
 .icon-editor-preview img{ width: 100%; height: 100%; object-fit: cover; }
 .icon-editor-options{ flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
-.icon-upload-btn{ align-self: flex-start; }
+.icon-upload-actions{ display: flex; flex-wrap: wrap; gap: 8px; }
 
 .emoji-picker{ display: flex; flex-wrap: wrap; gap: 8px; }
 .emoji-choice{
@@ -329,8 +329,9 @@ a{ color: inherit; text-decoration: none; }
 }
 .emoji-choice.selected{ border-color: var(--primary); background: var(--primary-light); }
 .photo-field{
-  display: flex; align-items: center; gap: 12px;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
 }
+.photo-field-actions{ display: flex; flex-wrap: wrap; gap: 8px; }
 .photo-preview{
   width: 64px; height: 64px; border-radius: var(--radius-sm);
   object-fit: cover; background: var(--bg); border: 1px dashed var(--border);

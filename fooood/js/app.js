@@ -381,10 +381,16 @@ function renderListFormModal({ mode, list }) {
           <div class="emoji-picker" id="emoji-picker">
             ${EMOJI_PRESETS.map((e) => `<button type="button" class="emoji-choice${(!list?.icon_url && e === emojiVal) ? ' selected' : ''}" data-emoji="${e}">${e}</button>`).join('')}
           </div>
-          <label class="file-btn icon-upload-btn">
-            <i class="fa-solid fa-camera"></i> Or upload your own
-            <input id="f-list-icon" type="file" accept="image/*" style="display:none">
-          </label>
+          <div class="icon-upload-actions">
+            <label class="file-btn">
+              <i class="fa-solid fa-image"></i> Gallery
+              <input id="f-list-icon" type="file" accept="image/*" style="display:none">
+            </label>
+            <label class="file-btn">
+              <i class="fa-solid fa-camera"></i> Camera
+              <input id="f-list-icon-camera" type="file" accept="image/*" capture="environment" style="display:none">
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -413,8 +419,8 @@ function renderListFormModal({ mode, list }) {
     });
 
     const iconFileInput = modalEl.querySelector('#f-list-icon');
-    iconFileInput.addEventListener('change', () => {
-      const file = iconFileInput.files[0];
+    const iconCameraInput = modalEl.querySelector('#f-list-icon-camera');
+    const handleIconFile = (file) => {
       if (!file) return;
       pendingIconFile = file;
       iconCleared = false;
@@ -424,7 +430,9 @@ function renderListFormModal({ mode, list }) {
         iconPreview.innerHTML = `<img src="${reader.result}" alt="">`;
       };
       reader.readAsDataURL(file);
-    });
+    };
+    iconFileInput.addEventListener('change', () => handleIconFile(iconFileInput.files[0]));
+    iconCameraInput.addEventListener('change', () => handleIconFile(iconCameraInput.files[0]));
 
     modalEl.querySelector('#cancel-btn').addEventListener('click', closeModal);
     modalEl.querySelector('#save-btn').addEventListener('click', async () => {
@@ -520,10 +528,16 @@ function renderFoodFormModal({ mode, listId, item }) {
       <label>Photo</label>
       <div class="photo-field">
         <div class="photo-preview" id="photo-preview">${photoVal ? `<img src="${escapeAttr(photoVal)}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">` : '🍴'}</div>
-        <label class="file-btn">
-          <i class="fa-solid fa-camera"></i> Choose photo
-          <input id="f-food-photo" type="file" accept="image/*" capture="environment" style="display:none">
-        </label>
+        <div class="photo-field-actions">
+          <label class="file-btn">
+            <i class="fa-solid fa-image"></i> Gallery
+            <input id="f-food-photo" type="file" accept="image/*" style="display:none">
+          </label>
+          <label class="file-btn">
+            <i class="fa-solid fa-camera"></i> Camera
+            <input id="f-food-photo-camera" type="file" accept="image/*" capture="environment" style="display:none">
+          </label>
+        </div>
       </div>
     </div>
     <div class="field">
@@ -543,9 +557,9 @@ function renderFoodFormModal({ mode, listId, item }) {
   openModal(html, (modalEl) => {
     let pendingFile = null;
     const fileInput = modalEl.querySelector('#f-food-photo');
+    const cameraInput = modalEl.querySelector('#f-food-photo-camera');
     const preview = modalEl.querySelector('#photo-preview');
-    fileInput.addEventListener('change', () => {
-      const file = fileInput.files[0];
+    const handlePhotoFile = (file) => {
       if (!file) return;
       pendingFile = file;
       const reader = new FileReader();
@@ -553,7 +567,9 @@ function renderFoodFormModal({ mode, listId, item }) {
         preview.innerHTML = `<img src="${reader.result}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit">`;
       };
       reader.readAsDataURL(file);
-    });
+    };
+    fileInput.addEventListener('change', () => handlePhotoFile(fileInput.files[0]));
+    cameraInput.addEventListener('change', () => handlePhotoFile(cameraInput.files[0]));
 
     if (isEdit) {
       modalEl.querySelector('#delete-food-btn').addEventListener('click', () => confirmDeleteFood(listId, item));
