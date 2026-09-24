@@ -1,0 +1,17 @@
+// fooood — Cloud Storage security rules
+//
+// Paste this into Firebase Console > Storage > Rules (then click
+// "Publish"), or deploy it with the Firebase CLI.
+//
+// Same posture as firestore.rules: no login screen, so anyone who can
+// reach the site can read and upload photos. Fine for a private link,
+// not for a public one.
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if true;
+    }
+  }
+}

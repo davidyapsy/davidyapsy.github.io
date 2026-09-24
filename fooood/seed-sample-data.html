@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>fooood — seed sample data</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 560px; margin: 48px auto; padding: 0 20px; color: #333; }
+  button { font-size: 1rem; padding: 10px 20px; border-radius: 8px; border: none; background: #d9534f; color: #fff; cursor: pointer; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  pre { background: #f4f4f4; padding: 12px; border-radius: 8px; white-space: pre-wrap; min-height: 1.2em; }
+</style>
+</head>
+<body>
+  <h1>🍙 Seed sample data</h1>
+  <p>One-time helper — adds 5 sample lists with a few food items each, so the app isn't starting empty. This page isn't linked from the app itself, so it's fine to leave it in the project; just don't click the button twice, since it doesn't check for existing data and will add a second copy of everything.</p>
+  <p>Needs <code>js/config.js</code> already set up (see the README) — it reuses that same config.</p>
+  <button id="run-btn">Seed sample data</button>
+  <pre id="log"></pre>
+
+  <script src="js/config.js"></script>
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js';
+    import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js';
+
+    const logEl = document.getElementById('log');
+    const runBtn = document.getElementById('run-btn');
+    const log = (msg) => { logEl.textContent += (logEl.textContent ? '\n' : '') + msg; };
+
+    // Same 5 lists / 16 items that used to live in supabase/sample-data.sql.
+    const SAMPLE_LISTS = [
+      { name: 'FamilyMart Onigiri', store: 'FamilyMart', category: 'Onigiri', emoji: '🍙', items: [
+        { name: 'Egg Mayo', price: 2.50, notes: 'Creamy, always a safe pick' },
+        { name: 'Salt Salmon', price: 3.20, notes: 'Salty and simple, no notes' },
+        { name: 'Spicy Chicken', price: 2.80, notes: 'Good kick but a bit dry' },
+        { name: 'Tuna Mayo', price: 2.60, notes: 'Solid backup choice' },
+      ] },
+      { name: '7-Eleven Iced Coffee', store: '7-Eleven', category: 'Drinks', emoji: '🥤', items: [
+        { name: 'Caramel Macchiato', price: 5.90, notes: 'Sweet enough to be dessert' },
+        { name: 'Mocha', price: 5.50, notes: 'Rich, a little too much foam' },
+        { name: 'Black Coffee', price: 4.50, notes: 'No nonsense, does the job' },
+      ] },
+      { name: 'Lawson Sandwiches', store: 'Lawson', category: 'Sandwiches', emoji: '🍔', items: [
+        { name: 'Katsu Sando', price: 6.50, notes: 'Crunchy, the best one here' },
+        { name: 'Egg Sando', price: 4.90, notes: 'Fluffy bread, generous filling' },
+        { name: 'Ham & Cheese', price: 4.20, notes: 'Fine but forgettable' },
+      ] },
+      { name: 'FamilyMart Dessert', store: 'FamilyMart', category: 'Dessert', emoji: '🍰', items: [
+        { name: 'Tiramisu Cup', price: 6.90, notes: 'Actually really good' },
+        { name: 'Pudding', price: 3.50, notes: 'Classic, never disappoints' },
+        { name: 'Chocolate Mousse', price: 5.20, notes: 'A bit too sweet' },
+      ] },
+      { name: 'KK Mart Snacks', store: 'KK Mart', category: 'Snacks', emoji: '🍿', items: [
+        { name: 'Seaweed Chips', price: 2.80, notes: 'Addictive, gone in one sitting' },
+        { name: 'Salted Popcorn', price: 3.00, notes: 'Perfect movie night snack' },
+        { name: 'Potato Chips', price: 3.50, notes: 'Standard, nothing special' },
+      ] },
+    ];
+
+    runBtn.addEventListener('click', async () => {
+      if (!window.APP_CONFIG || !window.APP_CONFIG.FIREBASE_PROJECT_ID || window.APP_CONFIG.FIREBASE_PROJECT_ID.includes('YOUR-')) {
+        log('js/config.js is missing or still has placeholder values — set that up first (see the README), then reload this page.');
+        return;
+      }
+      runBtn.disabled = true;
+      logEl.textContent = '';
+      try {
+        const app = initializeApp({
+          apiKey: window.APP_CONFIG.FIREBASE_API_KEY,
+          authDomain: window.APP_CONFIG.FIREBASE_AUTH_DOMAIN,
+          projectId: window.APP_CONFIG.FIREBASE_PROJECT_ID,
+          storageBucket: window.APP_CONFIG.FIREBASE_STORAGE_BUCKET,
+          appId: window.APP_CONFIG.FIREBASE_APP_ID,
+        });
+        const db = getFirestore(app);
+        for (const list of SAMPLE_LISTS) {
+          const listRef = await addDoc(collection(db, 'lists'), {
+            name: list.name, store: list.store, category: list.category, emoji: list.emoji,
+            iconUrl: null, createdAt: serverTimestamp(),
+          });
+          log(`Created list "${list.name}"`);
+          let rank = 1024;
+          for (const item of list.items) {
+            await addDoc(collection(db, 'food_items'), {
+              listId: listRef.id, name: item.name, price: item.price, notes: item.notes,
+              photoUrl: null, rank, createdAt: serverTimestamp(),
+            });
+            rank += 1024;
+          }
+          log(`  added ${list.items.length} items`);
+        }
+        log('\nDone! Open the app to see your sample lists.');
+      } catch (err) {
+        log(`\nSomething went wrong: ${err.message}`);
+      } finally {
+        runBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

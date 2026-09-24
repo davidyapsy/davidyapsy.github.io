@@ -1,0 +1,24 @@
+// fooood — Firestore security rules
+//
+// Paste this into Firebase Console > Firestore Database > Rules (then
+// click "Publish"), or deploy it with the Firebase CLI.
+//
+// This app has no login screen for v1 — it's a private single-user app
+// for personal use, protected only by the fact that nobody else knows the
+// URL. These rules let anyone who can reach the site read and write
+// freely, which is fine for a link only you and your girlfriend have, but
+// don't post the URL publicly. If you ever want real login-gated access,
+// add Firebase Authentication and swap `allow read, write: if true;` for
+// rules that check `request.auth != null`.
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /lists/{listId} {
+      allow read, write: if true;
+    }
+    match /food_items/{itemId} {
+      allow read, write: if true;
+    }
+  }
+}

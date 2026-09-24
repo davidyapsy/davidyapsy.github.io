@@ -1,4 +1,17 @@
-'use strict';
+import {
+  CONFIG_IS_MISSING,
+  fetchListsWithItemSummaries,
+  fetchList,
+  fetchFoodItems,
+  insertList,
+  updateListDoc,
+  deleteListCascade,
+  insertFoodItem,
+  updateFoodItemDoc,
+  deleteFoodItemDoc,
+  updateFoodItemRanks,
+  uploadImage,
+} from './firebase-client.js';
 
 /* ----------------------------- constants ------------------------------ */
 
@@ -21,8 +34,8 @@ function escapeAttr(str) { return escapeHtml(str); }
 // Renders a list's icon as either its uploaded photo (shrunk client-side
 // at upload time) or its emoji, in a consistently-sized chip.
 function iconChipHtml(entity, sizeClass) {
-  if (entity && entity.icon_url) {
-    return `<span class="icon-chip ${sizeClass} has-img"><img src="${escapeAttr(entity.icon_url)}" alt=""></span>`;
+  if (entity && entity.iconUrl) {
+    return `<span class="icon-chip ${sizeClass} has-img"><img src="${escapeAttr(entity.iconUrl)}" alt=""></span>`;
   }
   return `<span class="icon-chip ${sizeClass}">${escapeHtml((entity && entity.emoji) || '🍽️')}</span>`;
 }
@@ -49,7 +62,7 @@ window.addEventListener('DOMContentLoaded', render);
 
 async function render() {
   closeModal();
-  if (typeof CONFIG_IS_MISSING === 'undefined' || CONFIG_IS_MISSING) {
+  if (CONFIG_IS_MISSING) {
     renderSetupNotice();
     fabEl.hidden = true;
     return;
@@ -68,8 +81,8 @@ function renderSetupNotice() {
     <div class="setup-notice">
       <div style="font-size:2.4rem">🍙</div>
       <h2>Almost there!</h2>
-      <p>This site needs to be connected to a Supabase project before it can save anything.</p>
-      <p>Copy <code>js/config.example.js</code> to <code>js/config.js</code> and fill in your project's URL and anon key — see the README for the full walkthrough.</p>
+      <p>This site needs to be connected to a Firebase project before it can save anything.</p>
+      <p>Copy <code>js/config.example.js</code> to <code>js/config.js</code> and fill in your project's Firebase config values — see the README for the full walkthrough.</p>
     </div>`;
 }
 
@@ -85,10 +98,7 @@ async function renderHome() {
     <div id="home-body" class="loading"><div class="spinner"></div>Loading your food universe…</div>
   `;
 
-  const { data: lists, error } = await db
-    .from('lists')
-    .select('*, food_items(id, name, rank)')
-    .order('created_at', { ascending: false });
+  const { data: lists, error } = await fetchListsWithItemSummaries();
 
   const bodyEl = document.getElementById('home-body');
   if (error) {
@@ -139,8 +149,8 @@ async function renderListDetail(listId) {
   appEl.innerHTML = `<div class="loading"><div class="spinner"></div>Loading…</div>`;
 
   const [{ data: list, error: listErr }, { data: items, error: itemsErr }] = await Promise.all([
-    db.from('lists').select('*').eq('id', listId).single(),
-    db.from('food_items').select('*').eq('list_id', listId).order('rank', { ascending: true }),
+    fetchList(listId),
+    fetchFoodItems(listId),
   ]);
 
   if (listErr || !list) {
@@ -277,13 +287,13 @@ function tierClass(rankPosition) {
 function foodCardHtml(item, position) {
   const medal = medalFor(position);
   const tier = tierClass(position);
-  const hasPhoto = !!item.photo_url;
+  const hasPhoto = !!item.photoUrl;
   const subParts = [];
   if (item.price !== null && item.price !== undefined && item.price !== '') subParts.push(`<span>💰 ${escapeHtml(String(item.price))}</span>`);
   return `
     <li class="food-card ${tier}${hasPhoto ? ' has-photo' : ''}" data-id="${item.id}">
       ${hasPhoto
-        ? `<img class="food-card-photo" src="${escapeAttr(item.photo_url)}" alt="">`
+        ? `<img class="food-card-photo" src="${escapeAttr(item.photoUrl)}" alt="">`
         : `<span class="food-card-photo-empty">🍴</span>`}
       <div class="food-card-badge ${medal.cls}">${medal.badge}</div>
       <div class="food-card-scrim">
@@ -307,12 +317,9 @@ async function handleReorder(list) {
   currentListItems.forEach((item, idx) => { item.rank = (idx + 1) * RANK_STEP; });
   renderFoodList(list, '');
 
-  const results = await Promise.all(
-    currentListItems.map((item) => db.from('food_items').update({ rank: item.rank }).eq('id', item.id)),
-  );
-  const failed = results.find((r) => r.error);
-  if (failed) {
-    toast(`Couldn't save the new order — ${failed.error.message}`);
+  const { error } = await updateFoodItemRanks(currentListItems);
+  if (error) {
+    toast(`Couldn't save the new order — ${error.message}`);
   } else {
     toast(randomOf(REORDER_TOASTS));
   }
@@ -375,11 +382,11 @@ function renderListFormModal({ mode, list }) {
       <label>Icon</label>
       <div class="icon-editor">
         <div class="icon-editor-preview" id="icon-editor-preview">${
-          list?.icon_url ? `<img src="${escapeAttr(list.icon_url)}" alt="">` : escapeHtml(emojiVal)
+          list?.iconUrl ? `<img src="${escapeAttr(list.iconUrl)}" alt="">` : escapeHtml(emojiVal)
         }</div>
         <div class="icon-editor-options">
           <div class="emoji-picker" id="emoji-picker">
-            ${EMOJI_PRESETS.map((e) => `<button type="button" class="emoji-choice${(!list?.icon_url && e === emojiVal) ? ' selected' : ''}" data-emoji="${e}">${e}</button>`).join('')}
+            ${EMOJI_PRESETS.map((e) => `<button type="button" class="emoji-choice${(!list?.iconUrl && e === emojiVal) ? ' selected' : ''}" data-emoji="${e}">${e}</button>`).join('')}
           </div>
           <div class="icon-upload-actions">
             <label class="file-btn">
@@ -403,7 +410,7 @@ function renderListFormModal({ mode, list }) {
   openModal(html, (modalEl) => {
     let selectedEmoji = emojiVal;
     let pendingIconFile = null;
-    let existingIconUrl = list?.icon_url || null;
+    let existingIconUrl = list?.iconUrl || null;
     let iconCleared = false; // true once the user actively picks an emoji, dropping any photo
 
     const iconPreview = modalEl.querySelector('#icon-editor-preview');
@@ -458,10 +465,10 @@ function renderListFormModal({ mode, list }) {
       }
       saveBtn.textContent = 'Saving…';
 
-      const payload = { name, store: store || null, category: category || null, emoji: selectedEmoji, icon_url: iconUrl };
+      const payload = { name, store: store || null, category: category || null, emoji: selectedEmoji, iconUrl };
 
       if (isEdit) {
-        const { error } = await db.from('lists').update(payload).eq('id', list.id);
+        const { error } = await updateListDoc(list.id, payload);
         if (error) {
           saveBtn.disabled = false; saveBtn.textContent = 'Save';
           toast(`Couldn't save — ${error.message}`);
@@ -471,7 +478,7 @@ function renderListFormModal({ mode, list }) {
         toast('Updated ✨');
         render();
       } else {
-        const { data, error } = await db.from('lists').insert(payload).select().single();
+        const { data, error } = await insertList(payload);
         if (error) {
           saveBtn.disabled = false; saveBtn.textContent = 'Create list';
           toast(`Couldn't save — ${error.message}`);
@@ -496,7 +503,7 @@ function confirmDeleteList(list) {
   `, (modalEl) => {
     modalEl.querySelector('#cancel-btn').addEventListener('click', closeModal);
     modalEl.querySelector('#confirm-btn').addEventListener('click', async () => {
-      const { error } = await db.from('lists').delete().eq('id', list.id);
+      const { error } = await deleteListCascade(list.id);
       closeModal();
       if (error) { toast(`Couldn't delete — ${error.message}`); return; }
       toast('List deleted');
@@ -515,7 +522,7 @@ function renderFoodFormModal({ mode, listId, item }) {
   const nameVal = item?.name || '';
   const priceVal = item?.price ?? '';
   const notesVal = item?.notes || '';
-  const photoVal = item?.photo_url || '';
+  const photoVal = item?.photoUrl || '';
 
   const html = `
     <h2>${isEdit ? escapeHtml(item.name) : 'Add food'}</h2>
@@ -601,9 +608,7 @@ function renderFoodFormModal({ mode, listId, item }) {
 
       saveBtn.textContent = 'Saving…';
       if (isEdit) {
-        const { error } = await db.from('food_items')
-          .update({ name, price, notes: notes || null, photo_url: photoUrl })
-          .eq('id', item.id);
+        const { error } = await updateFoodItemDoc(item.id, { name, price, notes: notes || null, photoUrl });
         if (error) {
           saveBtn.disabled = false; saveBtn.textContent = 'Save';
           toast(`Couldn't save — ${error.message}`);
@@ -614,8 +619,8 @@ function renderFoodFormModal({ mode, listId, item }) {
         render();
       } else {
         const maxRank = currentListItems.length ? Math.max(...currentListItems.map((i) => i.rank)) : 0;
-        const { error } = await db.from('food_items').insert({
-          list_id: listId, name, price, notes: notes || null, photo_url: photoUrl,
+        const { error } = await insertFoodItem({
+          listId, name, price, notes: notes || null, photoUrl,
           rank: maxRank + 1024,
         });
         if (error) {
@@ -642,7 +647,7 @@ function confirmDeleteFood(listId, item) {
   `, (modalEl) => {
     modalEl.querySelector('#cancel-btn').addEventListener('click', () => renderFoodFormModal({ mode: 'edit', listId, item }));
     modalEl.querySelector('#confirm-btn').addEventListener('click', async () => {
-      const { error } = await db.from('food_items').delete().eq('id', item.id);
+      const { error } = await deleteFoodItemDoc(item.id);
       closeModal();
       if (error) { toast(`Couldn't delete — ${error.message}`); return; }
       toast('Removed');
@@ -680,14 +685,8 @@ function resizeImage(file, maxDim = 900, quality = 0.82) {
 
 async function uploadFoodPhoto(file) {
   const blob = await resizeImage(file);
-  const path = `${crypto.randomUUID()}.jpg`;
-  const { error } = await db.storage.from(STORAGE_BUCKET).upload(path, blob, {
-    contentType: 'image/jpeg',
-    upsert: false,
-  });
-  if (error) throw error;
-  const { data } = db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  const path = `food-photos/${crypto.randomUUID()}.jpg`;
+  return uploadImage(path, blob, 'image/jpeg');
 }
 
 // Small square icons don't need the full 900px food-photo size — a
@@ -696,13 +695,7 @@ async function uploadFoodPhoto(file) {
 async function uploadListIcon(file) {
   const blob = await resizeImage(file, 240, 0.85);
   const path = `icons/${crypto.randomUUID()}.jpg`;
-  const { error } = await db.storage.from(STORAGE_BUCKET).upload(path, blob, {
-    contentType: 'image/jpeg',
-    upsert: false,
-  });
-  if (error) throw error;
-  const { data } = db.storage.from(STORAGE_BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  return uploadImage(path, blob, 'image/jpeg');
 }
 
 // Delegated so it keeps working across every list-detail render without
