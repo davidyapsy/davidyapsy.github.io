@@ -9,7 +9,7 @@
 // Bump CACHE_VERSION whenever you change any cached file (css/js/html) so
 // returning visitors — including anyone who's installed this on their phone
 // — pick up the update instead of an old cached copy.
-const CACHE_VERSION = "v12";
+const CACHE_VERSION = "v13";
 const CACHE_NAME = `budget-pulse-${CACHE_VERSION}`;
 
 // Everything the app shell needs to render, relative to this file's own
@@ -57,7 +57,28 @@ self.addEventListener("fetch", (event) => {
 
   event.respondWith(
     caches.match(req).then((cached) => {
-      const network = fetch(req)
+      if (cached) {
+        // Cache-first for instant loads (including the installed-app case).
+        // Refresh the cache in the background for next time; a failure here
+        // is fine to ignore since we've already got a valid response to give.
+        fetch(req)
+          .then((res) => {
+            if (res && res.ok) {
+              caches.open(CACHE_NAME).then((cache) => cache.put(req, res.clone()));
+            }
+          })
+          .catch(() => {});
+        return cached;
+      }
+
+      // Nothing cached yet (e.g. right after the phone's cache was cleared,
+      // or a file that was never pre-cached): go to the network. IMPORTANT —
+      // this must always resolve to a real Response, never `undefined`.
+      // Returning `undefined` here makes event.respondWith() throw, which
+      // Chrome reports to the user as a bare "ERR_FAILED" with no other
+      // explanation — that was the bug. A synthetic offline Response instead
+      // fails gracefully and is easy to recognize if it ever shows up.
+      return fetch(req)
         .then((res) => {
           if (res && res.ok) {
             const copy = res.clone();
@@ -65,11 +86,13 @@ self.addEventListener("fetch", (event) => {
           }
           return res;
         })
-        .catch(() => cached); // offline: fall back to whatever's cached
-
-      // Cache-first for instant loads (including the installed-app case);
-      // the network call above still refreshes the cache for next time.
-      return cached || network;
+        .catch(
+          () =>
+            new Response(
+              "Budget Pulse is offline and this file hasn't been cached yet. Reconnect and reload.",
+              { status: 503, statusText: "Offline", headers: { "Content-Type": "text/plain" } }
+            )
+        );
     })
   );
 });
