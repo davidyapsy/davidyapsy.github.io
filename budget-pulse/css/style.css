@@ -337,7 +337,7 @@ p { margin: 0; }
 }
 
 /* Footer */
-.app-footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 30px 24px 40px; }
+.app-footer { text-align: center; color: var(--text-muted); font-size: 0.8rem; padding: 24px 24px 32px; }
 
 /* Modal */
 .modal { border: 1px solid var(--border); border-radius: 14px; padding: 0; background: var(--surface-1); color: var(--text-primary); max-width: 420px; width: 90vw; }
