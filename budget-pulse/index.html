@@ -120,8 +120,33 @@
             <div class="panel-head">
               <h2>Transactions — <span id="txn-section-month"></span></h2>
             </div>
+            <form id="quick-add-form" class="quick-add-form">
+              <label class="field quick-add-day">
+                <span>Day</span>
+                <input id="qa-day" type="number" min="1" max="31" step="1" required />
+              </label>
+              <label class="field quick-add-category">
+                <span>Category</span>
+                <select id="qa-category" required></select>
+              </label>
+              <label class="field quick-add-notes">
+                <span>Notes</span>
+                <input id="qa-notes" type="text" placeholder="Optional" autocomplete="off" />
+              </label>
+              <label class="field quick-add-subcategory">
+                <span>Food sub-cat.</span>
+                <select id="qa-subcategory"></select>
+              </label>
+              <label class="field quick-add-amount">
+                <span>Amount</span>
+                <input id="qa-amount" type="number" step="0.01" min="0.01" placeholder="0.00" required />
+              </label>
+              <button id="qa-submit" class="btn btn-primary quick-add-submit" type="submit">+ Add transaction</button>
+            </form>
+            <p id="qa-error" class="modal-hint modal-error" hidden></p>
             <p class="modal-hint">One row per transaction, just like the sheet — enter the day of the month (1–31) and
-               the amount spent. Add more rows as you need them, then Save changes.</p>
+               the amount spent. Leave Day blank to reuse the day from the row above it (marked ″), same as a
+               continuation row in the sheet. Add more rows as you need them, then Save changes.</p>
             <p id="txn-grid-error" class="modal-hint modal-error" hidden></p>
             <div class="table-scroll">
               <table id="transactions-grid" class="data-table grid-table">

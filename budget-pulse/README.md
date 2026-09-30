@@ -35,16 +35,27 @@ apply across all three.
     categories are over budget, for the selected month.
   - **Trend chart** — total spend by month against your overall monthly
     budget, so you can see whether a bad month was a blip or a pattern.
-- **Transactions** — an Excel-like grid of the selected month's rows, one
-  row per transaction, with the same columns as the sheet itself (Date,
-  Category, Notes, Food sub-category, Income, Expense). Every cell is
-  editable in place, dates are shown and typed as **dd/mm/yyyy**, and a
-  batch of blank rows is always ready at the bottom (use "+ Add 5 rows" for
-  more) so you can paste in or type a whole week's worth of transactions at
-  once — fill in as many rows as you like, then hit **Save changes** once.
-  New rows are appended, edited rows are updated, and deleted rows (✕) are
-  removed, all in a single batch of writes to that month's tab — creating
-  the tab first if you're logging the first transaction of a new month.
+- **Transactions** — a **quick-add form** at the top logs one transaction at
+  a time: Day (pre-filled with today's date), Category, Notes, Food
+  sub-category (only for Food) and Amount, then **+ Add transaction** — it
+  lands in the month selected in the Month picker and appears in the grid
+  right below. Below it, an Excel-like grid of the selected month's rows: Day,
+  Category, Notes, Food sub-category, Expense. Every cell is editable in
+  place; **Day** is just the day-of-month number (1–31), same as the sheet
+  itself — the month comes from the **Month** picker above, not from typing
+  a full date. The picker offers every month of the year, even ones with no
+  tab yet, so starting a brand-new month is just picking it and typing rows
+  — Save creates that tab automatically. Leave **Day** blank (shown as a
+  ditto mark, ″) to reuse the day from the row above it — exactly like
+  leaving a continuation row's date blank in the sheet — so a batch of
+  same-day transactions only needs the day typed once. A batch of blank
+  rows is always ready at the bottom (use "+ Add 5 rows" for more) so you
+  can type a whole week's worth of transactions at once — fill in as many
+  rows as you like, then hit **Save changes** once. New rows are appended,
+  edited rows are updated, and deleted rows (✕) are removed, all in a
+  single batch of writes. This grid is expense-only by design (see
+  "Income" below) — it's built around how transactions actually get
+  logged day to day.
 - **Categories & budgets** — every row in your `Budget` tab, listed with
   Edit/Delete and an "+ Add category" button: add, rename, or delete a
   category or a Food sub-category budget, and change its monthly amount.
@@ -111,8 +122,12 @@ transaction the same day** (like the second row above); Budget Pulse carries
 the day down from the row above it, same as reading the sheet by eye. `Food
 Sub-Category` only matters for the `Food` row's own note-taking (Breakfast /
 Lunch / Dinner / etc.) — Budget Pulse rolls it up into the `Food` total for
-now. `Income (+)` is there if you want to log income the same way; only the
-`Expense (-)` column feeds the budget comparison.
+now. Only the `Expense (-)` column feeds the budget comparison.
+
+**Income:** `Income (+)` is there if you want to log income in the same
+sheet — Budget Pulse reads it but its Transactions grid doesn't show or edit
+it, since this app is built around expense-vs-budget tracking. Log income
+rows directly in the sheet if you use that column; they're left untouched.
 
 Column order matters (A–B for `Budget`, A–F for each month tab); header row
 is expected on row 1 and is skipped automatically. The `Budget` tab's name is
@@ -273,12 +288,14 @@ installed the app keeps seeing the old cached version until that changes.
   deliberate, matching the "exact text match" behavior above, but it does
   mean a renamed category's older spend shows up as "no budget set" until
   you also relabel those specific rows yourself, if that matters to you.
-- A transaction you add or edit through the app is always either an expense
-  or an income, never both on the same row — if you'd hand-entered a row
-  with both columns filled, editing it through the app will collapse it to
-  whichever one you pick.
-- Adding/editing a transaction only accepts a date within the Year set in
-  Settings — one spreadsheet still covers one calendar year.
+- The Transactions grid is expense-only — editing an existing row through
+  it always writes a blank Income cell back, so if that row had both an
+  Expense and a hand-entered Income value, editing it through the app
+  clears the Income value. Log income directly in the sheet and avoid
+  editing that same row through the app if you need to keep both.
+- The Month picker (and every Transactions grid row) is scoped to the Year
+  set in Settings — one spreadsheet still covers one calendar year, so
+  update Year there each January when you start a new one.
 - **Upgraded from an earlier read-only version?** The OAuth scope changed
   from read-only to read/write, so you'll need to sign in again once (Google
   will show a consent screen for the wider permission) before adding, editing,

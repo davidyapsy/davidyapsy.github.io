@@ -295,6 +295,22 @@ p { margin: 0; }
 .grid-row-delete:hover { border-color: var(--status-critical); color: var(--status-critical); }
 .grid-toolbar { display: flex; align-items: center; gap: 10px; margin-top: 14px; }
 
+/* Quick-add form — one transaction at a time, above the grid. Same .field
+   look as the Month picker; wraps onto extra lines as space runs out. */
+.quick-add-form {
+  display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap;
+  padding-bottom: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--border);
+}
+.quick-add-form .field input, .quick-add-form .field select { width: 100%; box-sizing: border-box; }
+.quick-add-form .field select:disabled { opacity: 0.4; }
+.quick-add-day { flex: 0 0 72px; }
+.quick-add-category, .quick-add-subcategory { flex: 1 1 110px; min-width: 100px; }
+.quick-add-notes { flex: 2 1 140px; min-width: 110px; }
+.quick-add-amount { flex: 0 0 100px; }
+.quick-add-amount input { text-align: right; }
+.quick-add-submit { flex: 0 0 auto; }
+#qa-error { margin: -6px 0 12px; }
+
 /* Trend chart (SVG line + baseline) */
 .trend-chart { width: 100%; overflow-x: auto; }
 .trend-chart svg { width: 100%; height: 220px; overflow: visible; }
@@ -410,4 +426,19 @@ p { margin: 0; }
   .meter-label { grid-area: label; }
   .meter-pct { grid-area: pct; }
   .meter-track { grid-area: track; }
+
+  /* Quick-add: two tidy columns on a phone — Day/Amount, Category/Food
+     sub-cat., then Notes and a full-width Add button. */
+  .quick-add-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "day amount" "cat sub" "notes notes" "submit submit";
+    gap: 10px;
+  }
+  .quick-add-day { grid-area: day; }
+  .quick-add-amount { grid-area: amount; }
+  .quick-add-category { grid-area: cat; min-width: 0; }
+  .quick-add-subcategory { grid-area: sub; min-width: 0; }
+  .quick-add-notes { grid-area: notes; min-width: 0; }
+  .quick-add-submit { grid-area: submit; width: 100%; padding: 10px 14px; }
 }

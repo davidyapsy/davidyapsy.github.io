@@ -46,6 +46,7 @@
       "category-edit-modal", "category-edit-form", "category-edit-title",
       "cat-is-food-sub", "cat-name-label", "cat-name", "cat-amount", "cat-error", "cat-delete", "cat-cancel", "cat-save",
       "txn-section-month", "txn-grid-tbody", "txn-grid-error", "add-grid-rows-btn", "save-transactions-btn",
+      "quick-add-form", "qa-day", "qa-category", "qa-notes", "qa-subcategory", "qa-amount", "qa-submit", "qa-error",
     ].forEach((id) => { els[id] = document.getElementById(id); });
   }
 
@@ -264,7 +265,8 @@
     const dayInput = document.createElement("input");
     dayInput.type = "number"; dayInput.min = "1"; dayInput.max = "31"; dayInput.step = "1";
     dayInput.className = "grid-cell grid-day";
-    dayInput.placeholder = "Day";
+    dayInput.placeholder = "″"; // ditto mark — leave blank to reuse the day above it
+    dayInput.title = "Leave blank to use the same day as the row above it";
     dayInput.value = existing ? String(parseInt(existing.date.slice(8, 10), 10)) : "";
 
     const catSelect = buildCategorySelectEl();
@@ -348,6 +350,94 @@
 
     rows.forEach((r) => tbody.appendChild(buildGridRow(r)));
     addBlankRows(DEFAULT_BLANK_ROWS);
+    refreshQuickAddOptions();
+  }
+
+  // ---------- Transactions: quick-add form (one transaction at a time) ----------
+  // Sits above the grid. Adds straight to whichever month is selected in the
+  // Month picker — same rule as the grid — and the new row shows up in the
+  // grid below as soon as it's saved.
+  function todayDay() { return String(new Date().getDate()); }
+
+  /** Re-fills the Category / Food sub-cat. dropdowns from the current model
+   *  (categories can change on the Categories page), keeping whatever's
+   *  currently picked if it still exists. Never touches Day/Notes/Amount,
+   *  so switching months mid-entry doesn't wipe what you've typed. */
+  function refreshQuickAddOptions() {
+    const catSelect = els["qa-category"];
+    const prevCat = catSelect.value;
+    catSelect.innerHTML = "";
+    const names = Array.from(model.budgets.keys());
+    if (!names.includes("Food")) names.unshift("Food");
+    names.forEach((name) => {
+      const opt = document.createElement("option");
+      opt.value = name; opt.textContent = name;
+      catSelect.appendChild(opt);
+    });
+    if (names.includes(prevCat)) catSelect.value = prevCat;
+
+    const subSelect = els["qa-subcategory"];
+    const prevSub = subSelect.value;
+    subSelect.innerHTML = "";
+    const blank = document.createElement("option");
+    blank.value = ""; blank.textContent = "(none)";
+    subSelect.appendChild(blank);
+    const subNames = Array.from(model.foodSubBudgets.keys());
+    subNames.forEach((name) => {
+      const opt = document.createElement("option");
+      opt.value = name; opt.textContent = name;
+      subSelect.appendChild(opt);
+    });
+    if (subNames.includes(prevSub)) subSelect.value = prevSub;
+
+    updateQuickAddSubEnabled();
+  }
+
+  function updateQuickAddSubEnabled() {
+    const isFood = els["qa-category"].value === "Food";
+    els["qa-subcategory"].disabled = !isFood;
+    if (!isFood) els["qa-subcategory"].value = "";
+  }
+
+  function showQaError(msg) { els["qa-error"].textContent = msg; els["qa-error"].hidden = false; }
+  function clearQaError() { els["qa-error"].hidden = true; els["qa-error"].textContent = ""; }
+
+  async function submitQuickAdd() {
+    clearQaError();
+    const dayStr = els["qa-day"].value.trim();
+    const dayNum = parseInt(dayStr, 10);
+    if (!dayStr || isNaN(dayNum) || dayNum < 1 || dayNum > 31) { showQaError("Day must be 1–31."); return; }
+
+    const category = els["qa-category"].value;
+    if (!category) { showQaError("Pick a category."); return; }
+
+    const amountStr = els["qa-amount"].value.trim();
+    const amountVal = amountStr ? parseFloat(amountStr) : NaN;
+    if (isNaN(amountVal) || amountVal <= 0) { showQaError("Enter an amount greater than 0."); return; }
+
+    const notes = els["qa-notes"].value.trim();
+    const subcategory = category === "Food" ? els["qa-subcategory"].value : "";
+    const monthKey = els["month-select"].value;
+    const monthIndex = parseInt(monthKey.split("-")[1], 10) - 1;
+    // Same column layout the grid writes: Day, Category, Notes, Food
+    // sub-cat., Income (always blank here), Expense.
+    const rowValues = [dayNum, category, notes, subcategory, "", amountVal.toFixed(2)];
+
+    els["qa-submit"].disabled = true;
+    try {
+      await dataAdapter.addTransactions(monthIndex, [rowValues]);
+      await refreshModel(monthKey);
+      // Ready for the next one: back to today, clear the one-off fields, but
+      // keep Category / sub-cat. — handy when logging several meals in a row.
+      els["qa-day"].value = todayDay();
+      els["qa-notes"].value = "";
+      els["qa-amount"].value = "";
+      els["qa-amount"].focus();
+    } catch (err) {
+      showQaError(err.message || String(err));
+    } finally {
+      els["qa-submit"].disabled = false;
+    }
   }
 
   function showTxnGridError(msg) { els["txn-grid-error"].textContent = msg; els["txn-grid-error"].hidden = false; }
@@ -371,6 +461,10 @@
     const toUpdate = []; // {ref, rowValues}
     let errorCount = 0;
     let anyChange = false;
+    // Carried top-to-bottom exactly like reading the sheet by eye: a blank
+    // Day cell means "same day as the row above it," so a run of same-day
+    // rows only needs the day typed once, at the top of the run.
+    let lastDay = null;
 
     trs.forEach((tr) => {
       const dayStr = tr.querySelector(".grid-day").value.trim();
@@ -383,8 +477,15 @@
       const isBlank = !dayStr && !category && !notes && !expenseStr;
       if (!isExisting && isBlank) return; // untouched blank row — ignore
 
-      const dayNum = parseInt(dayStr, 10);
-      if (!dayStr || isNaN(dayNum) || dayNum < 1 || dayNum > 31) { errorCount++; markRowError(tr, "Day must be 1–31."); return; }
+      let dayNum;
+      if (dayStr) {
+        dayNum = parseInt(dayStr, 10);
+        if (isNaN(dayNum) || dayNum < 1 || dayNum > 31) { errorCount++; markRowError(tr, "Day must be 1–31."); return; }
+        lastDay = dayNum;
+      } else {
+        if (lastDay === null) { errorCount++; markRowError(tr, "Enter a day here, or fill in the row above it first."); return; }
+        dayNum = lastDay; // inherited, for validation/grouping only — see dayCellValue below
+      }
       if (!category) { errorCount++; markRowError(tr, "Pick a category."); return; }
 
       const expenseVal = expenseStr ? parseFloat(expenseStr) : NaN;
@@ -392,7 +493,11 @@
       if (!hasExpense) { errorCount++; markRowError(tr, "Enter an expense amount."); return; }
 
       const finalSubcategory = category === "Food" ? subcategory : "";
-      const rowValues = [dayNum, category, notes, finalSubcategory, "", expenseVal.toFixed(2)];
+      // Write the Day cell itself blank when the field was left blank — it
+      // inherits from whatever's above it when the sheet is read again,
+      // same as if you'd left it blank by hand.
+      const dayCellValue = dayStr ? dayNum : "";
+      const rowValues = [dayCellValue, category, notes, finalSubcategory, "", expenseVal.toFixed(2)];
 
       if (!isExisting) {
         anyChange = true;
@@ -402,7 +507,7 @@
 
       const original = JSON.parse(tr.dataset.original);
       const currentSnapshot = {
-        day: dayNum, category, notes, subcategory: finalSubcategory,
+        day: dayStr ? dayNum : "", category, notes, subcategory: finalSubcategory,
         expense: expenseVal.toFixed(2),
       };
       const unchanged = Object.keys(currentSnapshot).every((k) => currentSnapshot[k] === original[k]);
@@ -591,7 +696,7 @@
   }
 
   function cycleTheme() {
-    const order = ["", "dark", "light"];
+    const order = ["dark", "light"];
     const current = Config.getTheme();
     const next = order[(order.indexOf(current) + 1) % order.length];
     Config.setTheme(next);
@@ -625,6 +730,14 @@
     // Transactions grid
     els["add-grid-rows-btn"].addEventListener("click", () => addBlankRows(ADD_BLANK_ROWS));
     els["save-transactions-btn"].addEventListener("click", () => runExclusive(saveGridChanges));
+
+    // Transactions quick-add
+    els["qa-day"].value = todayDay();
+    els["qa-category"].addEventListener("change", updateQuickAddSubEnabled);
+    els["quick-add-form"].addEventListener("submit", (event) => {
+      event.preventDefault();
+      runExclusive(submitQuickAdd);
+    });
 
     // Categories & budgets
     els["add-category-btn"].addEventListener("click", () => openCategoryEditModal(null));
